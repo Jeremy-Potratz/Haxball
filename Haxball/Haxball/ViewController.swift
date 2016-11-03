@@ -11,12 +11,20 @@ import UIKit
 
 class ViewController: UIViewController {
     
+    var animator: UIDynamicAnimator?
+    var collision : UICollisionBehavior!
+    var push : UIPushBehavior!
+    var gravity : UIGravityBehavior!
+    var vector = CGVectorMake(1.0, 1.0)
+    
+    var itemBehaviour = UIDynamicItemBehavior()
 
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         
-
+//        push = UIPushBehaviorMode.Instantaneous
         
     }
 
