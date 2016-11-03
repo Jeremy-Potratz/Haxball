@@ -7,24 +7,70 @@
 //
 
 import UIKit
-//import CDJoystick
+import CDJoystick
 
-class ViewController: UIViewController {
+class ViewController: UIViewController, UICollisionBehaviorDelegate {
     
     var animator: UIDynamicAnimator?
     var collision : UICollisionBehavior!
     var push : UIPushBehavior!
     var gravity : UIGravityBehavior!
     var vector = CGVectorMake(1.0, 1.0)
+    var ballView = UIView(frame: CGRect(x: 100, y: 100, width: 50, height: 50))
+    
+    var playerView = UIView(frame: CGRect(x: 100, y: 300, width: 50, height: 50))
     
     var itemBehaviour = UIDynamicItemBehavior()
 
+    func addJS(frame: CGRect){
+        let js = CDJoystick()
+        js.frame = frame
+        js.backgroundColor = .clearColor()
+        js.substrateColor = .lightGrayColor()
+        js.substrateBorderColor = .grayColor()
+        js.substrateBorderWidth = 1.0
+        js.stickSize = CGSize(width: 50, height: 50)
+        js.stickColor = .darkGrayColor()
+        js.stickBorderColor = .blackColor()
+        js.stickBorderWidth = 2.0
+        js.fade = 0.5
+        view.addSubview(js)
+        
+        
+        
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        addJS(CGRect(x: 200, y: 200, width: 50, height: 50))
         
-//        push = UIPushBehaviorMode.Instantaneous
+        ballView.backgroundColor = UIColor.blackColor()
+        ballView.layer.cornerRadius = ballView.frame.size.width/2
+        ballView.clipsToBounds = true
+        ballView.layer.borderColor = UIColor.blackColor().CGColor
+        ballView.layer.borderWidth = 5.0
+        
+        playerView.backgroundColor = UIColor.greenColor()
+        playerView.layer.cornerRadius = ballView.frame.size.width/2
+        playerView.clipsToBounds = true
+        playerView.layer.borderColor = UIColor.greenColor().CGColor
+        playerView.layer.borderWidth = 5.0
+        
+        view.addSubview(ballView)
+        view.addSubview(playerView)
+        
+        animator = UIDynamicAnimator(referenceView: self.view)
+//        
+//        
+//        collision.addItem(ballView)
+//        collision.addItem(playerView)
+//        collision.translatesReferenceBoundsIntoBoundary = true
+//        collision.collisionMode = UICollisionBehaviorMode.Everything
+//        
+//        
+//        
+//        
         
     }
 
