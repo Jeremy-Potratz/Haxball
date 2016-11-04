@@ -8,19 +8,22 @@
 
 import UIKit
 import CDJoystick
-
 class ViewController: UIViewController, UICollisionBehaviorDelegate {
     
-    var animator: UIDynamicAnimator?
+    var animator : UIDynamicAnimator!
     var collision : UICollisionBehavior!
     var push : UIPushBehavior!
     var gravity : UIGravityBehavior!
-    var vector = CGVectorMake(1.0, 1.0)
-    var ballView = UIView(frame: CGRect(x: 100, y: 100, width: 50, height: 50))
+    var ballView = UIView()
+    var playerView = UIView()
+    var ballBehavior = UIDynamicItemBehavior()
+    var playerBehavior = UIDynamicItemBehavior()
     
-    var playerView = UIView(frame: CGRect(x: 100, y: 300, width: 50, height: 50))
+    var vector = CGVector()
     
-    var itemBehaviour = UIDynamicItemBehavior()
+    var pushBehavior : UIPushBehavior!
+
+
 
     func addJS(frame: CGRect){
         let js = CDJoystick()
@@ -34,16 +37,31 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate {
         js.stickBorderColor = .blackColor()
         js.stickBorderWidth = 2.0
         js.fade = 0.5
-        view.addSubview(js)
         
+        js.trackingHandler = { (joystickData) -> () in
+            self.playerView.center.x += joystickData.velocity.x * 2
+            self.playerView.center.y += joystickData.velocity.y * 2
+            
+            self.vector = CGVector(dx: joystickData.velocity.x, dy: joystickData.velocity.y)
+            
+            var hi = joystickData.angle
+            
+            print(self.vector)
+            
+            print(hi)
+        }
+        
+        
+        view.addSubview(js)
         
         
     }
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
+    
+    func addViews(){
         
-        addJS(CGRect(x: 200, y: 200, width: 50, height: 50))
+        ballView.frame = CGRect(x: 100, y: 100, width: 50, height: 50)
+        playerView.frame = CGRect(x: 100, y: 300, width: 50, height: 50)
         
         ballView.backgroundColor = UIColor.blackColor()
         ballView.layer.cornerRadius = ballView.frame.size.width/2
@@ -57,20 +75,51 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate {
         playerView.layer.borderColor = UIColor.greenColor().CGColor
         playerView.layer.borderWidth = 5.0
         
+        
         view.addSubview(ballView)
         view.addSubview(playerView)
         
-        animator = UIDynamicAnimator(referenceView: self.view)
-//        
-//        
-//        collision.addItem(ballView)
-//        collision.addItem(playerView)
-//        collision.translatesReferenceBoundsIntoBoundary = true
-//        collision.collisionMode = UICollisionBehaviorMode.Everything
-//        
-//        
-//        
-//        
+    }
+    
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        animator = UIDynamicAnimator(referenceView: view)
+
+        addViews()
+        
+        addJS(CGRect(x: 200, y: 200, width: 100, height: 100))
+        
+        ballBehavior = UIDynamicItemBehavior(items: [ballView])
+        ballBehavior.allowsRotation = false
+        ballBehavior.elasticity = 1.08
+        ballBehavior.friction = 0.0
+        ballBehavior.resistance = 0.0
+        animator?.addBehavior(ballBehavior)
+        
+        
+        playerBehavior = UIDynamicItemBehavior(items: [playerView])
+        playerBehavior.allowsRotation = false
+        playerBehavior.elasticity = 1.08
+        playerBehavior.friction = 0.0
+        playerBehavior.resistance = 0.0
+        animator?.addBehavior(playerBehavior)
+        
+        pushBehavior = UIPushBehavior(items: [playerView], mode: UIPushBehaviorMode.Instantaneous)
+        pushBehavior.pushDirection = vector
+        pushBehavior.active = true
+//        pushBehavior.magnitude = 0.15
+        animator?.addBehavior(pushBehavior)
+        
+        collision = UICollisionBehavior(items: [ballView, playerView])
+        collision.collisionMode = UICollisionBehaviorMode.Everything
+        collision.translatesReferenceBoundsIntoBoundary = true
+        animator.addBehavior(collision)
+        
+        collision.collisionDelegate = self
+
+
         
     }
 
@@ -143,13 +192,6 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate {
 //
 //    let ballView = UIView(frame: CGRectMake(100, 200, 100, 100))
 
-var animator: UIDynamicAnimator?
-let collision = UICollisionBehavior()
-let push = UIPushBehavior()
-let gravity = UIGravityBehavior()
-let vector = CGVectorMake(1.0, 1.0)
-
-let itemBehaviour = UIDynamicItemBehavior()
 //
 
 

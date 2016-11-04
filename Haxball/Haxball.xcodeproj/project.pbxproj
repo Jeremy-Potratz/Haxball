@@ -244,6 +244,7 @@
 				TargetAttributes = {
 					1076E08B1DC916CB00F9DCB0 = {
 						CreatedOnToolsVersion = 7.3.1;
+						DevelopmentTeam = V3UH2AU36R;
 					};
 					1076E0A21DC916CB00F9DCB0 = {
 						CreatedOnToolsVersion = 7.3.1;
@@ -577,10 +578,14 @@
 			baseConfigurationReference = 297D5DFA18B50EBC5EAA93E2 /* Pods-Haxball.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = Haxball/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.2;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = potragatetz.Haxball;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 			};
 			name = Debug;
 		};
@@ -589,10 +594,14 @@
 			baseConfigurationReference = 0C9E61B54DEB0C6285541391 /* Pods-Haxball.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = Haxball/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.2;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = potragatetz.Haxball;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 			};
 			name = Release;
 		};
