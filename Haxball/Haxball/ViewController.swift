@@ -18,15 +18,46 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate {
     var playerView = UIView()
     var ballBehavior = UIDynamicItemBehavior()
     var playerBehavior = UIDynamicItemBehavior()
+    var jsActive = false
     
     var vector = CGVector()
     
     var pushBehavior : UIPushBehavior!
 
+    
+    override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
+        print("Began")
+        var location = touches.first?.locationInView(view)
+        let jsXSize = 100
+        let jsYSize = 100
+        location!.x = location!.x - (CGFloat(jsXSize) / 2)
+        location!.y = location!.y - (CGFloat(jsYSize) / 2)
+        let js = addJS(CGRect(origin: location!, size: CGSize(width: jsXSize, height: jsYSize)))
+        view.addSubview(js)
+        UIView.animateWithDuration(0.1) { () -> Void in
+            js.touchesMoved(touches, withEvent: event)
+        }
+    }
+    
+    override func touchesCancelled(touches: Set<UITouch>?, withEvent event: UIEvent?) {
+        let jsView = self.view.viewWithTag(999)
+        jsView?.removeFromSuperview()
+    }
+    
+    override func touchesEnded(touches: Set<UITouch>, withEvent event: UIEvent?) {
+        let jsView = self.view.viewWithTag(999)
+        jsView?.removeFromSuperview()
+    }
 
+    override func touchesMoved(touches: Set<UITouch>, withEvent event: UIEvent?) {
+        let jsView = view.viewWithTag(999)
+        jsView?.touchesMoved(touches, withEvent: event)
+    }
+    
 
-    func addJS(frame: CGRect){
+    func addJS(frame: CGRect) -> CDJoystick{
         let js = CDJoystick()
+        js.vc = self
         js.frame = frame
         js.backgroundColor = .clearColor()
         js.substrateColor = .lightGrayColor()
@@ -37,6 +68,7 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate {
         js.stickBorderColor = .blackColor()
         js.stickBorderWidth = 2.0
         js.fade = 0.5
+        js.tag = 999
         
         js.trackingHandler = { (joystickData) -> () in
             self.playerView.center.x += joystickData.velocity.x * 2
@@ -44,17 +76,14 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate {
             
             self.vector = CGVector(dx: joystickData.velocity.x, dy: joystickData.velocity.y)
             
-            var hi = joystickData.angle
+            let hi = joystickData.angle
             
             print(self.vector)
             
             print(hi)
         }
         
-        
-        view.addSubview(js)
-        
-        
+        return js
     }
     
     
@@ -88,8 +117,6 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate {
         animator = UIDynamicAnimator(referenceView: view)
 
         addViews()
-        
-        addJS(CGRect(x: 200, y: 200, width: 100, height: 100))
         
         ballBehavior = UIDynamicItemBehavior(items: [ballView])
         ballBehavior.allowsRotation = false

@@ -8,6 +8,7 @@
 
 import UIKit
 
+
 public struct CDJoystickData: CustomStringConvertible {
     public var velocity: CGPoint = .zero
     public var angle: CGFloat = 0.0
@@ -33,11 +34,13 @@ public class CDJoystick: UIView {
     
     public var trackingHandler: ((CDJoystickData) -> ())?
     
+    @IBInspectable public var vc: UIViewController!
+    
     private var data = CDJoystickData()
     private var stickView = UIView(frame: CGRect(origin: .zero, size: .zero))
     private var displayLink: CADisplayLink?
     
-    private var tracking = false {
+    public var tracking = false {
         didSet {
             UIView.animateWithDuration(0.25, animations: { () -> Void in
                 self.alpha = self.tracking ? 1.0 : self.fade
