@@ -34,6 +34,7 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate {
         location!.y = location!.y - (CGFloat(jsYSize) / 2)
         let js = addJS(CGRect(origin: location!, size: CGSize(width: jsXSize, height: jsYSize)))
         view.addSubview(js)
+        js.tracking = true
         UIView.animateWithDuration(0.1) { () -> Void in
             js.touchesMoved(touches, withEvent: event)
         }
