@@ -41,13 +41,15 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate {
     }
     
     override func touchesCancelled(touches: Set<UITouch>?, withEvent event: UIEvent?) {
-        let jsView = self.view.viewWithTag(999)
-        jsView?.removeFromSuperview()
+        let jsView = self.view.viewWithTag(999) as! CDJoystick
+        jsView.tracking = false
+        jsView.removeFromSuperview()
     }
     
     override func touchesEnded(touches: Set<UITouch>, withEvent event: UIEvent?) {
-        let jsView = self.view.viewWithTag(999)
-        jsView?.removeFromSuperview()
+        let jsView = self.view.viewWithTag(999) as! CDJoystick
+        jsView.tracking = false
+        jsView.removeFromSuperview()
     }
 
     override func touchesMoved(touches: Set<UITouch>, withEvent event: UIEvent?) {
