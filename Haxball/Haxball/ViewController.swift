@@ -74,16 +74,22 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate {
         js.tag = 999
         
         js.trackingHandler = { (joystickData) -> () in
-            self.playerView.center.x += joystickData.velocity.x * 2
-            self.playerView.center.y += joystickData.velocity.y * 2
+//            self.playerView.center.x += joystickData.velocity.x * 2
+//            self.playerView.center.y += joystickData.velocity.y * 2
             
-            self.vector = CGVector(dx: joystickData.velocity.x, dy: joystickData.velocity.y)
+            self.vector = CGVector(dx: joystickData.velocity.x/2 , dy: joystickData.velocity.y/2)
             
             let hi = joystickData.angle
             
             print(self.vector)
             
             print(hi)
+            
+            
+            self.pushBehavior = UIPushBehavior(items: [self.playerView], mode: UIPushBehaviorMode.Instantaneous)
+            self.pushBehavior.pushDirection = self.vector
+            self.pushBehavior.active = true
+            self.animator?.addBehavior(self.pushBehavior)
         }
         
         return js
@@ -124,23 +130,20 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate {
         ballBehavior = UIDynamicItemBehavior(items: [ballView])
         ballBehavior.allowsRotation = false
         ballBehavior.elasticity = 1.08
-        ballBehavior.friction = 0.0
+        ballBehavior.friction = 0.00
         ballBehavior.resistance = 0.0
+        ballBehavior.density = 100000000000
         animator?.addBehavior(ballBehavior)
         
         
         playerBehavior = UIDynamicItemBehavior(items: [playerView])
         playerBehavior.allowsRotation = false
-        playerBehavior.elasticity = 1.08
+        playerBehavior.elasticity = 0.50
         playerBehavior.friction = 0.0
-        playerBehavior.resistance = 0.0
+        playerBehavior.resistance = 5.0
         animator?.addBehavior(playerBehavior)
         
-        pushBehavior = UIPushBehavior(items: [playerView], mode: UIPushBehaviorMode.Instantaneous)
-        pushBehavior.pushDirection = vector
-        pushBehavior.active = true
-//        pushBehavior.magnitude = 0.15
-        animator?.addBehavior(pushBehavior)
+
         
         collision = UICollisionBehavior(items: [ballView, playerView])
         collision.collisionMode = UICollisionBehaviorMode.Everything
