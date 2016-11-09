@@ -34,10 +34,7 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate {
         location!.y = location!.y - (CGFloat(jsYSize) / 2)
         let js = addJS(CGRect(origin: location!, size: CGSize(width: jsXSize, height: jsYSize)))
         view.addSubview(js)
-        js.tracking = true
-        UIView.animateWithDuration(0.1) { () -> Void in
-            js.touchesMoved(touches, withEvent: event)
-        }
+        js.touchesBegan(touches, withEvent: event)
     }
     
     override func touchesCancelled(touches: Set<UITouch>?, withEvent event: UIEvent?) {
@@ -77,7 +74,7 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate {
 //            self.playerView.center.x += joystickData.velocity.x * 2
 //            self.playerView.center.y += joystickData.velocity.y * 2
             
-            self.vector = CGVector(dx: joystickData.velocity.x/2 , dy: joystickData.velocity.y/2)
+            self.vector = CGVector(dx: joystickData.velocity.x/6 , dy: joystickData.velocity.y/0.3)
             
             let hi = joystickData.angle
             
