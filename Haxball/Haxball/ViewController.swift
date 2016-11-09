@@ -16,8 +16,21 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate {
     var gravity : UIGravityBehavior!
     var ballView = UIView()
     var playerView = UIView()
+    var leftView = UIView()
+    var rightView = UIView()
+    var topLCorner = UIView()
+    var topRCorner = UIView()
+    var bottomLCorner = UIView()
+    var bottomRCorner = UIView()
     var ballBehavior = UIDynamicItemBehavior()
     var playerBehavior = UIDynamicItemBehavior()
+    
+    var leftBehavior = UIDynamicItemBehavior()
+    var rightBehavior = UIDynamicItemBehavior()
+    var tlCornerBehavior = UIDynamicItemBehavior()
+    var trCornerBehavior = UIDynamicItemBehavior()
+    var blCornerBehavior = UIDynamicItemBehavior()
+    var brCornerBehavior = UIDynamicItemBehavior()
     var jsActive = false
     
     var vector = CGVector()
@@ -74,7 +87,7 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate {
 //            self.playerView.center.x += joystickData.velocity.x * 2
 //            self.playerView.center.y += joystickData.velocity.y * 2
             
-            self.vector = CGVector(dx: joystickData.velocity.x/6 , dy: joystickData.velocity.y/0.3)
+            self.vector = CGVector(dx: joystickData.velocity.x/16 , dy: joystickData.velocity.y/16)
             
             let hi = joystickData.angle
             
@@ -125,19 +138,20 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate {
         addViews()
         
         ballBehavior = UIDynamicItemBehavior(items: [ballView])
-        ballBehavior.allowsRotation = false
-        ballBehavior.elasticity = 1.08
+        ballBehavior.allowsRotation = true
+        ballBehavior.elasticity = 0.40
         ballBehavior.friction = 0.00
         ballBehavior.resistance = 0.0
-        ballBehavior.density = 100000000000
+        ballBehavior.density = 0.1
         animator?.addBehavior(ballBehavior)
         
         
         playerBehavior = UIDynamicItemBehavior(items: [playerView])
         playerBehavior.allowsRotation = false
-        playerBehavior.elasticity = 0.50
+        playerBehavior.elasticity = 0.40
         playerBehavior.friction = 0.0
         playerBehavior.resistance = 5.0
+        playerBehavior.density = 1.0
         animator?.addBehavior(playerBehavior)
         
 
