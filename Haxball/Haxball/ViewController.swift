@@ -109,7 +109,9 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate {
     func addViews(){
         
         bals.frame = CGRect(x: 100, y: 50, width: 50, height: 50)
+        bals.tag = 333
         plays.frame = CGRect(x: 100, y: 300, width: 50, height: 50)
+        plays.tag = 222
         rightView.frame = CGRect(x: 0, y: 0, width: 1, height: 1000)
         leftView.frame = CGRect(x: 412, y: 0, width: 1, height: 1000)
         rightView.backgroundColor = UIColor.redColor()
@@ -126,11 +128,32 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate {
         view.addSubview(bottomLCorner)
     }
     
+    func distanceBetween(pointOne: CGPoint, pointTwo: CGPoint) -> CGFloat{
+        let XOne = pointOne.x
+        let YOne = pointOne.y
+        let XTwo = pointTwo.x
+        let YTwo = pointTwo.y
+        let distance = sqrt(pow(XOne - XTwo, 2.0) + pow(YOne - YTwo, 2.0))
+        return distance
+    }
+    
+    
+    func kickBall(){
+        print("Kick")
+        let ball = view.viewWithTag(333)!
+        let player = view.viewWithTag(222)!
+        
+        print(ball.center)
+        print(player.center)
+        print("Distance \(distanceBetween(ball.center, pointTwo: player.center))")
+        
+    }
+    
     
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        kick.addTarget(self, action: #selector(ViewController.kickBall), forControlEvents: .TouchDown)
         
         
         animator = UIDynamicAnimator(referenceView: view)
@@ -172,6 +195,7 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate {
     
 //    func collisionBehavior(behavior: UICollisionBehavior, beganContactForItem item1: UIDynamicItem, withItem item2: UIDynamicItem, atPoint p: CGPoint)
 //    {
+//        if item1.isEqual(<#T##object: AnyObject?##AnyObject?#>)
 //        let postCollisionDirection = UIDynamicItemBehavior(items: [bals])
 //        postCollisionDirection.addLinearVelocity(CGPoint(x: bals.center.x - plays.center.x, y: 200), forItem: bals)
 //        animator?.addBehavior(postCollisionDirection)       
