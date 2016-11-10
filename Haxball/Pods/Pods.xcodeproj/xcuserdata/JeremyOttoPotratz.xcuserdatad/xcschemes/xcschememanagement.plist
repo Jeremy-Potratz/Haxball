@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>SchemeUserState</key>
+	<dict>
+		<key>CDJoystick.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>0</integer>
+		</dict>
+		<key>Pods-Haxball.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>1</integer>
+		</dict>
+		<key>Pods-HaxballTests.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>2</integer>
+		</dict>
+		<key>Pods-HaxballUITests.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>3</integer>
+		</dict>
+	</dict>
+	<key>SuppressBuildableAutocreation</key>
+	<dict>
+		<key>3B33A02AB2DAF1179552453C8A197808</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>91327F219D2C62C7DFF2F943198B99D2</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>A7065D7B58F866CF0F375AB0B6033A04</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>BD862D4A93C7DB719E3E110A04EB87A5</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+	</dict>
+</dict>
+</plist>

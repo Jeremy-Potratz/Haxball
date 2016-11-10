@@ -8,14 +8,13 @@
 
 import UIKit
 import CDJoystick
+
 class ViewController: UIViewController, UICollisionBehaviorDelegate {
     
     var animator : UIDynamicAnimator!
     var collision : UICollisionBehavior!
     var push : UIPushBehavior!
-    var gravity : UIGravityBehavior!
-    var ballView = UIView()
-    var playerView = UIView()
+
     var leftView = UIView()
     var rightView = UIView()
     var topLCorner = UIView()
@@ -25,13 +24,16 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate {
     var ballBehavior = UIDynamicItemBehavior()
     var playerBehavior = UIDynamicItemBehavior()
     
-    var leftBehavior = UIDynamicItemBehavior()
-    var rightBehavior = UIDynamicItemBehavior()
-    var tlCornerBehavior = UIDynamicItemBehavior()
-    var trCornerBehavior = UIDynamicItemBehavior()
-    var blCornerBehavior = UIDynamicItemBehavior()
-    var brCornerBehavior = UIDynamicItemBehavior()
+    var boundBehavior = UIDynamicItemBehavior()
+
     var jsActive = false
+    
+    var kick = UIButton()
+
+    var b : UIDynamicItem!
+    
+    var bals = ball()
+    var plays = player()
     
     var vector = CGVector()
     
@@ -84,10 +86,8 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate {
         js.tag = 999
         
         js.trackingHandler = { (joystickData) -> () in
-//            self.playerView.center.x += joystickData.velocity.x * 2
-//            self.playerView.center.y += joystickData.velocity.y * 2
-            
-            self.vector = CGVector(dx: joystickData.velocity.x/16 , dy: joystickData.velocity.y/16)
+
+            self.vector = CGVector(dx: joystickData.velocity.x/32 , dy: joystickData.velocity.y/32)
             
             let hi = joystickData.angle
             
@@ -96,7 +96,7 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate {
             print(hi)
             
             
-            self.pushBehavior = UIPushBehavior(items: [self.playerView], mode: UIPushBehaviorMode.Instantaneous)
+            self.pushBehavior = UIPushBehavior(items: [self.plays], mode: UIPushBehaviorMode.Instantaneous)
             self.pushBehavior.pushDirection = self.vector
             self.pushBehavior.active = true
             self.animator?.addBehavior(self.pushBehavior)
@@ -108,45 +108,44 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate {
     
     func addViews(){
         
-        ballView.frame = CGRect(x: 100, y: 100, width: 50, height: 50)
-        playerView.frame = CGRect(x: 100, y: 300, width: 50, height: 50)
+        bals.frame = CGRect(x: 100, y: 50, width: 50, height: 50)
+        plays.frame = CGRect(x: 100, y: 300, width: 50, height: 50)
+        rightView.frame = CGRect(x: 0, y: 0, width: 1, height: 1000)
+        leftView.frame = CGRect(x: 412, y: 0, width: 1, height: 1000)
+        rightView.backgroundColor = UIColor.redColor()
+        leftView.backgroundColor = UIColor.redColor()
+        kick.frame = CGRect(x: 300, y: 50, width: 50, height: 50)
+        kick.setImage(UIImage(named: "grayButton.png"), forState: .Normal)
+        bottomLCorner.frame = CGRect(x: 0, y: -20, width: 450, height: 1)
         
-        ballView.backgroundColor = UIColor.blackColor()
-        ballView.layer.cornerRadius = ballView.frame.size.width/2
-        ballView.clipsToBounds = true
-        ballView.layer.borderColor = UIColor.blackColor().CGColor
-        ballView.layer.borderWidth = 5.0
-        
-        playerView.backgroundColor = UIColor.greenColor()
-        playerView.layer.cornerRadius = ballView.frame.size.width/2
-        playerView.clipsToBounds = true
-        playerView.layer.borderColor = UIColor.greenColor().CGColor
-        playerView.layer.borderWidth = 5.0
-        
-        
-        view.addSubview(ballView)
-        view.addSubview(playerView)
-        
+        view.addSubview(bals)
+        view.addSubview(plays)
+        view.addSubview(rightView)
+        view.addSubview(leftView)
+        view.addSubview(kick)
+        view.addSubview(bottomLCorner)
     }
+    
     
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        
+        
         animator = UIDynamicAnimator(referenceView: view)
 
         addViews()
         
-        ballBehavior = UIDynamicItemBehavior(items: [ballView])
-        ballBehavior.allowsRotation = true
+        ballBehavior = UIDynamicItemBehavior(items: [bals])
+        ballBehavior.allowsRotation = false
         ballBehavior.elasticity = 0.40
         ballBehavior.friction = 0.00
         ballBehavior.resistance = 0.0
         ballBehavior.density = 0.1
         animator?.addBehavior(ballBehavior)
         
-        
-        playerBehavior = UIDynamicItemBehavior(items: [playerView])
+        playerBehavior = UIDynamicItemBehavior(items: [plays])
         playerBehavior.allowsRotation = false
         playerBehavior.elasticity = 0.40
         playerBehavior.friction = 0.0
@@ -154,11 +153,15 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate {
         playerBehavior.density = 1.0
         animator?.addBehavior(playerBehavior)
         
-
+        boundBehavior = UIDynamicItemBehavior(items: [leftView, rightView, bottomLCorner])
+        boundBehavior.allowsRotation = false
+        boundBehavior.elasticity = 0.0
+        boundBehavior.density = 1000000
+        animator?.addBehavior(boundBehavior)
         
-        collision = UICollisionBehavior(items: [ballView, playerView])
+        collision = UICollisionBehavior(items: [bals, plays, leftView, rightView, bottomLCorner])
         collision.collisionMode = UICollisionBehaviorMode.Everything
-        collision.translatesReferenceBoundsIntoBoundary = true
+        collision.translatesReferenceBoundsIntoBoundary = false
         animator.addBehavior(collision)
         
         collision.collisionDelegate = self
@@ -166,76 +169,21 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate {
 
         
     }
+    
+//    func collisionBehavior(behavior: UICollisionBehavior, beganContactForItem item1: UIDynamicItem, withItem item2: UIDynamicItem, atPoint p: CGPoint)
+//    {
+//        let postCollisionDirection = UIDynamicItemBehavior(items: [bals])
+//        postCollisionDirection.addLinearVelocity(CGPoint(x: bals.center.x - plays.center.x, y: 200), forItem: bals)
+//        animator?.addBehavior(postCollisionDirection)       
+//    }
 
 
 }
 
 
+// need specific collision for the two balls, not all ui dynamic items ^^^^^^^^
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-//        itemBehaviour.addItem(ballView)
-//
-//animator = UIDynamicAnimator(referenceView: self.view)
-//
-//gravity.addItem(ballView)
-//
-//gravity.magnitude = 0.0
-//
-//
-//
-//ballView.backgroundColor = UIColor.greenColor()
-//ballView.layer.cornerRadius = ballView.frame.size.width/2
-//ballView.clipsToBounds = true
-//ballView.layer.borderColor = UIColor.whiteColor().CGColor
-//ballView.layer.borderWidth = 5.0
-//
-//
-//
-//view.addSubview(ballView)
-//
-//collision.addItem(ballView)
-//collision.translatesReferenceBoundsIntoBoundary = true
-//
-//push.addItem(ballView)
-//push.pushDirection = vector
-//
-//
-//
-//itemBehaviour.elasticity = 1.2
-//itemBehaviour.density = 0.0
-//itemBehaviour.friction = 0.0
-//animator?.addBehavior(itemBehaviour)
-//animator?.addBehavior(collision)
-//animator?.addBehavior(push)
-//animator?.addBehavior(gravity)
-//
-//    let ballView = UIView(frame: CGRectMake(100, 200, 100, 100))
-
-//
+// add two side views like out of bounds up top. then have recessed view in between for back of goal. evaluate if ballview.center == (when y = 0) so we know it passed the top of the screen
 
 
