@@ -15,8 +15,8 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate {
     var collision : UICollisionBehavior!
     var push : UIPushBehavior!
 
-    var leftView = UIView()
-    var rightView = UIView()
+    var top = UIView()
+    var bottom = UIView()
     var topLCorner = UIView()
     var topRCorner = UIView()
     var bottomLCorner = UIView()
@@ -91,20 +91,18 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate {
             
             let hi = joystickData.angle
             
-            print(self.vector)
-            
-            print(hi)
-            
             
             self.pushBehavior = UIPushBehavior(items: [self.plays], mode: UIPushBehaviorMode.Instantaneous)
             self.pushBehavior.pushDirection = self.vector
             self.pushBehavior.active = true
             self.animator?.addBehavior(self.pushBehavior)
+
         }
         
         return js
     }
     
+
     
     func addViews(){
         
@@ -112,20 +110,33 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate {
         bals.tag = 333
         plays.frame = CGRect(x: 100, y: 300, width: 50, height: 50)
         plays.tag = 222
-        rightView.frame = CGRect(x: 0, y: 0, width: 1, height: 1000)
-        leftView.frame = CGRect(x: 412, y: 0, width: 1, height: 1000)
-        rightView.backgroundColor = UIColor.redColor()
-        leftView.backgroundColor = UIColor.redColor()
+        topLCorner.frame = CGRect(x: 0, y: 0, width: 115, height: 50)
+        topRCorner.frame = CGRect(x: 325, y: 0, width: 101, height: 50)
+        bottomLCorner.frame = CGRect(x: 0, y: 617, width: 115, height: 50)
+        bottomRCorner.frame = CGRect(x: 325, y: 617, width: 101, height: 50)
+        top.frame = CGRect(x: 116, y: 0, width: 300, height: 1)
+        bottom.frame = CGRect(x: 116, y: 666, width: 250, height: 1)
+        top.backgroundColor = .greenColor()
+        bottom.backgroundColor = .greenColor()
+//        topRCorner.constraints
+        
+        topLCorner.backgroundColor = .redColor()
+        topRCorner.backgroundColor = .redColor()
+        bottomRCorner.backgroundColor = .redColor()
+        bottomLCorner.backgroundColor = .redColor()
+        
         kick.frame = CGRect(x: 300, y: 50, width: 50, height: 50)
         kick.setImage(UIImage(named: "grayButton.png"), forState: .Normal)
-        bottomLCorner.frame = CGRect(x: 0, y: -20, width: 450, height: 1)
         
+        view.addSubview(top)
         view.addSubview(bals)
         view.addSubview(plays)
-        view.addSubview(rightView)
-        view.addSubview(leftView)
+        view.addSubview(topRCorner)
+        view.addSubview(topLCorner)
         view.addSubview(kick)
         view.addSubview(bottomLCorner)
+        view.addSubview(bottomRCorner)
+        view.addSubview(bottom)
     }
     
     func distanceBetween(pointOne: CGPoint, pointTwo: CGPoint) -> CGFloat{
@@ -147,14 +158,29 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate {
         print(player.center)
         print("Distance \(distanceBetween(ball.center, pointTwo: player.center))")
         
+        var dist = distanceBetween(ball.center, pointTwo: player.center)
+        
+        if dist <= 70 {
+            let postCollisionDirection = UIDynamicItemBehavior(items: [bals])
+            postCollisionDirection.addLinearVelocity(CGPoint(x: bals.center.x - plays.center.x, y: bals.center.y - plays.center.y), forItem: bals)
+            animator?.addBehavior(postCollisionDirection)
+            
+        }
+
+        
     }
     
-    
+    func resetView(){
+        
+        bals.center = CGPoint(x: 25000, y: 300)
+        
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        kick.addTarget(self, action: #selector(ViewController.kickBall), forControlEvents: .TouchDown)
+//        kick.addTarget(self, action: #selector(ViewController.kickBall), forControlEvents: .TouchDown)
         
+        kick.addTarget(self, action: "kickBall", forControlEvents: .TouchDown)
         
         animator = UIDynamicAnimator(referenceView: view)
 
@@ -176,15 +202,15 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate {
         playerBehavior.density = 1.0
         animator?.addBehavior(playerBehavior)
         
-        boundBehavior = UIDynamicItemBehavior(items: [leftView, rightView, bottomLCorner])
+        boundBehavior = UIDynamicItemBehavior(items: [topRCorner, topLCorner, bottomRCorner, bottomLCorner, bottom, top])
         boundBehavior.allowsRotation = false
         boundBehavior.elasticity = 0.0
         boundBehavior.density = 1000000
         animator?.addBehavior(boundBehavior)
         
-        collision = UICollisionBehavior(items: [bals, plays, leftView, rightView, bottomLCorner])
+        collision = UICollisionBehavior(items: [bals, plays, topLCorner, topRCorner, bottomLCorner, bottomRCorner, bottom, top])
         collision.collisionMode = UICollisionBehaviorMode.Everything
-        collision.translatesReferenceBoundsIntoBoundary = false
+        collision.translatesReferenceBoundsIntoBoundary = true
         animator.addBehavior(collision)
         
         collision.collisionDelegate = self
@@ -192,6 +218,23 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate {
 
         
     }
+    
+//    
+//    
+//    func collisionBehavior(behavior: UICollisionBehavior, beganContactForItem item1: UIDynamicItem, withItem item2: UIDynamicItem, atPoint p: CGPoint)
+//    {
+//        var first = item1 as! UIView
+//        var second = item2 as! UIView
+//        if first == bals && second == top{
+//            print("Player One Scored")
+//        }
+//        if first == bals && second == bottom{
+//            print("Player Two Scored")
+//        }
+//        resetView()
+//    }
+//    
+
     
 //    func collisionBehavior(behavior: UICollisionBehavior, beganContactForItem item1: UIDynamicItem, withItem item2: UIDynamicItem, atPoint p: CGPoint)
 //    {
