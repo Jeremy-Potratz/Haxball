@@ -38,6 +38,9 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate {
     var vector = CGVector()
     
     var pushBehavior : UIPushBehavior!
+    
+    var start = UIButton()
+
 
     
     override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
@@ -172,14 +175,17 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate {
     
     func resetView(){
         
-        bals.center = CGPoint(x: 25000, y: 300)
+//        bals.center = CGPoint(x: 250, y: 300)
         
+        let sdf = view.viewWithTag(333)
+        
+        sdf?.center = CGPoint(x: 250, y: 300)
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-//        kick.addTarget(self, action: #selector(ViewController.kickBall), forControlEvents: .TouchDown)
         
+        start.addTarget(self, action: "startGame", forControlEvents: .TouchDown)
         kick.addTarget(self, action: "kickBall", forControlEvents: .TouchDown)
         
         animator = UIDynamicAnimator(referenceView: view)
@@ -219,21 +225,52 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate {
         
     }
     
-//    
-//    
-//    func collisionBehavior(behavior: UICollisionBehavior, beganContactForItem item1: UIDynamicItem, withItem item2: UIDynamicItem, atPoint p: CGPoint)
-//    {
-//        var first = item1 as! UIView
-//        var second = item2 as! UIView
-//        if first == bals && second == top{
-//            print("Player One Scored")
-//        }
-//        if first == bals && second == bottom{
-//            print("Player Two Scored")
-//        }
+    func startGame() {
+        
+        bals.frame = CGRect(x: 200, y: 200, width: 50, height: 50)
+        
+        start.hidden = true
+        view.addSubview(bals)
+        
+        ballBehavior.density = 0.1
+        
+    }
+    
+    func scored(){
+        
+        start.setTitle("Hello", forState: .Normal)
+        
+        
+        start.setTitleColor(.redColor(), forState: .Normal)
+        
+        start.frame = CGRect(x: 200, y: 200, width: 50, height: 50)
+        
+        view.addSubview(start)
+        
+        start.hidden = false
+        print(start.currentTitle!)
+        
+        ballBehavior.density = 1000000
+        
+        bals.removeFromSuperview()
+    }
+    
+    
+    func collisionBehavior(behavior: UICollisionBehavior, beganContactForItem item1: UIDynamicItem, withItem item2: UIDynamicItem, atPoint p: CGPoint)
+    {
+        var first = item1 as! UIView
+        var second = item2 as! UIView
+        if first == bals && second == top{
+            print("Player One Scored")
+            scored()
+        }
+        if first == bals && second == bottom{
+            print("Player Two Scored")
+            scored()
+        }
 //        resetView()
-//    }
-//    
+    }
+    
 
     
 //    func collisionBehavior(behavior: UICollisionBehavior, beganContactForItem item1: UIDynamicItem, withItem item2: UIDynamicItem, atPoint p: CGPoint)
