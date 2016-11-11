@@ -13,7 +13,6 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate {
     
     var animator : UIDynamicAnimator!
     var collision : UICollisionBehavior!
-    var push : UIPushBehavior!
 
     var top = UIView()
     var bottom = UIView()
@@ -227,12 +226,15 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate {
     
     func startGame() {
         
-        bals.frame = CGRect(x: 200, y: 200, width: 50, height: 50)
+//        bals.frame = CGRect(x: 200, y: 200, width: 50, height: 50)
+        bals.center = CGPoint(x: 200, y: 200)
         
         start.hidden = true
-        view.addSubview(bals)
+//        view.addSubview(bals)
         
         ballBehavior.density = 0.1
+        
+//        pushBehavior.active = true
         
     }
     
@@ -248,11 +250,19 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate {
         view.addSubview(start)
         
         start.hidden = false
-        print(start.currentTitle!)
         
-        ballBehavior.density = 1000000
+        bals.center = CGPoint(x: 200, y: 200)
         
-        bals.removeFromSuperview()
+//        ballBehavior.anchored = true
+        
+        ballBehavior.resistance = 100
+        
+        
+//        ballBehavior.density = 1000000000
+        
+        pushBehavior.active = false
+        
+//        bals.removeFromSuperview()
     }
     
     
@@ -269,6 +279,10 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate {
             scored()
         }
 //        resetView()
+        
+        
+        
+        // fix the joystick push after reset view
     }
     
 
