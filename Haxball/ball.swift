@@ -11,7 +11,7 @@ import UIKit
 
 @IBDesignable public class ball : UIView {
     
-    @IBInspectable public var fillColor: UIColor = UIColor.blackColor() {
+    @IBInspectable public var fillColor: UIColor = UIColor.darkGrayColor() {
         didSet { setNeedsLayout() }
     }
     

@@ -122,12 +122,12 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate {
         top.frame = CGRect(x: 116, y: 0, width: 300, height: 1)
         bottom.frame = CGRect(x: 116, y: 666, width: 250, height: 1)
         
-        top.backgroundColor = .greenColor()
-        bottom.backgroundColor = .greenColor()
-        topLCorner.backgroundColor = .redColor()
-        topRCorner.backgroundColor = .redColor()
-        bottomRCorner.backgroundColor = .redColor()
-        bottomLCorner.backgroundColor = .redColor()
+        top.backgroundColor = .whiteColor()
+        bottom.backgroundColor = .whiteColor()
+        topLCorner.backgroundColor = .blackColor()
+        topRCorner.backgroundColor = .blackColor()
+        bottomRCorner.backgroundColor = .blackColor()
+        bottomLCorner.backgroundColor = .blackColor()
         
         kick.frame = CGRect(x: 300, y: 50, width: 50, height: 50)
         kick.setImage(UIImage(named: "grayButton.png"), forState: .Normal)
@@ -195,8 +195,9 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate {
         player1Label.frame = CGRect(x: player1Label.center.x, y: player1Label.center.y, width: 70, height: 15)
         player1Label.font = player1Label.font.fontWithSize(13)
         player1Label.text = "Score : \(scoreOne)"
+        player1Label.textColor = UIColor.whiteColor()
         
-//        player2Label.center = CGPoint(x: topRCorner.center.x, y: topRCorner.center.y)
+        player2Label.textColor = UIColor.whiteColor()
         player2Label.frame = CGRect(x: topLCorner.center.x - 33, y: topLCorner.center.y - 3, width: 70, height: 15)
         player2Label.font = player2Label.font.fontWithSize(13)
         player2Label.text = "Score : \(scoreTwo)"
@@ -259,7 +260,6 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate {
         animator.updateItemUsingCurrentState(bals)
         animator.updateItemUsingCurrentState(plays)
         
-        bals.hidden = false
 
         
     }
@@ -269,9 +269,9 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate {
         
         start.setTitle("Start", forState: .Normal)
         
-        start.setTitleColor(.greenColor(), forState: .Normal)
+        start.setTitleColor(UIColor.whiteColor(), forState: .Normal)
         
-        start.frame = CGRect(x: 170, y: 275, width: 50, height: 50)
+        start.frame = CGRect(x: 173, y: 275, width: 50, height: 50)
         
         view.addSubview(start)
         
@@ -295,7 +295,7 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate {
         
         start.setTitle("Start", forState: .Normal)
         
-        start.setTitleColor(.greenColor(), forState: .Normal)
+        start.setTitleColor(.whiteColor(), forState: .Normal)
         
         start.frame = CGRect(x: 170, y: 275, width: 50, height: 50)
         
@@ -316,7 +316,6 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate {
         animator.updateItemUsingCurrentState(bals)
         animator.updateItemUsingCurrentState(plays)
         // this was what we were missing ^^^^^^^^
-        bals.hidden = true
         
 }
     

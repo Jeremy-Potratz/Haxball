@@ -12,7 +12,7 @@ import UIKit
 
 @IBDesignable public class player : UIView {
     
-    @IBInspectable public var fillColor: UIColor = UIColor.greenColor() {
+    @IBInspectable public var fillColor: UIColor = UIColor.blueColor() {
         didSet { setNeedsLayout() }
     }
     
