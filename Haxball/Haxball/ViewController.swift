@@ -40,7 +40,10 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate {
     
     var start = UIButton()
 
-
+    var player1Label = UILabel()
+    var player2Label = UILabel()
+    var scoreOne = Int()
+    var scoreTwo = Int()
     
     override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
         print("Began")
@@ -118,10 +121,9 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate {
         bottomRCorner.frame = CGRect(x: 325, y: 617, width: 101, height: 50)
         top.frame = CGRect(x: 116, y: 0, width: 300, height: 1)
         bottom.frame = CGRect(x: 116, y: 666, width: 250, height: 1)
+        
         top.backgroundColor = .greenColor()
         bottom.backgroundColor = .greenColor()
-//        topRCorner.constraints
-        
         topLCorner.backgroundColor = .redColor()
         topRCorner.backgroundColor = .redColor()
         bottomRCorner.backgroundColor = .redColor()
@@ -160,7 +162,7 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate {
         print(player.center)
         print("Distance \(distanceBetween(ball.center, pointTwo: player.center))")
         
-        var dist = distanceBetween(ball.center, pointTwo: player.center)
+        let dist = distanceBetween(ball.center, pointTwo: player.center)
         
         if dist <= 70 {
             let postCollisionDirection = UIDynamicItemBehavior(items: [bals])
@@ -172,15 +174,6 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate {
         
     }
     
-    func resetView(){
-        
-//        bals.center = CGPoint(x: 250, y: 300)
-        
-        let sdf = view.viewWithTag(333)
-        
-        sdf?.center = CGPoint(x: 250, y: 300)
-    }
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -190,6 +183,31 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate {
         animator = UIDynamicAnimator(referenceView: view)
 
         addViews()
+        
+        let x1 = Int(bottomLCorner.center.x)
+        let y1 = Int(bottomLCorner.center.y)
+        
+        
+        scoreOne = 0
+        scoreTwo = 0
+        
+        player1Label.center = CGPoint(x: x1 - 33, y: y1 - 3)
+        player1Label.frame = CGRect(x: player1Label.center.x, y: player1Label.center.y, width: 70, height: 15)
+        player1Label.font = player1Label.font.fontWithSize(13)
+        player1Label.text = "Score : \(scoreOne)"
+        
+//        player2Label.center = CGPoint(x: topRCorner.center.x, y: topRCorner.center.y)
+        player2Label.frame = CGRect(x: topLCorner.center.x - 33, y: topLCorner.center.y - 3, width: 70, height: 15)
+        player2Label.font = player2Label.font.fontWithSize(13)
+        player2Label.text = "Score : \(scoreTwo)"
+        
+        view.addSubview(player1Label)
+        view.addSubview(player2Label)
+        view.bringSubviewToFront(player1Label)
+        view.bringSubviewToFront(player2Label)
+        bottomLCorner.bringSubviewToFront(player1Label)
+        topRCorner.bringSubviewToFront(player2Label)
+        
         
         ballBehavior = UIDynamicItemBehavior(items: [bals])
         ballBehavior.allowsRotation = false
@@ -220,70 +238,109 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate {
         
         collision.collisionDelegate = self
 
-
+        beginGame()
         
     }
     
     func startGame() {
         
-//        bals.frame = CGRect(x: 200, y: 200, width: 50, height: 50)
-        bals.center = CGPoint(x: 200, y: 200)
+        bals.center = CGPoint(x: 200, y: 300)
         
         start.hidden = true
-//        view.addSubview(bals)
         
         ballBehavior.density = 0.1
         
-//        pushBehavior.active = true
+        ballBehavior.resistance = 0.0
+        
+        playerBehavior.resistance = 5.0
+        
+        // maybe everytime someone scores make resistance less to make the game more crazy / more elasticity
+        
+        animator.updateItemUsingCurrentState(bals)
+        animator.updateItemUsingCurrentState(plays)
+        
+        bals.hidden = false
+
         
     }
     
-    func scored(){
-        
-        start.setTitle("Hello", forState: .Normal)
+    func beginGame(){
         
         
-        start.setTitleColor(.redColor(), forState: .Normal)
+        start.setTitle("Start", forState: .Normal)
         
-        start.frame = CGRect(x: 200, y: 200, width: 50, height: 50)
+        start.setTitleColor(.greenColor(), forState: .Normal)
+        
+        start.frame = CGRect(x: 170, y: 275, width: 50, height: 50)
         
         view.addSubview(start)
         
         start.hidden = false
         
-        bals.center = CGPoint(x: 200, y: 200)
+        bals.center = CGPoint(x: 200, y: 300)
         
-//        ballBehavior.anchored = true
+        ballBehavior.resistance = 10000000
         
-        ballBehavior.resistance = 100
+        plays.center = CGPoint(x: 200, y: 575)
+        
+        playerBehavior.resistance = 1000000000000
+        
+        animator.updateItemUsingCurrentState(bals)
+        animator.updateItemUsingCurrentState(plays)
         
         
-//        ballBehavior.density = 1000000000
+    }
+    
+    func scored(){
+        
+        start.setTitle("Start", forState: .Normal)
+        
+        start.setTitleColor(.greenColor(), forState: .Normal)
+        
+        start.frame = CGRect(x: 170, y: 275, width: 50, height: 50)
+        
+        view.addSubview(start)
+        
+        start.hidden = false
+        
+        bals.center = CGPoint(x: 200, y: 300)
+        
+        ballBehavior.resistance = 10000000
         
         pushBehavior.active = false
         
-//        bals.removeFromSuperview()
-    }
+        plays.center = CGPoint(x: 200, y: 575)
+        
+        playerBehavior.resistance = 1000000000000
+        
+        animator.updateItemUsingCurrentState(bals)
+        animator.updateItemUsingCurrentState(plays)
+        // this was what we were missing ^^^^^^^^
+        bals.hidden = true
+        
+}
     
     
     func collisionBehavior(behavior: UICollisionBehavior, beganContactForItem item1: UIDynamicItem, withItem item2: UIDynamicItem, atPoint p: CGPoint)
     {
-        var first = item1 as! UIView
-        var second = item2 as! UIView
+        let first = item1 as! UIView
+        let second = item2 as! UIView
+        
+        // can use item1.isEqual(bals) for if statement
+        
         if first == bals && second == top{
-            print("Player One Scored")
             scored()
+            scoreOne++
+            player1Label.text = "Score: \(scoreOne)"
         }
         if first == bals && second == bottom{
-            print("Player Two Scored")
             scored()
+            scoreTwo++
+            player2Label.text = "Score: \(scoreTwo)"
         }
-//        resetView()
         
         
-        
-        // fix the joystick push after reset view
-    }
+}
     
 
     
