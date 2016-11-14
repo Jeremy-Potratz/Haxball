@@ -11,6 +11,12 @@ import CDJoystick
 
 class ViewController: UIViewController, UICollisionBehaviorDelegate {
     
+    struct ai {
+       static var aiBall = player()
+       static var bals = ball()
+    }
+    
+    
     var animator : UIDynamicAnimator!
     var screen = UIScreen.mainScreen().bounds
     
@@ -127,6 +133,9 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate {
         top.frame = CGRect(x: 116, y: 0, width: 300, height: 1)
         bottom.frame = CGRect(x: 116, y: 666, width: 250, height: 1)
         
+        ai.aiBall.frame = CGRect(x: 200, y: 125, width: 50, height: 50)
+//        ai.aiBall.backgroundColor = UIColor.purpleColor()
+        
         top.backgroundColor = .whiteColor()
         bottom.backgroundColor = .whiteColor()
         topLCorner.backgroundColor = .blackColor()
@@ -146,6 +155,7 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate {
         view.addSubview(bottomLCorner)
         view.addSubview(bottomRCorner)
         view.addSubview(bottom)
+        view.addSubview(ai.aiBall)
     }
     
     func distanceBetween(pointOne: CGPoint, pointTwo: CGPoint) -> CGFloat{
@@ -181,6 +191,8 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        offense.onTick(self.timer)
         
         start.addTarget(self, action: "startGame", forControlEvents: .TouchDown)
         kick.addTarget(self, action: "kickBall", forControlEvents: .TouchDown)
