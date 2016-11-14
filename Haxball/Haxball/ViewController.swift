@@ -12,7 +12,13 @@ import CDJoystick
 class ViewController: UIViewController, UICollisionBehaviorDelegate {
     
     var animator : UIDynamicAnimator!
+    var screen = UIScreen.mainScreen().bounds
+    
+    
     var collision : UICollisionBehavior!
+    
+    var timer:NSTimer? = nil
+    var times = 0
 
     var top = UIView()
     var bottom = UIView()
@@ -108,15 +114,16 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate {
 
     
     func addViews(){
-        
+        let cornerWidth = (screen.width - 210) / 2
+        print(cornerWidth)
         bals.frame = CGRect(x: 100, y: 50, width: 50, height: 50)
         bals.tag = 333
         plays.frame = CGRect(x: 100, y: 300, width: 50, height: 50)
         plays.tag = 222
-        topLCorner.frame = CGRect(x: 0, y: 0, width: 115, height: 50)
-        topRCorner.frame = CGRect(x: 325, y: 0, width: 101, height: 50)
-        bottomLCorner.frame = CGRect(x: 0, y: 617, width: 115, height: 50)
-        bottomRCorner.frame = CGRect(x: 325, y: 617, width: 101, height: 50)
+        topLCorner.frame = CGRect(x: 0, y: 0, width: cornerWidth, height: 50)
+        topRCorner.frame = CGRect(x: cornerWidth + 210, y: 0, width: cornerWidth, height: 50)
+        bottomLCorner.frame = CGRect(x: 0, y: 617, width: cornerWidth, height: 50)
+        bottomRCorner.frame = CGRect(x: cornerWidth + 210, y: 617, width: cornerWidth, height: 50)
         top.frame = CGRect(x: 116, y: 0, width: 300, height: 1)
         bottom.frame = CGRect(x: 116, y: 666, width: 250, height: 1)
         
@@ -181,6 +188,7 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate {
         animator = UIDynamicAnimator(referenceView: view)
 
         addViews()
+        startTimer()
         
         let x1 = Int(bottomLCorner.center.x)
         let y1 = Int(bottomLCorner.center.y)
@@ -286,6 +294,15 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate {
         animator.updateItemUsingCurrentState(bals)
         animator.updateItemUsingCurrentState(plays)
         
+        
+    }
+    
+    func startTimer(){
+        timer = NSTimer.scheduledTimerWithTimeInterval(0.1, target: self, selector: #selector(ViewController.onTick), userInfo: nil, repeats: false)
+    }
+    
+    func onTick(timer:NSTimer){
+        //Runs 10 times a second
         
     }
     
