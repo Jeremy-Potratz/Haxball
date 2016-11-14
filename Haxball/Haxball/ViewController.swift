@@ -28,8 +28,6 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate {
     var jsActive = false
     
     var kick = UIButton()
-
-    var b : UIDynamicItem!
     
     var bals = ball()
     var plays = player()
@@ -283,7 +281,7 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate {
         
         plays.center = CGPoint(x: 200, y: 575)
         
-        playerBehavior.resistance = 1000000000000
+        playerBehavior.resistance = 100000000
         
         animator.updateItemUsingCurrentState(bals)
         animator.updateItemUsingCurrentState(plays)
@@ -311,7 +309,7 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate {
         
         plays.center = CGPoint(x: 200, y: 575)
         
-        playerBehavior.resistance = 1000000000000
+        playerBehavior.resistance = 10000000
         
         animator.updateItemUsingCurrentState(bals)
         animator.updateItemUsingCurrentState(plays)
