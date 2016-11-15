@@ -192,7 +192,6 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        offense.onTick(self.timer)
         
         start.addTarget(self, action: "startGame", forControlEvents: .TouchDown)
         kick.addTarget(self, action: "kickBall", forControlEvents: .TouchDown)
