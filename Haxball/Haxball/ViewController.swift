@@ -11,10 +11,9 @@ import CDJoystick
 
 class ViewController: UIViewController, UICollisionBehaviorDelegate {
     
-    struct ai {
-       static var aiBall = player()
-       static var bals = ball()
-    }
+        var aiBall = player()
+        var bals = ball()
+    
     
     
     var animator : UIDynamicAnimator!
@@ -34,6 +33,7 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate {
     var bottomRCorner = UIView()
     var ballBehavior = UIDynamicItemBehavior()
     var playerBehavior = UIDynamicItemBehavior()
+    var aiBehavior = UIDynamicItemBehavior()
     
     var boundBehavior = UIDynamicItemBehavior()
 
@@ -41,7 +41,6 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate {
     
     var kick = UIButton()
     
-    var bals = ball()
     var plays = player()
     
     var vector = CGVector()
@@ -54,6 +53,15 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate {
     var player2Label = UILabel()
     var scoreOne = Int()
     var scoreTwo = Int()
+    
+    var Onumber = 2
+    var Mnumber = 3
+    var Dnumber = 5
+    
+    var xdiff = Int()
+    var ydiff = Int()
+    
+    
     
     override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
         print("Began")
@@ -134,7 +142,7 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate {
         bottom.frame = CGRect(x: 116, y: 666, width: 250, height: 1)
         
         
-        ai.aiBall.frame = CGRect(x: 200, y: 125, width: 50, height: 50)
+        aiBall.frame = CGRect(x: 200, y: 125, width: 50, height: 50)
 //        ai.aiBall.backgroundColor = UIColor.purpleColor()
         
         top.backgroundColor = .whiteColor()
@@ -156,7 +164,7 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate {
         view.addSubview(bottomLCorner)
         view.addSubview(bottomRCorner)
         view.addSubview(bottom)
-        view.addSubview(ai.aiBall)
+        view.addSubview(aiBall)
     }
     
     func distanceBetween(pointOne: CGPoint, pointTwo: CGPoint) -> CGFloat{
@@ -228,6 +236,13 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate {
         topRCorner.bringSubviewToFront(player2Label)
         
         
+        aiBehavior = UIDynamicItemBehavior(items: [aiBall])
+        aiBehavior.allowsRotation = false
+        aiBehavior.elasticity = 0.40
+        aiBehavior.friction = 0.00
+        aiBehavior.density = 1.0
+        animator?.addBehavior(aiBehavior)
+        
         ballBehavior = UIDynamicItemBehavior(items: [bals])
         ballBehavior.allowsRotation = false
         ballBehavior.elasticity = 0.40
@@ -250,7 +265,7 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate {
         boundBehavior.density = 1000000
         animator?.addBehavior(boundBehavior)
         
-        collision = UICollisionBehavior(items: [bals, plays, topLCorner, topRCorner, bottomLCorner, bottomRCorner, bottom, top])
+        collision = UICollisionBehavior(items: [bals, plays, topLCorner, topRCorner, bottomLCorner, bottomRCorner, bottom, top, aiBall])
         collision.collisionMode = UICollisionBehaviorMode.Everything
         collision.translatesReferenceBoundsIntoBoundary = true
         animator.addBehavior(collision)
@@ -322,7 +337,7 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate {
         
         start.setTitle("Start", forState: .Normal)
         
-        start.setTitleColor(.whiteColor(), forState: .Normal)
+        start.setTitleColor(.redColor(), forState: .Normal)
         
         start.frame = CGRect(x: screen.width / 2, y: screen.width / 2, width: 50, height: 50)
         
@@ -356,14 +371,61 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate {
         
         if first == bals && second == top{
             scored()
-            scoreOne++
+            scoreOne += 1
             player1Label.text = "Score: \(scoreOne)"
         }
         if first == bals && second == bottom{
             scored()
-            scoreTwo++
+            scoreTwo += 1
             player2Label.text = "Score: \(scoreTwo)"
         }
+        
+        
+        
+        if first.isEqual(aiBall) && second.isEqual(bals){
+            
+            
+            let xCreate = Int(bals.center.x) + xdiff
+            let yCreate = Int(bals.center.x) + ydiff
+            
+            let xAI = Int(aiBall.center.x)
+            let yAI = Int(aiBall.center.y)
+            
+            
+            let slopey = (yCreate - yAI)
+            let slopex = (xCreate - xAI)
+
+            
+            
+            var numb = Int(arc4random_uniform(5))
+            
+            let thirds = screen.height / 3
+            
+            print("whatsup doge")
+        
+            
+            if aiBall.center.y <= thirds{
+                // defense
+                print(numb)
+                
+                
+                if numb <= Dnumber{
+                    
+                    print("hiii")
+                    
+                    ballBehavior.addLinearVelocity(CGPoint(x: slopex,y: slopey), forItem: bals)
+                    
+                    animator.updateItemUsingCurrentState(bals)
+                }
+                
+                
+            }
+            
+            
+            
+            
+        }
+        
         
         
 }
