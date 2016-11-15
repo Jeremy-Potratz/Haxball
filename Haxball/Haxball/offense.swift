@@ -11,6 +11,11 @@ import UIKit
 
 class offense{
     
+    var number = 2
+    //increase for midfield then defense
+    
+    
+    
     var balls = ViewController.ai.aiBall
     var theBall = ViewController.ai.bals
     var timer : NSTimer? = nil
@@ -19,8 +24,11 @@ class offense{
         timer = NSTimer.scheduledTimerWithTimeInterval(0.1, target: self, selector: "onTick", userInfo: nil, repeats: false)
     }
     
-    func ai(){
+    func offenseAI(){
         // i could add linear velocity to the ball by calculating slope between ai ball and the point near the ball i create
+        
+//        if aiBall.center.y <= UIScreen.screen / 3  have three ifs, one for each case
+        
         
         let xdiff = Int(arc4random_uniform(75))
         let ydiff = Int(arc4random_uniform(75))
@@ -36,38 +44,29 @@ class offense{
         
         let slope = (yCreate - yAI)/(xCreate - xAI)
         
-        
         print(slope)
         
+    }
         
-        
-        while Int(xdiff) < Int(theBall.center.x){
-            
-            balls.center.x = balls.center.x + 1
+        func ifKick(){//collision function instead of ifKick()
             
             
-        }
-        
-        while Int(xdiff) < Int(theBall.center.x) && Int(ydiff) < Int(theBall.center.y){
+            
+            var testNumber = Int(arc4random_uniform(5))
             
             
-        }
-        
-        // have three whiles. one that evaluates if both x and y are more, one for just x and one for just y, then three more for if its less
-        // another one evaluating if more than that, definitaly more kicking at defense
-        
+            
+            if testNumber <= number{
+                
+                // add more linear velocity
+                
+            }
+
     }
     
-    func onTick(){
-//        timer:NSTimer 
-        //Runs 10 times a second
-        print("hello")
-        
-        
-        
-        balls.center.x = theBall.center.x
-        
-    }
     
     // function so if the ball is past the ai the ai goes right back to in front of goal
 }
+
+
+
