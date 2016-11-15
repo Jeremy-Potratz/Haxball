@@ -19,6 +19,9 @@
 		380488E0FA0B5F0E5CFFE74A /* Pods_HaxballUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6BBA1E35D5A55995084D3962 /* Pods_HaxballUITests.framework */; };
 		5F0EBA4A1DD40C2E0090A186 /* ball.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F0EBA491DD40C2E0090A186 /* ball.swift */; };
 		5F0EBA4C1DD413400090A186 /* player.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F0EBA4B1DD413400090A186 /* player.swift */; };
+		5F228B091DDAB63B00374860 /* defense.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F228B081DDAB63B00374860 /* defense.swift */; };
+		5F228B0B1DDAB64B00374860 /* midfield.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F228B0A1DDAB64A00374860 /* midfield.swift */; };
+		5F228B0D1DDAB65700374860 /* offense.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F228B0C1DDAB65700374860 /* offense.swift */; };
 		8EB99D29E59732ACB27CF634 /* Pods_HaxballTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 45EB8D5C74B4481FA049731A /* Pods_HaxballTests.framework */; };
 /* End PBXBuildFile section */
 
@@ -59,6 +62,9 @@
 		45EB8D5C74B4481FA049731A /* Pods_HaxballTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_HaxballTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		5F0EBA491DD40C2E0090A186 /* ball.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ball.swift; path = ../ball.swift; sourceTree = "<group>"; };
 		5F0EBA4B1DD413400090A186 /* player.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = player.swift; sourceTree = "<group>"; };
+		5F228B081DDAB63B00374860 /* defense.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = defense.swift; sourceTree = "<group>"; };
+		5F228B0A1DDAB64A00374860 /* midfield.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = midfield.swift; sourceTree = "<group>"; };
+		5F228B0C1DDAB65700374860 /* offense.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = offense.swift; sourceTree = "<group>"; };
 		6BBA1E35D5A55995084D3962 /* Pods_HaxballUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_HaxballUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		93393988FAE0D982168B850C /* Pods-HaxballTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HaxballTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-HaxballTests/Pods-HaxballTests.debug.xcconfig"; sourceTree = "<group>"; };
 		A93A56AD43C7EDA8FF4B95DC /* Pods_Haxball.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Haxball.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -120,6 +126,9 @@
 		1076E08E1DC916CB00F9DCB0 /* Haxball */ = {
 			isa = PBXGroup;
 			children = (
+				5F228B081DDAB63B00374860 /* defense.swift */,
+				5F228B0A1DDAB64A00374860 /* midfield.swift */,
+				5F228B0C1DDAB65700374860 /* offense.swift */,
 				1076E08F1DC916CB00F9DCB0 /* AppDelegate.swift */,
 				1076E0911DC916CB00F9DCB0 /* ViewController.swift */,
 				5F0EBA491DD40C2E0090A186 /* ball.swift */,
@@ -440,7 +449,10 @@
 				1076E0981DC916CB00F9DCB0 /* Haxball.xcdatamodeld in Sources */,
 				1076E0921DC916CB00F9DCB0 /* ViewController.swift in Sources */,
 				5F0EBA4C1DD413400090A186 /* player.swift in Sources */,
+				5F228B091DDAB63B00374860 /* defense.swift in Sources */,
 				1076E0901DC916CB00F9DCB0 /* AppDelegate.swift in Sources */,
+				5F228B0D1DDAB65700374860 /* offense.swift in Sources */,
+				5F228B0B1DDAB64B00374860 /* midfield.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
