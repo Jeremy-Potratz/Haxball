@@ -14,6 +14,8 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate {
     var aiBall = aiBallStyle()
     var bals = ball()
     
+    let index = 0
+    
     var animator : UIDynamicAnimator!
     var screen = UIScreen.mainScreen().bounds
     
@@ -110,7 +112,7 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate {
         
         js.trackingHandler = { (joystickData) -> () in
 
-            self.vector = CGVector(dx: joystickData.velocity.x/32 , dy: joystickData.velocity.y/32)
+            self.vector = CGVector(dx: joystickData.velocity.x/16 , dy: joystickData.velocity.y/16)
             
             let hi = joystickData.angle
             
@@ -143,6 +145,11 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate {
         
         aiBall.frame = CGRect(x: 200, y: 125, width: 50, height: 50)
         
+        
+        let triangleViewTR = UIView()
+        let angle : CGFloat = 45
+        let transform = CGAffineTransformMakeRotation(angle)
+        //triangleViewTR.transform(transform)
         
         topGoal.frame = CGRect(x: 0, y: 0, width: cornerWidth * 4, height: 50)
         topGoal.backgroundColor = .clearColor()
@@ -194,7 +201,7 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate {
         
         if dist <= 70 {
             let postCollisionDirection = UIDynamicItemBehavior(items: [bals])
-            postCollisionDirection.addLinearVelocity(CGPoint(x: 2*(bals.center.x - plays.center.x), y: 2*(bals.center.y - plays.center.y)), forItem: bals)
+            postCollisionDirection.addLinearVelocity(CGPoint(x: 6*(bals.center.x - plays.center.x), y: 6*(bals.center.y - plays.center.y)), forItem: bals)
             animator?.addBehavior(postCollisionDirection)
             
         }
@@ -204,6 +211,8 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        self.navigationController?.navigationBarHidden = true
         
 //         #selector(ViewController.startGame)
         start.addTarget(self, action:"startGame", forControlEvents: .TouchDown)
@@ -246,7 +255,7 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate {
         aiBehavior.allowsRotation = false
         aiBehavior.elasticity = 0.40
         aiBehavior.friction = 0.00
-        aiBehavior.density = 1.0
+        aiBehavior.density = 0.5
         aiBehavior.resistance = 5.0
         animator?.addBehavior(aiBehavior)
         
@@ -352,6 +361,8 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate {
         //#selector(ViewController.onTick
     }
     
+    
+    
     func onTick(){
         xdiff = Int(arc4random_uniform(151)) - 75
         ydiff = Int(arc4random_uniform(151)) - 75
@@ -361,11 +372,17 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate {
         
         let velX = newX - Int(aiBall.center.x)
         let velY = newY - Int(aiBall.center.y)
-        
         let aiMovement = UIDynamicItemBehavior(items: [aiBall])
-        aiMovement.addLinearVelocity(CGPoint(x: velX, y: velY), forItem: aiBall)
-        animator?.addBehavior(aiMovement)
+
         
+        if index == 0{
+            aiMovement.addLinearVelocity(CGPoint(x: velX, y: velY), forItem: aiBall)
+            animator?.addBehavior(aiMovement)
+        }
+        else{
+            aiMovement.addLinearVelocity(CGPoint(x: velX, y: velY), forItem: aiBall)
+            animator.updateItemUsingCurrentState(aiBall)
+        }
         
     }
     
