@@ -28,9 +28,14 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate {
     var topRCorner = UIView()
     var bottomLCorner = UIView()
     var bottomRCorner = UIView()
+    
+    var topGoal = UIView()
+    var bottomGoal = UIView()
+    
     var ballBehavior = UIDynamicItemBehavior()
     var playerBehavior = UIDynamicItemBehavior()
     var aiBehavior = UIDynamicItemBehavior()
+    var goalCollision : UICollisionBehavior!
     
     var boundBehavior = UIDynamicItemBehavior()
 
@@ -137,6 +142,16 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate {
         bottom.center = CGPoint(x: screen.width / 2, y: screen.height - 2)
         
         aiBall.frame = CGRect(x: 200, y: 125, width: 50, height: 50)
+        
+        
+        topGoal.frame = CGRect(x: 0, y: 0, width: cornerWidth * 4, height: 50)
+        topGoal.backgroundColor = .clearColor()
+        bottomGoal.frame = CGRect(x: 0, y: screen.height - 50, width: cornerWidth * 4, height: 50)
+        bottomGoal.backgroundColor = .clearColor()
+        
+        view.addSubview(topGoal)
+        view.addSubview(bottomGoal)
+        
         
         top.backgroundColor = .whiteColor()
         bottom.backgroundColor = .whiteColor()
@@ -251,7 +266,7 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate {
         playerBehavior.density = 1.0
         animator?.addBehavior(playerBehavior)
         
-        boundBehavior = UIDynamicItemBehavior(items: [topRCorner, topLCorner, bottomRCorner, bottomLCorner, bottom, top])
+        boundBehavior = UIDynamicItemBehavior(items: [topRCorner, topLCorner, bottomRCorner, bottomLCorner, bottom, top, bottomGoal, topGoal])
         boundBehavior.allowsRotation = false
         boundBehavior.elasticity = 0.0
         boundBehavior.density = 1000000
@@ -262,8 +277,13 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate {
         collision.translatesReferenceBoundsIntoBoundary = true
         animator.addBehavior(collision)
         
-        // idea- make a seperate collision for two views and the balls so players cant go in goal
+        goalCollision = UICollisionBehavior(items: [plays, aiBall, bottomGoal, topGoal])
+        goalCollision.collisionMode = UICollisionBehaviorMode.Everything
+        goalCollision.translatesReferenceBoundsIntoBoundary = true
+        animator.addBehavior(goalCollision)
         
+        // idea- make a seperate collision for two views and the balls so players cant go in goal
+        goalCollision.collisionDelegate = self
         collision.collisionDelegate = self
 
         beginGame()
