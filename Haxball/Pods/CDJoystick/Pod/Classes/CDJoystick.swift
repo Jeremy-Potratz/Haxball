@@ -12,6 +12,7 @@ import UIKit
 public struct CDJoystickData: CustomStringConvertible {
     public var velocity: CGPoint = .zero
     public var angle: CGFloat = 0.0
+    public var firstTouch: CGPoint = .zero
     
     public var description: String {
         return "velocity: \(velocity), angle: \(angle)"
@@ -33,6 +34,8 @@ public class CDJoystick: UIView {
     @IBInspectable public var fade: CGFloat = 0.5 { didSet { setNeedsDisplay() }}
     
     public var trackingHandler: ((CDJoystickData) -> ())?
+    
+    public var initialTouch : CGPoint = .zero
     
     @IBInspectable public var vc: UIViewController!
     
@@ -92,6 +95,7 @@ public class CDJoystick: UIView {
     
     public override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
         tracking = true
+        self.initialTouch = touches.first!.locationInView(self.vc.view)
         
         UIView.animateWithDuration(0.1) { () -> Void in
             self.touchesMoved(touches, withEvent: event)
@@ -101,6 +105,7 @@ public class CDJoystick: UIView {
     public override func touchesMoved(touches: Set<UITouch>, withEvent event: UIEvent?) {
         if let touch = touches.first {
             let location = touch.locationInView(self)
+            let firstTouch = touches.first
             let distance = CGPoint(x: location.x - bounds.size.width / 2, y: location.y - bounds.size.height / 2)
             let magV = sqrt(pow(distance.x, 2) + pow(distance.y, 2))
             
@@ -115,7 +120,7 @@ public class CDJoystick: UIView {
             let x = clamp(distance.x, lower: -bounds.size.width / 2, upper: bounds.size.width / 2) / (bounds.size.width / 2)
             let y = clamp(distance.y, lower: -bounds.size.height / 2, upper: bounds.size.height / 2) / (bounds.size.height / 2)
 
-            data = CDJoystickData(velocity: CGPoint(x: x, y: y), angle: -atan2(x, y))
+            data = CDJoystickData(velocity: CGPoint(x: x, y: y), angle: -atan2(x, y), firstTouch: (self.initialTouch))
         }
     }
     
@@ -130,6 +135,7 @@ public class CDJoystick: UIView {
     private func reset() {
         tracking = false
         data = CDJoystickData()
+        self.initialTouch = .zero
         
         UIView.animateWithDuration(0.25) { () -> Void in
             self.stickView.center = CGPoint(x: self.bounds.width / 2, y: self.bounds.height / 2)

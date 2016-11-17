@@ -40,6 +40,7 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate {
     var ballBehavior = UIDynamicItemBehavior()
     var playerBehavior = UIDynamicItemBehavior()
     var aiBehavior = UIDynamicItemBehavior()
+    var secondBehavior = UIDynamicItemBehavior()
     var goalCollision : UICollisionBehavior!
     
     var boundBehavior = UIDynamicItemBehavior()
@@ -114,16 +115,30 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate {
         js.tag = 999
         
         js.trackingHandler = { (joystickData) -> () in
+            
+            
 
             self.vector = CGVector(dx: joystickData.velocity.x/16 , dy: joystickData.velocity.y/16)
-            
-            let hi = joystickData.angle
-            
-            self.pushBehavior = UIPushBehavior(items: [self.plays], mode: UIPushBehaviorMode.Instantaneous)
-            self.pushBehavior.pushDirection = self.vector
-            self.pushBehavior.active = true
-            self.animator?.addBehavior(self.pushBehavior)
-
+            if self.mode == "twoPlayers"{
+                if joystickData.firstTouch.y > self.screen.height / 2{
+                    self.pushBehavior = UIPushBehavior(items: [self.plays], mode: UIPushBehaviorMode.Instantaneous)
+                    self.pushBehavior.pushDirection = self.vector
+                    self.pushBehavior.active = true
+                    self.animator?.addBehavior(self.pushBehavior)
+                }
+                else{
+                    self.pushBehavior = UIPushBehavior(items: [self.secondPlayer], mode: UIPushBehaviorMode.Instantaneous)
+                    self.pushBehavior.pushDirection = self.vector
+                    self.pushBehavior.active = true
+                    self.animator?.addBehavior(self.pushBehavior)
+                }
+            }
+            else{
+                self.pushBehavior = UIPushBehavior(items: [self.plays], mode: UIPushBehaviorMode.Instantaneous)
+                self.pushBehavior.pushDirection = self.vector
+                self.pushBehavior.active = true
+                self.animator?.addBehavior(self.pushBehavior)
+            }
         }
         
         return js
@@ -185,6 +200,9 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate {
         
         if self.mode == "ai"{
             view.addSubview(aiBall)
+        }
+        else if self.mode == "twoPlayers"{
+            view.addSubview(secondPlayer)
         }
     }
     
@@ -249,10 +267,10 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate {
         self.navigationController?.navigationBarHidden = true
         
 //         #selector(ViewController.startGame)
-        start.addTarget(self, action:"startGame", forControlEvents: .TouchDown)
+        start.addTarget(self, action:#selector(ViewController.startGame), forControlEvents: .TouchDown)
         
 //        #selector(ViewController.kickBall)
-        kick.addTarget(self, action: "kickBall", forControlEvents: .TouchDown)
+        kick.addTarget(self, action: #selector(ViewController.kickBall), forControlEvents: .TouchDown)
         
         animator = UIDynamicAnimator(referenceView: view)
 
@@ -296,6 +314,16 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate {
             
             animator?.addBehavior(aiBehavior)
         }
+        else{
+            secondBehavior = UIDynamicItemBehavior(items: [secondPlayer])
+            secondBehavior.allowsRotation = false
+            secondBehavior.elasticity = 0.40
+            secondBehavior.friction = 0.00
+            secondBehavior.density = 0.5
+            secondBehavior.resistance = 5.0
+            
+            animator?.addBehavior(secondBehavior)
+        }
         
         let cornerBehavior = UIDynamicItemBehavior(items: [triangleViewTL, triangleViewTR, triangleViewBL, triangleViewBR])
         cornerBehavior.anchored = true
@@ -330,6 +358,9 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate {
         if self.mode == "ai"{
             collision.addItem(aiBall)
         }
+        else{
+            collision.addItem(secondPlayer)
+        }
         
         animator.addBehavior(collision)
         
@@ -338,6 +369,9 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate {
         goalCollision.translatesReferenceBoundsIntoBoundary = true
         if self.mode == "ai"{
             goalCollision.addItem(aiBall)
+        }
+        else{
+            goalCollision.addItem(secondPlayer)
         }
         animator.addBehavior(goalCollision)
         
