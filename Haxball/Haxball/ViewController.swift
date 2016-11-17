@@ -187,7 +187,7 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate {
         bottomRCorner.backgroundColor = .blackColor()
         bottomLCorner.backgroundColor = .blackColor()
         
-        kick.frame = CGRect(x: screen.width - 75, y: 50, width: 50, height: 50)
+        kick.frame = CGRect(x: screen.width - 75, y: screen.height - 75, width: 50, height: 50)
         kick.setImage(UIImage(named: "grayButton.png"), forState: .Normal)
         
         view.addSubview(top)
