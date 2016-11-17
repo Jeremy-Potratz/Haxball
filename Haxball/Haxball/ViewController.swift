@@ -146,10 +146,7 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate {
         aiBall.frame = CGRect(x: 200, y: 125, width: 50, height: 50)
         
         
-        let triangleViewTR = UIView()
-        let angle : CGFloat = 45
-        let transform = CGAffineTransformMakeRotation(angle)
-        //triangleViewTR.transform(transform)
+
         
         topGoal.frame = CGRect(x: 0, y: 0, width: cornerWidth * 4, height: 50)
         topGoal.backgroundColor = .clearColor()
@@ -212,6 +209,34 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        let triangleViewTR = UIView()
+        triangleViewTR.frame = CGRect(x: screen.width / 2, y: screen.height / 2, width: 50, height: 50)
+        triangleViewTR.backgroundColor = .blackColor()
+        triangleViewTR.transform = CGAffineTransformMakeRotation(CGFloat(M_PI_4))
+        triangleViewTR.center = CGPoint(x: screen.width, y: 50)
+        view.addSubview(triangleViewTR)
+        
+        let triangleViewTL = UIView()
+        triangleViewTL.frame = CGRect(x: screen.width / 2, y: screen.height / 2, width: 50, height: 50)
+        triangleViewTL.backgroundColor = .blackColor()
+        triangleViewTL.transform = CGAffineTransformMakeRotation(CGFloat(M_PI_4))
+        triangleViewTL.center = CGPoint(x: 0, y: 50)
+        view.addSubview(triangleViewTL)
+        
+        let triangleViewBR = UIView()
+        triangleViewBR.frame = CGRect(x: screen.width / 2, y: screen.height / 2, width: 50, height: 50)
+        triangleViewBR.backgroundColor = .blackColor()
+        triangleViewBR.transform = CGAffineTransformMakeRotation(CGFloat(M_PI_4))
+        triangleViewBR.center = CGPoint(x: screen.width, y: screen.height - 50)
+        view.addSubview(triangleViewBR)
+        
+        let triangleViewBL = UIView()
+        triangleViewBL.frame = CGRect(x: screen.width / 2, y: screen.height / 2, width: 50, height: 50)
+        triangleViewBL.backgroundColor = .blackColor()
+        triangleViewBL.transform = CGAffineTransformMakeRotation(CGFloat(M_PI_4))
+        triangleViewBL.center = CGPoint(x: 0, y: screen.height - 50)
+        view.addSubview(triangleViewBL)
+        
         self.navigationController?.navigationBarHidden = true
         
 //         #selector(ViewController.startGame)
@@ -259,6 +284,10 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate {
         aiBehavior.resistance = 5.0
         animator?.addBehavior(aiBehavior)
         
+        let cornerBehavior = UIDynamicItemBehavior(items: [triangleViewTL, triangleViewTR, triangleViewBL, triangleViewBR])
+        cornerBehavior.anchored = true
+        animator?.addBehavior(cornerBehavior)
+        
         ballBehavior = UIDynamicItemBehavior(items: [bals])
         ballBehavior.allowsRotation = false
         ballBehavior.elasticity = 0.40
@@ -278,10 +307,10 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate {
         boundBehavior = UIDynamicItemBehavior(items: [topRCorner, topLCorner, bottomRCorner, bottomLCorner, bottom, top, bottomGoal, topGoal])
         boundBehavior.allowsRotation = false
         boundBehavior.elasticity = 0.0
-        boundBehavior.density = 1000000
+        boundBehavior.anchored = true
         animator?.addBehavior(boundBehavior)
         
-        collision = UICollisionBehavior(items: [bals, plays, topLCorner, topRCorner, bottomLCorner, bottomRCorner, bottom, top, aiBall])
+        collision = UICollisionBehavior(items: [bals, plays, topLCorner, topRCorner, bottomLCorner, bottomRCorner, bottom, top, aiBall, triangleViewTL, triangleViewTR, triangleViewBL, triangleViewBR])
         collision.collisionMode = UICollisionBehaviorMode.Everything
         collision.translatesReferenceBoundsIntoBoundary = true
         animator.addBehavior(collision)
