@@ -13,8 +13,11 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate {
     
     var aiBall = aiBallStyle()
     var bals = ball()
+    var secondPlayer = player()
     
     let index = 0
+    
+    var mode: String = ""
     
     var animator : UIDynamicAnimator!
     var screen = UIScreen.mainScreen().bounds
@@ -132,6 +135,8 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate {
         let cornerWidth = (screen.width - 210) / 2
         bals.frame = CGRect(x: screen.width / 2, y: screen.height / 2, width: 50, height: 50)
         bals.tag = 333
+        secondPlayer.frame = CGRect(x: screen.width / 2, y: screen.height / 5, width: 50, height: 50)
+        secondPlayer.tag = 777
         plays.frame = CGRect(x: 100, y: 300, width: 50, height: 50)
         plays.tag = 222
         topLCorner.frame = CGRect(x: 0, y: 0, width: cornerWidth, height: 50)
@@ -176,7 +181,11 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate {
         view.addSubview(bottomLCorner)
         view.addSubview(bottomRCorner)
         view.addSubview(bottom)
-        view.addSubview(aiBall)
+        
+        
+        if self.mode == "ai"{
+            view.addSubview(aiBall)
+        }
     }
     
     func distanceBetween(pointOne: CGPoint, pointTwo: CGPoint) -> CGFloat{
@@ -248,7 +257,9 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate {
         animator = UIDynamicAnimator(referenceView: view)
 
         addViews()
-        startTimer()
+        if self.mode == "ai"{
+            startTimer()
+        }
         
         let x1 = Int(bottomLCorner.center.x)
         let y1 = Int(bottomLCorner.center.y)
@@ -275,14 +286,16 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate {
         bottomLCorner.bringSubviewToFront(player1Label)
         topRCorner.bringSubviewToFront(player2Label)
         
-        
-        aiBehavior = UIDynamicItemBehavior(items: [aiBall])
-        aiBehavior.allowsRotation = false
-        aiBehavior.elasticity = 0.40
-        aiBehavior.friction = 0.00
-        aiBehavior.density = 0.5
-        aiBehavior.resistance = 5.0
-        animator?.addBehavior(aiBehavior)
+        if self.mode == "ai"{
+            aiBehavior = UIDynamicItemBehavior(items: [aiBall])
+            aiBehavior.allowsRotation = false
+            aiBehavior.elasticity = 0.40
+            aiBehavior.friction = 0.00
+            aiBehavior.density = 0.5
+            aiBehavior.resistance = 5.0
+            
+            animator?.addBehavior(aiBehavior)
+        }
         
         let cornerBehavior = UIDynamicItemBehavior(items: [triangleViewTL, triangleViewTR, triangleViewBL, triangleViewBR])
         cornerBehavior.anchored = true
@@ -310,14 +323,22 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate {
         boundBehavior.anchored = true
         animator?.addBehavior(boundBehavior)
         
-        collision = UICollisionBehavior(items: [bals, plays, topLCorner, topRCorner, bottomLCorner, bottomRCorner, bottom, top, aiBall, triangleViewTL, triangleViewTR, triangleViewBL, triangleViewBR])
+        collision = UICollisionBehavior(items: [bals, plays, topLCorner, topRCorner, bottomLCorner, bottomRCorner, bottom, top, triangleViewTL, triangleViewTR, triangleViewBL, triangleViewBR])
         collision.collisionMode = UICollisionBehaviorMode.Everything
         collision.translatesReferenceBoundsIntoBoundary = true
+        
+        if self.mode == "ai"{
+            collision.addItem(aiBall)
+        }
+        
         animator.addBehavior(collision)
         
-        goalCollision = UICollisionBehavior(items: [plays, aiBall, bottomGoal, topGoal])
+        goalCollision = UICollisionBehavior(items: [plays, bottomGoal, topGoal])
         goalCollision.collisionMode = UICollisionBehaviorMode.Everything
         goalCollision.translatesReferenceBoundsIntoBoundary = true
+        if self.mode == "ai"{
+            goalCollision.addItem(aiBall)
+        }
         animator.addBehavior(goalCollision)
         
         // idea- make a seperate collision for two views and the balls so players cant go in goal
@@ -393,26 +414,27 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate {
     
     
     func onTick(){
-        xdiff = Int(arc4random_uniform(151)) - 75
-        ydiff = Int(arc4random_uniform(151)) - 75
-        
-        let newX = Int(bals.center.x) + xdiff
-        let newY = Int(bals.center.y) + ydiff
-        
-        let velX = newX - Int(aiBall.center.x)
-        let velY = newY - Int(aiBall.center.y)
-        let aiMovement = UIDynamicItemBehavior(items: [aiBall])
+        if self.mode == "ai"{
+            xdiff = Int(arc4random_uniform(151)) - 75
+            ydiff = Int(arc4random_uniform(151)) - 75
+            
+            let newX = Int(bals.center.x) + xdiff
+            let newY = Int(bals.center.y) + ydiff
+            
+            let velX = newX - Int(aiBall.center.x)
+            let velY = newY - Int(aiBall.center.y)
+            let aiMovement = UIDynamicItemBehavior(items: [aiBall])
 
-        
-        if index == 0{
-            aiMovement.addLinearVelocity(CGPoint(x: velX, y: velY), forItem: aiBall)
-            animator?.addBehavior(aiMovement)
+            
+            if index == 0{
+                aiMovement.addLinearVelocity(CGPoint(x: velX, y: velY), forItem: aiBall)
+                animator?.addBehavior(aiMovement)
+            }
+            else{
+                aiMovement.addLinearVelocity(CGPoint(x: velX, y: velY), forItem: aiBall)
+                animator.updateItemUsingCurrentState(aiBall)
+            }
         }
-        else{
-            aiMovement.addLinearVelocity(CGPoint(x: velX, y: velY), forItem: aiBall)
-            animator.updateItemUsingCurrentState(aiBall)
-        }
-        
     }
     
     func scored(){

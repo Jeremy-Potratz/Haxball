@@ -46,10 +46,10 @@
             </objects>
             <point key="canvasLocation" x="1894" y="-332"/>
         </scene>
-        <!--InitialVC-->
+        <!--Main Menu-->
         <scene sceneID="Uh8-XR-bQj">
             <objects>
-                <viewController title="InitialVC" id="490-Vp-L6E" sceneMemberID="viewController">
+                <viewController title="Main Menu" id="490-Vp-L6E" customClass="MainMenuViewController" customModule="Haxball" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="xs8-QA-Zoq"/>
                         <viewControllerLayoutGuide type="bottom" id="yT0-tN-guC"/>
@@ -61,8 +61,8 @@
                             <segmentedControl opaque="NO" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="LBT-lD-rCz">
                                 <rect key="frame" x="240" y="137" width="121" height="29"/>
                                 <segments>
-                                    <segment title="First"/>
-                                    <segment title="Second"/>
+                                    <segment title="AI"/>
+                                    <segment title="2 - Players"/>
                                 </segments>
                             </segmentedControl>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" text="Difficulty" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Tvk-o2-2B9">
@@ -75,7 +75,7 @@
                                 <rect key="frame" x="283" y="187" width="34" height="30"/>
                                 <state key="normal" title="Start"/>
                                 <connections>
-                                    <segue destination="BYZ-38-t0r" kind="show" id="dqS-zX-E84"/>
+                                    <segue destination="BYZ-38-t0r" kind="show" identifier="startGame" id="dqS-zX-E84"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -92,6 +92,9 @@
                             </connections>
                         </barButtonItem>
                     </navigationItem>
+                    <connections>
+                        <outlet property="difficultySelector" destination="LBT-lD-rCz" id="hVC-gC-4ei"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="6er-IW-7QI" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
