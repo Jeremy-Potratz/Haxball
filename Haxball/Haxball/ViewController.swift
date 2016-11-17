@@ -16,6 +16,7 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate {
     var secondPlayer = player()
     
     let index = 0
+    var pauseIndex = 0
     
     var mode: String = ""
     
@@ -68,6 +69,8 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate {
     
     var xdiff = Int()
     var ydiff = Int()
+    
+    var pause = UIButton()
     
     override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
         print("Began")
@@ -236,6 +239,14 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        pause.frame = CGRect(x: 31, y: 311, width: 50, height: 50)
+        
+        pause.setTitle("Pause", forState: .Normal)
+        
+        pause.setTitleColor(.redColor(), forState: .Normal)
+        
+        view.addSubview(pause)
+        
         let triangleViewTR = UIView()
         triangleViewTR.frame = CGRect(x: screen.width / 2, y: screen.height / 2, width: 50, height: 50)
         triangleViewTR.backgroundColor = .blackColor()
@@ -271,6 +282,8 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate {
         
 //        #selector(ViewController.kickBall)
         kick.addTarget(self, action: #selector(ViewController.kickBall), forControlEvents: .TouchDown)
+        
+        pause.addTarget(self, action: #selector(ViewController.pauseGame), forControlEvents: .TouchDown)
         
         animator = UIDynamicAnimator(referenceView: view)
 
@@ -381,6 +394,21 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate {
 
         beginGame()
         
+    }
+    
+    func pauseGame(){
+        
+        if pauseIndex == 0{
+        
+        self.navigationController?.navigationBarHidden = false
+        
+            pauseIndex = 1
+        } else {
+            self.navigationController?.navigationBarHidden = true
+            
+            pauseIndex = 0
+            
+        }
     }
     
     func startGame() {
