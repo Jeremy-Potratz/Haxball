@@ -11,17 +11,63 @@ import CDJoystick
 import CoreData
 
 class subView : UIView{
+    internal var vector : CGVector = .zero
+    internal var player : String = ""
     override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
         //do stuff
-        let location = touches.first!
-        let screen = UIScreen.mainScreen().bounds
+        let location = touches.first!.locationInView(self)
+        let js = CDJoystick()
+        js.frame = CGRect(x: location.x - 50, y: location.y - 50, width: 100, height: 100)
+        js.backgroundColor = .clearColor()
+        js.substrateColor = .lightGrayColor()
+        js.substrateBorderColor = .grayColor()
+        js.substrateBorderWidth = 1.0
+        js.stickSize = CGSize(width: 50, height: 50)
+        js.stickColor = .darkGrayColor()
+        js.stickBorderColor = .blackColor()
+        js.stickBorderWidth = 2.0
+        js.fade = 0.5
+        js.tag = 999
+        js.trackingHandler = { (joystickData) -> () in
+            self.vector = CGVector(dx: joystickData.velocity.x/8 , dy: joystickData.velocity.y/8)
+            print(self.vector)
+        }
+        self.addSubview(js)
         if self.tag == 108{
             //bottom
-
+            self.player = "bottom"
         }
         else{
             //top
+            self.player = "top"
         }
+        js.touchesBegan(touches, withEvent: event)
+    }
+    
+    override func touchesEnded(touches: Set<UITouch>, withEvent event: UIEvent?) {
+        //delete joysticks
+        let js = self.viewWithTag(999)
+        self.vector = .zero
+        js?.touchesEnded(touches, withEvent: event)
+        for i in self.subviews{
+            i.removeFromSuperview()
+        }
+    }
+    
+    override func touchesCancelled(touches: Set<UITouch>?, withEvent event: UIEvent?) {
+        //delete joysticks
+        let js = self.viewWithTag(999)
+        self.vector = .zero
+        js?.touchesCancelled(touches, withEvent: event)
+        for i in self.subviews{
+            i.removeFromSuperview()
+        }
+    }
+    
+    override func touchesMoved(touches: Set<UITouch>, withEvent event: UIEvent?) {
+        //send data
+        let js = self.viewWithTag(999)
+        js?.touchesMoved(touches, withEvent: event)
     }
 }
 
@@ -103,40 +149,50 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate {
     
     
     
-    override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
-        print("Began")
-        var location = touches.first?.locationInView(view)
-        let jsXSize = 100
-        let jsYSize = 100
-        location!.x = location!.x - (CGFloat(jsXSize) / 2)
-        location!.y = location!.y - (CGFloat(jsYSize) / 2)
-        let js = addJS(CGRect(origin: location!, size: CGSize(width: jsXSize, height: jsYSize)))
-        view.addSubview(js)
-        if location!.y <= screen.height{
-            topView.addSubview(js)
-        }
-        else{
-            bottomView.addSubview(js)
-        }
-        js.touchesBegan(touches, withEvent: event)
-        
-    }
+//    override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
+//        print("Began")
+//        var location = touches.first?.locationInView(view)
+//        let jsXSize = 100
+//        let jsYSize = 100
+//        location!.x = location!.x - (CGFloat(jsXSize) / 2)
+//        location!.y = location!.y - (CGFloat(jsYSize) / 2)
+//        let js = addJS(CGRect(origin: location!, size: CGSize(width: jsXSize, height: jsYSize)))
+//        view.addSubview(js)
+//        if location!.y <= screen.height{
+//            topView.addSubview(js)
+//        }
+//        else{
+//            bottomView.addSubview(js)
+//        }
+//        js.touchesBegan(touches, withEvent: event)
+//        
+//    }
     
-    override func touchesCancelled(touches: Set<UITouch>?, withEvent event: UIEvent?) {
-        let jsView = self.view.viewWithTag(999) as! CDJoystick
-        jsView.tracking = false
-        jsView.removeFromSuperview()
-    }
-    
-    override func touchesEnded(touches: Set<UITouch>, withEvent event: UIEvent?) {
-        let jsView = self.view.viewWithTag(999) as! CDJoystick
-        jsView.tracking = false
-        jsView.removeFromSuperview()
-    }
-
+//    override func touchesCancelled(touches: Set<UITouch>?, withEvent event: UIEvent?) {
+//        let jsView = self.view.viewWithTag(999) as! CDJoystick
+//        jsView.tracking = false
+//        jsView.removeFromSuperview()
+//    }
+//    
+//    override func touchesEnded(touches: Set<UITouch>, withEvent event: UIEvent?) {
+//        let jsView = self.view.viewWithTag(999) as! CDJoystick
+//        jsView.tracking = false
+//        jsView.removeFromSuperview()
+//    }
+//
     override func touchesMoved(touches: Set<UITouch>, withEvent event: UIEvent?) {
-        let jsView = view.viewWithTag(999)
-        jsView?.touchesMoved(touches, withEvent: event)
+        let topVector = topView.vector
+        let bottomVector = bottomView.vector
+        
+        let topPushBehavior = UIPushBehavior(items: [self.secondPlayer], mode: UIPushBehaviorMode.Instantaneous)
+        topPushBehavior.pushDirection = topVector
+        topPushBehavior.active = true
+        self.animator?.addBehavior(topPushBehavior)
+        
+        let bottomPushBehavior = UIPushBehavior(items: [self.plays], mode: UIPushBehaviorMode.Instantaneous)
+        bottomPushBehavior.pushDirection = bottomVector
+        bottomPushBehavior.active = true
+        self.animator?.addBehavior(bottomPushBehavior)
     }
     
 
@@ -349,6 +405,7 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate {
         if self.mode == "ai"{
             startTimer()
         }
+        startTimer()
         
         let x1 = Int(bottomLCorner.center.x)
         let y1 = Int(bottomLCorner.center.y)
@@ -556,6 +613,17 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate {
                 animator.updateItemUsingCurrentState(aiBall)
             }
         }
+        else{
+            let topPush = UIPushBehavior(items: [secondPlayer], mode: .Instantaneous)
+            topPush.pushDirection = topView.vector
+            topPush.active = true
+            self.animator?.addBehavior(topPush)
+            
+            let bottomPush = UIPushBehavior(items: [plays], mode: .Instantaneous)
+            bottomPush.pushDirection = bottomView.vector
+            bottomPush.active = true
+            self.animator?.addBehavior(bottomPush)
+        }
     }
     
     func scored(){
@@ -574,7 +642,7 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate {
         
         ballBehavior.resistance = 10000000
         
-        pushBehavior.active = false
+//        pushBehavior.active = false
         
         plays.center = CGPoint(x: screen.width / 2, y: bals.center.y + 250)
         

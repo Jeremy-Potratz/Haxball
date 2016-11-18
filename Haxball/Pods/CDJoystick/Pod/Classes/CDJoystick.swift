@@ -95,7 +95,7 @@ public class CDJoystick: UIView {
     
     public override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
         tracking = true
-        self.initialTouch = touches.first!.locationInView(self.vc.view)
+//        self.initialTouch = touches.first!.locationInView(self.vc.view)
         
         UIView.animateWithDuration(0.1) { () -> Void in
             self.touchesMoved(touches, withEvent: event)
