@@ -10,10 +10,31 @@ import UIKit
 import CDJoystick
 import CoreData
 
+class subView : UIView{
+    override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
+        //do stuff
+        let location = touches.first!
+        let screen = UIScreen.mainScreen().bounds
+        if self.tag == 108{
+            //bottom
+
+        }
+        else{
+            //top
+        }
+    }
+}
+
 class ViewController: UIViewController, UICollisionBehaviorDelegate {
     
     
     var data = [NSManagedObject]()
+    
+    let bottomView = subView()
+    let topView = subView()
+    
+    
+    
     
     var aiBall = aiBallStyle()
     var bals = ball()
@@ -80,6 +101,8 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate {
     var runningCoin = 0
     
     
+    
+    
     override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
         print("Began")
         var location = touches.first?.locationInView(view)
@@ -89,7 +112,14 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate {
         location!.y = location!.y - (CGFloat(jsYSize) / 2)
         let js = addJS(CGRect(origin: location!, size: CGSize(width: jsXSize, height: jsYSize)))
         view.addSubview(js)
+        if location!.y <= screen.height{
+            topView.addSubview(js)
+        }
+        else{
+            bottomView.addSubview(js)
+        }
         js.touchesBegan(touches, withEvent: event)
+        
     }
     
     override func touchesCancelled(touches: Set<UITouch>?, withEvent event: UIEvent?) {
@@ -159,12 +189,15 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate {
     
     func addViews(){
         
-        let topView = UIView(frame: CGRect(x: 0, y: 0, width: screen.width, height: screen.height / 2))
+        topView.frame = CGRect(x: 0, y: 0, width: screen.width, height: screen.height / 2)
         topView.backgroundColor = .blackColor()
+        topView.tag = 109
         topView.alpha = 0.5
         
-        let bottomView = UIView(frame: CGRect(x: 0, y: 0 + screen.height / 2, width: screen.width, height: screen.height / 2))
+        
+        bottomView.frame = CGRect(x: 0, y: screen.height / 2, width: screen.width, height: screen.height / 2)
         bottomView.backgroundColor = .redColor()
+        bottomView.tag = 108
         bottomView.alpha = 0.5
         
         let cornerWidth = (screen.width - 210) / 2
