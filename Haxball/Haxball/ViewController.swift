@@ -72,6 +72,8 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate {
     
     var pause = UIButton()
     
+    var thatYoungCoinRating = 0
+    
     override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
         print("Began")
         var location = touches.first?.locationInView(view)
@@ -121,7 +123,7 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate {
             
             
 
-            self.vector = CGVector(dx: joystickData.velocity.x/16 , dy: joystickData.velocity.y/16)
+            self.vector = CGVector(dx: joystickData.velocity.x/24 , dy: joystickData.velocity.y/24)
             if self.mode == "twoPlayers"{
                 if joystickData.firstTouch.y > self.screen.height / 2{
                     self.pushBehavior = UIPushBehavior(items: [self.plays], mode: UIPushBehaviorMode.Instantaneous)
@@ -239,6 +241,12 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+//        thatYoungCoinRating = Coins.fetchCoins("coinNumber").valueForKey("coinNumber")
+        
+        Coins.addCoins(3)
+        
+        print(Coins.fetchCoins("coinNumber"))
+        
         pause.frame = CGRect(x: 31, y: 311, width: 50, height: 50)
         
         pause.setTitle("Pause", forState: .Normal)
@@ -278,11 +286,12 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate {
         self.navigationController?.navigationBarHidden = true
         
 //         #selector(ViewController.startGame)
-        start.addTarget(self, action:#selector(ViewController.startGame), forControlEvents: .TouchDown)
+        start.addTarget(self, action: #selector(ViewController.startGame), forControlEvents: .TouchDown)
         
 //        #selector(ViewController.kickBall)
         kick.addTarget(self, action: #selector(ViewController.kickBall), forControlEvents: .TouchDown)
         
+        //#selector(ViewController.pauseGame)
         pause.addTarget(self, action: #selector(ViewController.pauseGame), forControlEvents: .TouchDown)
         
         animator = UIDynamicAnimator(referenceView: view)
@@ -316,6 +325,7 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate {
         view.bringSubviewToFront(player2Label)
         bottomLCorner.bringSubviewToFront(player1Label)
         topRCorner.bringSubviewToFront(player2Label)
+        view.bringSubviewToFront(kick)
         
         if self.mode == "ai"{
             aiBehavior = UIDynamicItemBehavior(items: [aiBall])
