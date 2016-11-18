@@ -77,6 +77,8 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate {
     var pause = UIButton()
     
     var thatYoungCoinRating = ""
+    var runningCoin = 0
+    
     
     override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
         print("Began")
@@ -648,8 +650,13 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate {
             print("No data")
         }
         
+        runningCoin = Int(thatYoungCoinRating)! + scoreOne
+        
         
     }
+    
+    
+    
     
     
 }
