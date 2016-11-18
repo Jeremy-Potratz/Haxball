@@ -8,8 +8,12 @@
 
 import UIKit
 import CDJoystick
+import CoreData
 
 class ViewController: UIViewController, UICollisionBehaviorDelegate {
+    
+    
+    var data = [NSManagedObject]()
     
     var aiBall = aiBallStyle()
     var bals = ball()
@@ -604,6 +608,41 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate {
         }
     }
 
-
+    
+    func fetchCoin(){
+        
+        
+        let managedContext = (UIApplication.sharedApplication().delegate as! AppDelegate).managedObjectContext
+        
+        let fetchRequest = NSFetchRequest(entityName: "Coins")
+        
+        let sortDescriptor = NSSortDescriptor(key: "", ascending: true)
+        
+        fetchRequest.sortDescriptors = [sortDescriptor]
+        
+        
+        if let fetchResults = (try? managedContext.executeFetchRequest(fetchRequest)) as? [Coins] {
+            data = fetchResults
+        }
+        
+        if data.count > 0 {
+            
+            for result in data as [NSManagedObject] {
+                
+                thatYoungCoinRating = result.valueForKey("coinNumber")
+                
+                
+            }
+        }
+        else {
+            print("No data")
+        }
+        
+        
+    }
+    
+    
 }
+
+
 

@@ -31,7 +31,6 @@ class Coins: NSManagedObject {
         
     }
     
-    var shalom : String!
     
     class func fetchCoins(sortDescriptorre: String) -> [NSManagedObject]{
         
