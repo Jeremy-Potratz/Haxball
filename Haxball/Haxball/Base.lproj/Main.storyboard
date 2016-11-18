@@ -78,6 +78,9 @@
                                     <segue destination="BYZ-38-t0r" kind="show" identifier="startGame" id="dqS-zX-E84"/>
                                 </connections>
                             </button>
+                            <pickerView contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="0DD-XH-X6q">
+                                <rect key="frame" x="0.0" y="225" width="600" height="216"/>
+                            </pickerView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
@@ -94,6 +97,7 @@
                     </navigationItem>
                     <connections>
                         <outlet property="difficultySelector" destination="LBT-lD-rCz" id="hVC-gC-4ei"/>
+                        <outlet property="scorePicker" destination="0DD-XH-X6q" id="vwh-QW-Zs7"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="6er-IW-7QI" userLabel="First Responder" sceneMemberID="firstResponder"/>

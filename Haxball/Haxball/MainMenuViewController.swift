@@ -11,6 +11,13 @@ import UIKit
 class MainMenuViewController: UIViewController {
 
     @IBOutlet weak var difficultySelector: UISegmentedControl!
+    
+    @IBOutlet weak var scorePicker: UIPickerView!
+    
+    var scoreLimit = []
+    
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
