@@ -76,7 +76,7 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate {
     
     var pause = UIButton()
     
-    var thatYoungCoinRating = 0
+    var thatYoungCoinRating = ""
     
     override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
         print("Began")
@@ -156,6 +156,15 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate {
 
     
     func addViews(){
+        
+        let topView = UIView(frame: CGRect(x: 0, y: 0, width: screen.width, height: screen.height / 2))
+        topView.backgroundColor = .blackColor()
+        topView.alpha = 0.5
+        
+        let bottomView = UIView(frame: CGRect(x: 0, y: 0 + screen.height / 2, width: screen.width, height: screen.height / 2))
+        bottomView.backgroundColor = .redColor()
+        bottomView.alpha = 0.5
+        
         let cornerWidth = (screen.width - 210) / 2
         bals.frame = CGRect(x: screen.width / 2, y: screen.height / 2, width: 50, height: 50)
         bals.tag = 333
@@ -184,7 +193,8 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate {
         
         view.addSubview(topGoal)
         view.addSubview(bottomGoal)
-        
+        view.addSubview(bottomView)
+        view.addSubview(topView)
         
         top.backgroundColor = .whiteColor()
         bottom.backgroundColor = .whiteColor()
@@ -629,7 +639,7 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate {
             
             for result in data as [NSManagedObject] {
                 
-                thatYoungCoinRating = result.valueForKey("coinNumber")
+                thatYoungCoinRating = String(result.valueForKey("coinNumber"))
                 
                 
             }
