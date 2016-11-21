@@ -31,7 +31,7 @@
         <!--UpgradeVC-->
         <scene sceneID="SAv-JP-js0">
             <objects>
-                <viewController title="UpgradeVC" id="DTe-K6-ff8" sceneMemberID="viewController">
+                <viewController title="UpgradeVC" id="DTe-K6-ff8" customClass="UpgradesViewController" customModule="Haxball" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="UPg-bF-i0e"/>
                         <viewControllerLayoutGuide type="bottom" id="B2R-e4-oFy"/>
