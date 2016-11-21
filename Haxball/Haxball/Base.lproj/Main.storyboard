@@ -28,23 +28,33 @@
             </objects>
             <point key="canvasLocation" x="2447" y="351"/>
         </scene>
-        <!--UpgradeVC-->
-        <scene sceneID="SAv-JP-js0">
+        <!--Upgrades Table View Controller-->
+        <scene sceneID="MX5-A4-4h2">
             <objects>
-                <viewController title="UpgradeVC" id="DTe-K6-ff8" customClass="UpgradesViewController" customModule="Haxball" customModuleProvider="target" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="UPg-bF-i0e"/>
-                        <viewControllerLayoutGuide type="bottom" id="B2R-e4-oFy"/>
-                    </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="Uk5-mO-R4f">
+                <tableViewController id="wr5-RQ-Nim" customClass="UpgradesTableViewController" customModule="Haxball" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="Agi-Sh-fIE">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                    </view>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="BpO-Zt-for" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                        <prototypes>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="OEt-Qc-aJG">
+                                <rect key="frame" x="0.0" y="92" width="600" height="44"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="OEt-Qc-aJG" id="OCC-kn-gSe">
+                                    <rect key="frame" x="0.0" y="0.0" width="600" height="43"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </tableViewCellContentView>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="wr5-RQ-Nim" id="9we-7B-2N1"/>
+                            <outlet property="delegate" destination="wr5-RQ-Nim" id="UK9-cj-tk5"/>
+                        </connections>
+                    </tableView>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="PQW-yZ-fYv" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1894" y="-332"/>
+            <point key="canvasLocation" x="1755" y="-308"/>
         </scene>
         <!--Main Menu-->
         <scene sceneID="Uh8-XR-bQj">
@@ -91,7 +101,7 @@
                     <navigationItem key="navigationItem" title="Title" id="sQ8-ts-NLU">
                         <barButtonItem key="rightBarButtonItem" title="Upgrades" id="Fdy-kp-DXQ">
                             <connections>
-                                <segue destination="DTe-K6-ff8" kind="show" id="UfC-Xh-6T8"/>
+                                <segue destination="wr5-RQ-Nim" kind="show" id="Jju-kj-NtX"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
