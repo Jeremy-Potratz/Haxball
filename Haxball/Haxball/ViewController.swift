@@ -12,7 +12,6 @@ import CoreData
 
 class subView : UIView{
     internal var vector : CGVector = .zero
-    internal var player : String = ""
     override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
         //do stuff
         let location = touches.first!.locationInView(self)
@@ -33,14 +32,6 @@ class subView : UIView{
             print(self.vector)
         }
         self.addSubview(js)
-        if self.tag == 108{
-            //bottom
-            self.player = "bottom"
-        }
-        else{
-            //top
-            self.player = "top"
-        }
         js.touchesBegan(touches, withEvent: event)
     }
     
@@ -593,6 +584,16 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate {
     
     func onTick(){
         if self.mode == "ai"{
+            let playerPush = UIPushBehavior(items: [plays], mode: .Instantaneous)
+            if topView.vector != .zero{
+                playerPush.pushDirection = topView.vector
+            }
+            else{
+                playerPush.pushDirection = bottomView.vector
+            }
+            playerPush.active = true
+            animator?.addBehavior(playerPush)
+
             xdiff = Int(arc4random_uniform(151)) - 75
             ydiff = Int(arc4random_uniform(151)) - 75
             
