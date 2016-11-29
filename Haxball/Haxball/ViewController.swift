@@ -29,7 +29,6 @@ class subView : UIView{
         js.tag = 999
         js.trackingHandler = { (joystickData) -> () in
             self.vector = CGVector(dx: joystickData.velocity.x/8 , dy: joystickData.velocity.y/8)
-            print(self.vector)
         }
         self.addSubview(js)
         js.touchesBegan(touches, withEvent: event)
@@ -111,6 +110,7 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate {
     var jsActive = false
     
     var kick = UIButton()
+    var playerTWOOOOOOKick = UIButton()
     
     var plays = player()
     
@@ -288,12 +288,16 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate {
         kick.frame = CGRect(x: screen.width - 75, y: screen.height - 75, width: 50, height: 50)
         kick.setImage(UIImage(named: "grayButton.png"), forState: .Normal)
         
+        playerTWOOOOOOKick.frame = CGRect(x: 50, y: 50, width: 50, height: 50)
+        playerTWOOOOOOKick.setImage(UIImage(named: "grayButton.png"), forState: .Normal)
+        
         view.addSubview(top)
         view.addSubview(bals)
         view.addSubview(plays)
         view.addSubview(topRCorner)
         view.addSubview(topLCorner)
         view.addSubview(kick)
+        view.addSubview(playerTWOOOOOOKick)
         view.addSubview(bottomLCorner)
         view.addSubview(bottomRCorner)
         view.addSubview(bottom)
@@ -318,7 +322,6 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate {
     
     
     func kickBall(){
-        print("Kick")
         let ball = view.viewWithTag(333)!
         let player = view.viewWithTag(222)!
         
@@ -330,7 +333,25 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate {
             animator?.addBehavior(postCollisionDirection)
             
         }
-
+        
+    }
+    
+    func playerTwoKickBall(){
+        
+        let ball = view.viewWithTag(777)!
+        let player = view.viewWithTag(222)!
+        
+        let dist = distanceBetween(ball.center, pointTwo: player.center)
+        
+        if dist <= 70 {
+            let postCollisionDirection = UIDynamicItemBehavior(items: [bals])
+            postCollisionDirection.addLinearVelocity(CGPoint(x: 6*(bals.center.x - secondPlayer.center.x), y: 6*(bals.center.y - secondPlayer.center.y)), forItem: bals)
+            animator?.addBehavior(postCollisionDirection)
+            
+        }
+        
+    
+        
         
     }
     
@@ -390,6 +411,8 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate {
         //#selector(ViewController.pauseGame)
         pause.addTarget(self, action: #selector(ViewController.pauseGame), forControlEvents: .TouchDown)
         
+        playerTWOOOOOOKick.addTarget(self, action: #selector(ViewController.playerTwoKickBall), forControlEvents: .TouchDown)
+        
         animator = UIDynamicAnimator(referenceView: view)
 
         addViews()
@@ -429,7 +452,7 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate {
             aiBehavior.allowsRotation = false
             aiBehavior.elasticity = 0.40
             aiBehavior.friction = 0.00
-            aiBehavior.density = 0.5
+            aiBehavior.density = 0.25
             aiBehavior.resistance = 5.0
             
             animator?.addBehavior(aiBehavior)
@@ -441,6 +464,7 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate {
             secondBehavior.friction = 0.00
             secondBehavior.density = 0.5
             secondBehavior.resistance = 5.0
+            secondBehavior.density = 0.5
             
             animator?.addBehavior(secondBehavior)
         }
@@ -454,7 +478,7 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate {
         ballBehavior.elasticity = 0.40
         ballBehavior.friction = 0.00
         ballBehavior.resistance = 0.0
-        ballBehavior.density = 0.1
+        ballBehavior.density = 0.05
         animator?.addBehavior(ballBehavior)
         
         playerBehavior = UIDynamicItemBehavior(items: [plays])
@@ -462,7 +486,7 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate {
         playerBehavior.elasticity = 0.40
         playerBehavior.friction = 0.0
         playerBehavior.resistance = 5.0
-        playerBehavior.density = 1.0
+        playerBehavior.density = 0.5
         animator?.addBehavior(playerBehavior)
         
         boundBehavior = UIDynamicItemBehavior(items: [topRCorner, topLCorner, bottomRCorner, bottomLCorner, bottom, top, bottomGoal, topGoal])
