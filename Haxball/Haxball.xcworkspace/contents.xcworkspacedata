@@ -5,7 +5,7 @@
       location = "group:ball.swift">
    </FileRef>
    <FileRef
-      location = "group:/Users/apcsp/Desktop/Haxball/Haxball/Campis.xcodeproj">
+      location = "group:Haxball.xcodeproj">
    </FileRef>
    <FileRef
       location = "group:Pods/Pods.xcodeproj">
