@@ -338,8 +338,8 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate {
     
     func playerTwoKickBall(){
         
-        let ball = view.viewWithTag(777)!
-        let player = view.viewWithTag(222)!
+        let ball = view.viewWithTag(333)!
+        let player = view.viewWithTag(777)!
         
         let dist = distanceBetween(ball.center, pointTwo: player.center)
         
@@ -370,7 +370,9 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate {
         
         pause.setTitleColor(.redColor(), forState: .Normal)
         
-        view.addSubview(pause)
+        
+        topView.addSubview(pause)
+        topView.bringSubviewToFront(pause)
         
         let triangleViewTR = UIView()
         triangleViewTR.frame = CGRect(x: screen.width / 2, y: screen.height / 2, width: 50, height: 50)
@@ -418,6 +420,8 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate {
         addViews()
         if self.mode == "ai"{
             startTimer()
+            playerTWOOOOOOKick.enabled = false
+            playerTWOOOOOOKick.hidden = true
         }
         startTimer()
         
@@ -529,7 +533,10 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate {
     
     func pauseGame(){
         
+        print("boi")
+        
         if pauseIndex == 0{
+            print("hello")
         
         self.navigationController?.navigationBarHidden = false
         
