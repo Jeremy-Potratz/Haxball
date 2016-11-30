@@ -171,20 +171,20 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate {
 //        jsView.removeFromSuperview()
 //    }
 //
-    override func touchesMoved(touches: Set<UITouch>, withEvent event: UIEvent?) {
-        let topVector = topView.vector
-        let bottomVector = bottomView.vector
-        
-        let topPushBehavior = UIPushBehavior(items: [self.secondPlayer], mode: UIPushBehaviorMode.Instantaneous)
-        topPushBehavior.pushDirection = topVector
-        topPushBehavior.active = true
-        self.animator?.addBehavior(topPushBehavior)
-        
-        let bottomPushBehavior = UIPushBehavior(items: [self.plays], mode: UIPushBehaviorMode.Instantaneous)
-        bottomPushBehavior.pushDirection = bottomVector
-        bottomPushBehavior.active = true
-        self.animator?.addBehavior(bottomPushBehavior)
-    }
+//    override func touchesMoved(touches: Set<UITouch>, withEvent event: UIEvent?) {
+//        let topVector = topView.vector
+//        let bottomVector = bottomView.vector
+//        
+//        let topPushBehavior = UIPushBehavior(items: [self.secondPlayer], mode: UIPushBehaviorMode.Instantaneous)
+//        topPushBehavior.pushDirection = topVector
+//        topPushBehavior.active = true
+//        self.animator?.addBehavior(topPushBehavior)
+//        
+//        let bottomPushBehavior = UIPushBehavior(items: [self.plays], mode: UIPushBehaviorMode.Instantaneous)
+//        bottomPushBehavior.pushDirection = bottomVector
+//        bottomPushBehavior.active = true
+//        self.animator?.addBehavior(bottomPushBehavior)
+//    }
     
 
     func addJS(frame: CGRect) -> CDJoystick{
