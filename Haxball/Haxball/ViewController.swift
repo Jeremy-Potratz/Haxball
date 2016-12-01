@@ -69,9 +69,6 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate {
     let bottomView = subView()
     let topView = subView()
     
-    
-    
-    
     var aiBall = aiBallStyle()
     var bals = ball()
     var secondPlayer = player()
@@ -136,8 +133,10 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate {
     
     var pause = UIButton()
     
-    var thatYoungCoinRating = ""
-    var runningCoin = 0
+    
+    
+    var stringCoin = ""
+    var intCoin = 0
     
     
     
@@ -360,11 +359,6 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-//        thatYoungCoinRating = Coins.fetchCoins("coinNumber").valueForKey("coinNumber")
-        
-        Coins.addCoins(3)
-        
-        print(Coins.fetchCoins("coinNumber"))
         
         pause.frame = CGRect(x: topRCorner.center.x, y: topRCorner.center.y, width: 50, height: 50)
         
@@ -589,11 +583,6 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate {
         }
     }
     
-    func resumeGame(){
-        
-        
-        
-    }
     
     func startGame() {
         
@@ -759,11 +748,15 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate {
             scored()
             scoreOne += 1
             player1Label.text = "Score: \(scoreOne)"
+            Coins.addCoins(1)
+            print(Coins.fetchCoins(""))
         }
         if first == bals && second == bottom{
             scored()
             scoreTwo += 1
             player2Label.text = "Score: \(scoreTwo)"
+            
+
         }
         
         if first.isEqual(aiBall) && second.isEqual(bals){
@@ -821,38 +814,95 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate {
         
         let fetchRequest = NSFetchRequest(entityName: "Coins")
         
-        let sortDescriptor = NSSortDescriptor(key: "", ascending: true)
-        
-        fetchRequest.sortDescriptors = [sortDescriptor]
-        
-        
         if let fetchResults = (try? managedContext.executeFetchRequest(fetchRequest)) as? [Coins] {
             data = fetchResults
         }
         
         if data.count > 0 {
             
+            
+            var maangedObject = data[0].valueForKey("coinNumber")
+            
             for result in data as [NSManagedObject] {
                 
-                thatYoungCoinRating = String(result.valueForKey("coinNumber"))
-                
+                stringCoin = String(result.valueForKey("coinNumber"))
                 
             }
         }
-        else {
-            print("No data")
-        }
+    }
+    
+    func batchpdate(){
         
-        runningCoin = Int(thatYoungCoinRating)! + scoreOne
+        let managedContext = (UIApplication.sharedApplication().delegate as! AppDelegate).managedObjectContext
+        
+        let batchRequest = NSBatchUpdateRequest(entityName: "Coins")
+        
+        batchRequest.propertiesToUpdate = ["coinNumber": NSNumber()]
+        
+        do {
+            
+            let batchUpdateResult = try managedContext.executeRequest(batchRequest) as! NSBatchUpdateResult
+        
+        
+        
+        
+        
+        
+        }
         
         
     }
     
-    
-    
-    
-    
 }
+/*
+func checkAll(sender: UIBarButtonItem) {
+// Create Entity Description
+let entityDescription = NSEntityDescription.entityForName("Item", inManagedObjectContext: managedObjectContext)
+
+// Initialize Batch Update Request
+let batchUpdateRequest = NSBatchUpdateRequest(entity: entityDescription!)
+
+// Configure Batch Update Request
+batchUpdateRequest.resultType = .UpdatedObjectIDsResultType
+batchUpdateRequest.propertiesToUpdate = ["done": NSNumber(bool: true)]
+
+
+
+
+do {
+// Execute Batch Request
+let batchUpdateResult = try managedObjectContext.executeRequest(batchUpdateRequest) as! NSBatchUpdateResult
+
+
+
+
+// Extract Object IDs
+let objectIDs = batchUpdateResult.result as! [NSManagedObjectID]
+
+
+
+
+
+for objectID in objectIDs {
+// Turn Managed Objects into Faults
+let managedObject = managedObjectContext.objectWithID(objectID)
+managedObjectContext.refreshObject(managedObject, mergeChanges: false)
+}
+
+
+
+
+
+// Perform Fetch
+try self.fetchedResultsController.performFetch()
+
+} catch {
+let updateError = error as NSError
+print("\(updateError), \(updateError.userInfo)")
+}
+}
+
+*/
 
 
 
