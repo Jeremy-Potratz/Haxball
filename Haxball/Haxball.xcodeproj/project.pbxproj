@@ -19,9 +19,12 @@
 		109298661DE3837000C07853 /* UpgradesTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 109298651DE3837000C07853 /* UpgradesTableViewController.swift */; };
 		109298681DE383E200C07853 /* PowerTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 109298671DE383E200C07853 /* PowerTableViewCell.swift */; };
 		1092986A1DE3843100C07853 /* ColorTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 109298691DE3843100C07853 /* ColorTableViewCell.swift */; };
-		1092986C1DE3843E00C07853 /* UpgradeTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1092986B1DE3843E00C07853 /* UpgradeTableViewCell.swift */; };
+		1092986C1DE3843E00C07853 /* SpeedTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1092986B1DE3843E00C07853 /* SpeedTableViewCell.swift */; };
 		1092986E1DE3844800C07853 /* BackgroundTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1092986D1DE3844800C07853 /* BackgroundTableViewCell.swift */; };
 		109298701DE384ED00C07853 /* BallTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1092986F1DE384ED00C07853 /* BallTableViewCell.swift */; };
+		109298721DE385D900C07853 /* colorsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 109298711DE385D900C07853 /* colorsCell.swift */; };
+		109298741DE385E100C07853 /* powerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 109298731DE385E100C07853 /* powerCell.swift */; };
+		109298761DE385E800C07853 /* speedCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 109298751DE385E800C07853 /* speedCell.swift */; };
 		109298781DE385F100C07853 /* backGroundCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 109298771DE385F100C07853 /* backGroundCell.swift */; };
 		380488E0FA0B5F0E5CFFE74A /* Pods_HaxballUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6BBA1E35D5A55995084D3962 /* Pods_HaxballUITests.framework */; };
 		5F0EBA4A1DD40C2E0090A186 /* ball.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F0EBA491DD40C2E0090A186 /* ball.swift */; };
@@ -69,9 +72,12 @@
 		109298651DE3837000C07853 /* UpgradesTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UpgradesTableViewController.swift; sourceTree = "<group>"; };
 		109298671DE383E200C07853 /* PowerTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PowerTableViewCell.swift; sourceTree = "<group>"; };
 		109298691DE3843100C07853 /* ColorTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ColorTableViewCell.swift; sourceTree = "<group>"; };
-		1092986B1DE3843E00C07853 /* UpgradeTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UpgradeTableViewCell.swift; sourceTree = "<group>"; };
+		1092986B1DE3843E00C07853 /* SpeedTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SpeedTableViewCell.swift; sourceTree = "<group>"; };
 		1092986D1DE3844800C07853 /* BackgroundTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BackgroundTableViewCell.swift; sourceTree = "<group>"; };
 		1092986F1DE384ED00C07853 /* BallTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BallTableViewCell.swift; sourceTree = "<group>"; };
+		109298711DE385D900C07853 /* colorsCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = colorsCell.swift; sourceTree = "<group>"; };
+		109298731DE385E100C07853 /* powerCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = powerCell.swift; sourceTree = "<group>"; };
+		109298751DE385E800C07853 /* speedCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = speedCell.swift; sourceTree = "<group>"; };
 		109298771DE385F100C07853 /* backGroundCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = backGroundCell.swift; sourceTree = "<group>"; };
 		297D5DFA18B50EBC5EAA93E2 /* Pods-Haxball.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Haxball.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Haxball/Pods-Haxball.debug.xcconfig"; sourceTree = "<group>"; };
 		45EB8D5C74B4481FA049731A /* Pods_HaxballTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_HaxballTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -153,8 +159,11 @@
 				1076E0931DC916CB00F9DCB0 /* Main.storyboard */,
 				109298671DE383E200C07853 /* PowerTableViewCell.swift */,
 				109298691DE3843100C07853 /* ColorTableViewCell.swift */,
+				109298711DE385D900C07853 /* colorsCell.swift */,
+				109298731DE385E100C07853 /* powerCell.swift */,
+				109298751DE385E800C07853 /* speedCell.swift */,
 				109298771DE385F100C07853 /* backGroundCell.swift */,
-				1092986B1DE3843E00C07853 /* UpgradeTableViewCell.swift */,
+				1092986B1DE3843E00C07853 /* SpeedTableViewCell.swift */,
 				1092986D1DE3844800C07853 /* BackgroundTableViewCell.swift */,
 				1092986F1DE384ED00C07853 /* BallTableViewCell.swift */,
 				109298651DE3837000C07853 /* UpgradesTableViewController.swift */,
@@ -478,12 +487,15 @@
 				109298781DE385F100C07853 /* backGroundCell.swift in Sources */,
 				1092986A1DE3843100C07853 /* ColorTableViewCell.swift in Sources */,
 				1076E0981DC916CB00F9DCB0 /* Haxball.xcdatamodeld in Sources */,
+				109298761DE385E800C07853 /* speedCell.swift in Sources */,
 				1076E0921DC916CB00F9DCB0 /* ViewController.swift in Sources */,
-				1092986C1DE3843E00C07853 /* UpgradeTableViewCell.swift in Sources */,
+				109298741DE385E100C07853 /* powerCell.swift in Sources */,
+				1092986C1DE3843E00C07853 /* SpeedTableViewCell.swift in Sources */,
 				109298701DE384ED00C07853 /* BallTableViewCell.swift in Sources */,
 				109298661DE3837000C07853 /* UpgradesTableViewController.swift in Sources */,
 				5F0EBA4C1DD413400090A186 /* player.swift in Sources */,
 				1092986E1DE3844800C07853 /* BackgroundTableViewCell.swift in Sources */,
+				109298721DE385D900C07853 /* colorsCell.swift in Sources */,
 				D2C293CF1DDD3A470035DC3B /* MainMenuViewController.swift in Sources */,
 				1076E0901DC916CB00F9DCB0 /* AppDelegate.swift in Sources */,
 			);

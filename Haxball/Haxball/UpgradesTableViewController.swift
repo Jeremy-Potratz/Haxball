@@ -29,30 +29,23 @@ class UpgradesTableViewController: UITableViewController {
 
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         // #warning Incomplete implementation, return the number of sections
-        return 1
+        return 0
     }
 
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        return 1
+        return 0
     }
 
-    
+    /*
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("upgradeCell", forIndexPath: indexPath) as! UpgradeTableViewCell
-        
+        let cell = tableView.dequeueReusableCellWithIdentifier("reuseIdentifier", forIndexPath: indexPath)
 
         // Configure the cell...
-        cell.nameLabel.text = "Speed"
-        cell.tierLabel.text = "0"
-        cell.costLabel.text = "10"
-        
-        
-        
 
         return cell
     }
- 
+    */
 
     /*
     // Override to support conditional editing of the table view.

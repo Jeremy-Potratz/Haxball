@@ -69,6 +69,9 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate {
     let bottomView = subView()
     let topView = subView()
     
+    
+    
+    
     var aiBall = aiBallStyle()
     var bals = ball()
     var secondPlayer = player()
@@ -109,8 +112,6 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate {
     var kick = UIButton()
     var playerTWOOOOOOKick = UIButton()
     
-    var resume = UIButton()
-    
     var plays = player()
     
     var vector = CGVector()
@@ -133,10 +134,8 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate {
     
     var pause = UIButton()
     
-    
-    
-    var stringCoin = ""
-    var intCoin = 0
+    var thatYoungCoinRating = ""
+    var runningCoin = 0
     
     
     
@@ -342,7 +341,7 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate {
         let ball = view.viewWithTag(333)!
         let player = view.viewWithTag(777)!
         
-        let dist = distanceBetween(ball.center, pointTwo: secondPlayer.center)
+        let dist = distanceBetween(ball.center, pointTwo: player.center)
         
         if dist <= 70 {
             let postCollisionDirection = UIDynamicItemBehavior(items: [bals])
@@ -359,16 +358,21 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+//        thatYoungCoinRating = Coins.fetchCoins("coinNumber").valueForKey("coinNumber")
         
-        pause.frame = CGRect(x: topRCorner.center.x, y: topRCorner.center.y, width: 50, height: 50)
+        Coins.addCoins(3)
+        
+        print(Coins.fetchCoins("coinNumber"))
+        
+        pause.frame = CGRect(x: 31, y: 311, width: 50, height: 50)
         
         pause.setTitle("Pause", forState: .Normal)
         
         pause.setTitleColor(.redColor(), forState: .Normal)
         
         
-        topRCorner.addSubview(pause)
-        topRCorner.bringSubviewToFront(pause)
+        topView.addSubview(pause)
+        topView.bringSubviewToFront(pause)
         
         let triangleViewTR = UIView()
         triangleViewTR.frame = CGRect(x: screen.width / 2, y: screen.height / 2, width: 50, height: 50)
@@ -401,17 +405,15 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate {
         self.navigationController?.navigationBarHidden = true
         
 //         #selector(ViewController.startGame)
-        start.addTarget(self, action: "startGame", forControlEvents: .TouchDown)
+        start.addTarget(self, action: #selector(ViewController.startGame), forControlEvents: .TouchDown)
         
 //        #selector(ViewController.kickBall)
-        kick.addTarget(self, action: "kickBall", forControlEvents: .TouchDown)
+        kick.addTarget(self, action: #selector(ViewController.kickBall), forControlEvents: .TouchDown)
         
         //#selector(ViewController.pauseGame)
-        pause.addTarget(self, action: "pauseGame", forControlEvents: .TouchDown)
+        pause.addTarget(self, action: #selector(ViewController.pauseGame), forControlEvents: .TouchDown)
         
-        //#selector(ViewController.playerTwoKickBall)
-        
-        playerTWOOOOOOKick.addTarget(self, action: "playerTwoKickBall", forControlEvents: .TouchDown)
+        playerTWOOOOOOKick.addTarget(self, action: #selector(ViewController.playerTwoKickBall), forControlEvents: .TouchDown)
         
         animator = UIDynamicAnimator(referenceView: view)
 
@@ -531,58 +533,21 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate {
     
     func pauseGame(){
         
+        print("boi")
         
         if pauseIndex == 0{
-            
-            secondBehavior.resistance = 1000000000
-            ballBehavior.resistance = 10000000
-            playerBehavior.resistance = 1000000
-            aiBehavior.resistance = 10000000
-            
-            animator.updateItemUsingCurrentState(secondPlayer)
-            animator.updateItemUsingCurrentState(bals)
-            animator.updateItemUsingCurrentState(plays)
-            animator.updateItemUsingCurrentState(aiBall)
+            print("hello")
         
         self.navigationController?.navigationBarHidden = false
-            
-            view.addSubview(pause)
-            view.bringSubviewToFront(pause)
-            
-            pause.frame = CGRect(x: screen.width / 2, y: screen.height / 2, width: 100, height: 50)
-            
-            pause.setTitle("Resume", forState: .Normal)
         
             pauseIndex = 1
-            
         } else {
-            
-            pause.setTitle("Pause", forState: .Normal)
-            
-
-            
-            pause.frame = CGRect(x: topRCorner.center.x - 25.0, y: topRCorner.center.y -  25.0, width: 50, height: 50)
-
-            
-            secondBehavior.resistance = 5.0
-            ballBehavior.resistance = 0.0
-            playerBehavior.resistance = 5.0
-            aiBehavior.resistance = 0.0
-            
-            animator.updateItemUsingCurrentState(secondPlayer)
-            animator.updateItemUsingCurrentState(bals)
-            animator.updateItemUsingCurrentState(plays)
-            animator.updateItemUsingCurrentState(aiBall)
-            
-            
-            // here
-            
             self.navigationController?.navigationBarHidden = true
             
             pauseIndex = 0
+            
         }
     }
-    
     
     func startGame() {
         
@@ -598,14 +563,10 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate {
         
         aiBehavior.resistance = 5.0
         
-        secondPlayer.frame = CGRect(x: screen.width / 2, y: screen.height / 5, width: 50, height: 50)
-        
-        secondBehavior.resistance = 5.0
-        
         animator.updateItemUsingCurrentState(bals)
         animator.updateItemUsingCurrentState(plays)
         animator.updateItemUsingCurrentState(aiBall)
-        animator.updateItemUsingCurrentState(secondPlayer)
+        
 
         
     }
@@ -637,14 +598,9 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate {
         
         aiBall.center = CGPoint(x: screen.width / 2, y: bals.center.y - 250)
         
-        secondPlayer.frame = CGRect(x: screen.width / 2, y: screen.height / 5, width: 50, height: 50)
-        
-        secondBehavior.resistance = 1000000
-        
         animator.updateItemUsingCurrentState(bals)
         animator.updateItemUsingCurrentState(plays)
         animator.updateItemUsingCurrentState(aiBall)
-        animator.updateItemUsingCurrentState(secondPlayer)
         
     }
     
@@ -728,14 +684,9 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate {
         
         aiBehavior.resistance = 10000000
         
-        secondPlayer.frame = CGRect(x: screen.width / 2, y: screen.height / 5, width: 50, height: 50)
-        
-        secondBehavior.resistance = 10000000
-        
         animator.updateItemUsingCurrentState(bals)
         animator.updateItemUsingCurrentState(plays)
         animator.updateItemUsingCurrentState(aiBall)
-        animator.updateItemUsingCurrentState(secondPlayer)
         
 }
     
@@ -748,15 +699,11 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate {
             scored()
             scoreOne += 1
             player1Label.text = "Score: \(scoreOne)"
-            Coins.addCoins(1)
-            print(Coins.fetchCoins(""))
         }
         if first == bals && second == bottom{
             scored()
             scoreTwo += 1
             player2Label.text = "Score: \(scoreTwo)"
-            
-
         }
         
         if first.isEqual(aiBall) && second.isEqual(bals){
@@ -814,95 +761,38 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate {
         
         let fetchRequest = NSFetchRequest(entityName: "Coins")
         
+        let sortDescriptor = NSSortDescriptor(key: "", ascending: true)
+        
+        fetchRequest.sortDescriptors = [sortDescriptor]
+        
+        
         if let fetchResults = (try? managedContext.executeFetchRequest(fetchRequest)) as? [Coins] {
             data = fetchResults
         }
         
         if data.count > 0 {
             
-            
-            var maangedObject = data[0].valueForKey("coinNumber")
-            
             for result in data as [NSManagedObject] {
                 
-                stringCoin = String(result.valueForKey("coinNumber"))
+                thatYoungCoinRating = String(result.valueForKey("coinNumber"))
+                
                 
             }
         }
-    }
-    
-    func batchpdate(){
-        
-        let managedContext = (UIApplication.sharedApplication().delegate as! AppDelegate).managedObjectContext
-        
-        let batchRequest = NSBatchUpdateRequest(entityName: "Coins")
-        
-        batchRequest.propertiesToUpdate = ["coinNumber": NSNumber()]
-        
-        do {
-            
-            let batchUpdateResult = try managedContext.executeRequest(batchRequest) as! NSBatchUpdateResult
-        
-        
-        
-        
-        
-        
+        else {
+            print("No data")
         }
         
+        runningCoin = Int(thatYoungCoinRating)! + scoreOne
+        
         
     }
     
+    
+    
+    
+    
 }
-/*
-func checkAll(sender: UIBarButtonItem) {
-// Create Entity Description
-let entityDescription = NSEntityDescription.entityForName("Item", inManagedObjectContext: managedObjectContext)
-
-// Initialize Batch Update Request
-let batchUpdateRequest = NSBatchUpdateRequest(entity: entityDescription!)
-
-// Configure Batch Update Request
-batchUpdateRequest.resultType = .UpdatedObjectIDsResultType
-batchUpdateRequest.propertiesToUpdate = ["done": NSNumber(bool: true)]
-
-
-
-
-do {
-// Execute Batch Request
-let batchUpdateResult = try managedObjectContext.executeRequest(batchUpdateRequest) as! NSBatchUpdateResult
-
-
-
-
-// Extract Object IDs
-let objectIDs = batchUpdateResult.result as! [NSManagedObjectID]
-
-
-
-
-
-for objectID in objectIDs {
-// Turn Managed Objects into Faults
-let managedObject = managedObjectContext.objectWithID(objectID)
-managedObjectContext.refreshObject(managedObject, mergeChanges: false)
-}
-
-
-
-
-
-// Perform Fetch
-try self.fetchedResultsController.performFetch()
-
-} catch {
-let updateError = error as NSError
-print("\(updateError), \(updateError.userInfo)")
-}
-}
-
-*/
 
 
 
