@@ -112,6 +112,8 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate {
     var kick = UIButton()
     var playerTWOOOOOOKick = UIButton()
     
+    var resume = UIButton()
+    
     var plays = player()
     
     var vector = CGVector()
@@ -341,7 +343,7 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate {
         let ball = view.viewWithTag(333)!
         let player = view.viewWithTag(777)!
         
-        let dist = distanceBetween(ball.center, pointTwo: player.center)
+        let dist = distanceBetween(ball.center, pointTwo: secondPlayer.center)
         
         if dist <= 70 {
             let postCollisionDirection = UIDynamicItemBehavior(items: [bals])
@@ -364,15 +366,15 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate {
         
         print(Coins.fetchCoins("coinNumber"))
         
-        pause.frame = CGRect(x: 31, y: 311, width: 50, height: 50)
+        pause.frame = CGRect(x: topRCorner.center.x, y: topRCorner.center.y, width: 50, height: 50)
         
         pause.setTitle("Pause", forState: .Normal)
         
         pause.setTitleColor(.redColor(), forState: .Normal)
         
         
-        topView.addSubview(pause)
-        topView.bringSubviewToFront(pause)
+        topRCorner.addSubview(pause)
+        topRCorner.bringSubviewToFront(pause)
         
         let triangleViewTR = UIView()
         triangleViewTR.frame = CGRect(x: screen.width / 2, y: screen.height / 2, width: 50, height: 50)
@@ -405,15 +407,17 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate {
         self.navigationController?.navigationBarHidden = true
         
 //         #selector(ViewController.startGame)
-        start.addTarget(self, action: #selector(ViewController.startGame), forControlEvents: .TouchDown)
+        start.addTarget(self, action: "startGame", forControlEvents: .TouchDown)
         
 //        #selector(ViewController.kickBall)
-        kick.addTarget(self, action: #selector(ViewController.kickBall), forControlEvents: .TouchDown)
+        kick.addTarget(self, action: "kickBall", forControlEvents: .TouchDown)
         
         //#selector(ViewController.pauseGame)
-        pause.addTarget(self, action: #selector(ViewController.pauseGame), forControlEvents: .TouchDown)
+        pause.addTarget(self, action: "pauseGame", forControlEvents: .TouchDown)
         
-        playerTWOOOOOOKick.addTarget(self, action: #selector(ViewController.playerTwoKickBall), forControlEvents: .TouchDown)
+        //#selector(ViewController.playerTwoKickBall)
+        
+        playerTWOOOOOOKick.addTarget(self, action: "playerTwoKickBall", forControlEvents: .TouchDown)
         
         animator = UIDynamicAnimator(referenceView: view)
 
@@ -533,20 +537,62 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate {
     
     func pauseGame(){
         
-        print("boi")
         
         if pauseIndex == 0{
-            print("hello")
+            
+            secondBehavior.resistance = 1000000000
+            ballBehavior.resistance = 10000000
+            playerBehavior.resistance = 1000000
+            aiBehavior.resistance = 10000000
+            
+            animator.updateItemUsingCurrentState(secondPlayer)
+            animator.updateItemUsingCurrentState(bals)
+            animator.updateItemUsingCurrentState(plays)
+            animator.updateItemUsingCurrentState(aiBall)
         
         self.navigationController?.navigationBarHidden = false
+            
+            view.addSubview(pause)
+            view.bringSubviewToFront(pause)
+            
+            pause.frame = CGRect(x: screen.width / 2, y: screen.height / 2, width: 100, height: 50)
+            
+            pause.setTitle("Resume", forState: .Normal)
         
             pauseIndex = 1
+            
         } else {
+            
+            pause.setTitle("Pause", forState: .Normal)
+            
+
+            
+            pause.frame = CGRect(x: topRCorner.center.x - 25.0, y: topRCorner.center.y -  25.0, width: 50, height: 50)
+
+            
+            secondBehavior.resistance = 5.0
+            ballBehavior.resistance = 0.0
+            playerBehavior.resistance = 5.0
+            aiBehavior.resistance = 0.0
+            
+            animator.updateItemUsingCurrentState(secondPlayer)
+            animator.updateItemUsingCurrentState(bals)
+            animator.updateItemUsingCurrentState(plays)
+            animator.updateItemUsingCurrentState(aiBall)
+            
+            
+            // here
+            
             self.navigationController?.navigationBarHidden = true
             
             pauseIndex = 0
-            
         }
+    }
+    
+    func resumeGame(){
+        
+        
+        
     }
     
     func startGame() {
@@ -563,10 +609,14 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate {
         
         aiBehavior.resistance = 5.0
         
+        secondPlayer.frame = CGRect(x: screen.width / 2, y: screen.height / 5, width: 50, height: 50)
+        
+        secondBehavior.resistance = 5.0
+        
         animator.updateItemUsingCurrentState(bals)
         animator.updateItemUsingCurrentState(plays)
         animator.updateItemUsingCurrentState(aiBall)
-        
+        animator.updateItemUsingCurrentState(secondPlayer)
 
         
     }
@@ -598,9 +648,14 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate {
         
         aiBall.center = CGPoint(x: screen.width / 2, y: bals.center.y - 250)
         
+        secondPlayer.frame = CGRect(x: screen.width / 2, y: screen.height / 5, width: 50, height: 50)
+        
+        secondBehavior.resistance = 1000000
+        
         animator.updateItemUsingCurrentState(bals)
         animator.updateItemUsingCurrentState(plays)
         animator.updateItemUsingCurrentState(aiBall)
+        animator.updateItemUsingCurrentState(secondPlayer)
         
     }
     
@@ -684,9 +739,14 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate {
         
         aiBehavior.resistance = 10000000
         
+        secondPlayer.frame = CGRect(x: screen.width / 2, y: screen.height / 5, width: 50, height: 50)
+        
+        secondBehavior.resistance = 10000000
+        
         animator.updateItemUsingCurrentState(bals)
         animator.updateItemUsingCurrentState(plays)
         animator.updateItemUsingCurrentState(aiBall)
+        animator.updateItemUsingCurrentState(secondPlayer)
         
 }
     
