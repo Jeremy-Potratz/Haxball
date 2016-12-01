@@ -9,7 +9,7 @@
 import UIKit
 import CDJoystick
 import CoreData
-
+//a
 class subView : UIView{
     internal var vector : CGVector = .zero
     override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
