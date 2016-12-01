@@ -119,8 +119,6 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate {
     var pushBehavior : UIPushBehavior!
     
     var start = UIButton()
-    
-    var resume = UIButton()
 
     var player1Label = UILabel()
     var player2Label = UILabel()
@@ -366,14 +364,15 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate {
         
         print(Coins.fetchCoins("coinNumber"))
         
-        pause.frame = CGRect(x: topRCorner.center.x, y: topRCorner.center.y, width: 50, height: 50)
+        pause.frame = CGRect(x: 31, y: 311, width: 50, height: 50)
         
         pause.setTitle("Pause", forState: .Normal)
         
         pause.setTitleColor(.redColor(), forState: .Normal)
         
-        topRCorner.addSubview(pause)
-        topRCorner.bringSubviewToFront(pause)
+        
+        topView.addSubview(pause)
+        topView.bringSubviewToFront(pause)
         
         let triangleViewTR = UIView()
         triangleViewTR.frame = CGRect(x: screen.width / 2, y: screen.height / 2, width: 50, height: 50)
@@ -415,8 +414,6 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate {
         pause.addTarget(self, action: #selector(ViewController.pauseGame), forControlEvents: .TouchDown)
         
         playerTWOOOOOOKick.addTarget(self, action: #selector(ViewController.playerTwoKickBall), forControlEvents: .TouchDown)
-        
-        //here
         
         animator = UIDynamicAnimator(referenceView: view)
 
@@ -543,46 +540,13 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate {
         
         self.navigationController?.navigationBarHidden = false
         
-        //here
-            resume.hidden = false
-            
-            secondBehavior.resistance = 10000000
-            playerBehavior.resistance = 10000000
-            ballBehavior.resistance = 10000000
-            
-            animator.updateItemUsingCurrentState(secondPlayer)
-            animator.updateItemUsingCurrentState(plays)
-            animator.updateItemUsingCurrentState(bals)
-            
-            
-            resume.frame = CGRect(x: screen.width / 2, y: screen.height / 2, width: 100, height: 50)
-            resume.setTitle("Resume", forState: .Normal)
-            resume.setTitleColor(.blackColor(), forState: .Normal)
-            
-            view.addSubview(resume)
-            
-        
-            //here
-            
             pauseIndex = 1
         } else {
             self.navigationController?.navigationBarHidden = true
             
-            resumeGame()
-            
-            resume.hidden = true
-            
             pauseIndex = 0
             
         }
-    }
-    
-    func resumeGame(){
-        
-        secondBehavior.resistance = 5.0
-        playerBehavior.resistance = 5.0
-        ballBehavior.resistance = 0.0
-        
     }
     
     func startGame() {
@@ -599,27 +563,15 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate {
         
         aiBehavior.resistance = 5.0
         
-        
-            secondPlayer.frame = CGRect(x: screen.width / 2, y: screen.height / 5, width: 50, height: 50)
-            
-            secondBehavior.resistance = 5.0
-            
-            animator.updateItemUsingCurrentState(secondPlayer)
-            
-    
-        
         animator.updateItemUsingCurrentState(bals)
         animator.updateItemUsingCurrentState(plays)
         animator.updateItemUsingCurrentState(aiBall)
-        
         
 
         
     }
     
     func beginGame(){
-        
-        topView.bringSubviewToFront(pause)
         
         
         start.setTitle("Start", forState: .Normal)
@@ -638,18 +590,13 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate {
         
         plays.center = CGPoint(x: screen.width / 2, y: bals.center.y + 250)
         
+        //idea - have the distance between the ball and two players be a static number
+        
         playerBehavior.resistance = 100000000
         
         aiBehavior.resistance = 10000000
         
         aiBall.center = CGPoint(x: screen.width / 2, y: bals.center.y - 250)
-        
-            secondPlayer.frame = CGRect(x: screen.width / 2, y: screen.height / 5, width: 50, height: 50)
-            
-            secondBehavior.resistance = 10000000
-            
-            animator.updateItemUsingCurrentState(secondPlayer)
-        
         
         animator.updateItemUsingCurrentState(bals)
         animator.updateItemUsingCurrentState(plays)
@@ -713,8 +660,6 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate {
     
     func scored(){
         
-        topView.bringSubviewToFront(pause)
-        
         start.setTitle("Start", forState: .Normal)
         
         start.setTitleColor(.redColor(), forState: .Normal)
@@ -738,12 +683,6 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate {
         aiBall.center = CGPoint(x: screen.width / 2, y: bals.center.y - 250)
         
         aiBehavior.resistance = 10000000
-        
-        secondPlayer.frame = CGRect(x: screen.width / 2, y: screen.height / 5, width: 50, height: 50)
-        
-        secondBehavior.resistance = 10000000
-        
-        animator.updateItemUsingCurrentState(secondPlayer)
         
         animator.updateItemUsingCurrentState(bals)
         animator.updateItemUsingCurrentState(plays)
