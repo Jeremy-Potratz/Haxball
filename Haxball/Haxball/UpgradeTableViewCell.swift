@@ -9,10 +9,11 @@
 
 import UIKit
 
-class SpeedTableViewCell: UITableViewCell {
+class UpgradeTableViewCell: UITableViewCell {
     
-    var SpeedArray = [1,2,3,4,5,6,7,8,9,10]
-
+    @IBOutlet weak var nameLabel: UILabel!
+    @IBOutlet weak var tierLabel: UILabel!
+    @IBOutlet weak var costLabel: UILabel!
 
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -25,4 +26,13 @@ class SpeedTableViewCell: UITableViewCell {
         // Configure the view for the selected state
     }
 
+    @IBAction func upgrade(sender: AnyObject) {
+    }
+    
+//    init(name: String, cost : Int){
+//        self.nameLabel.text = name
+//        self.tierLabel.text = "0"
+//        self.costLabel.text = String(cost)
+//    }
+    
 }
