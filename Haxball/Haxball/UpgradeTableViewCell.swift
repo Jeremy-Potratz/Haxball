@@ -15,12 +15,12 @@ class UpgradeTableViewCell: UITableViewCell {
     @IBOutlet weak var upgradeLabel: UILabel!
     @IBOutlet weak var tierLabel: UILabel!
 
-    override init(name: String, cost: Int){
-        //initialize
-        self.costLabel.text = String(cost)
-        self.tierLabel.text = "1"
-        self.upgradeLabel.text = name
-    }
+//    override init(name: String, cost: Int){
+//        //initialize
+//        self.costLabel.text = String(cost)
+//        self.tierLabel.text = "1"
+//        self.upgradeLabel.text = name
+//    }
     
     override func awakeFromNib() {
         super.awakeFromNib()

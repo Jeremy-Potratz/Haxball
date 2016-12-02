@@ -63,6 +63,7 @@ class subView : UIView{
 
 class ViewController: UIViewController, UICollisionBehaviorDelegate {
     
+    var hi : [String] = []
     
     var data = [NSManagedObject]()
     
@@ -358,21 +359,18 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        
 //        thatYoungCoinRating = Coins.fetchCoins("coinNumber").valueForKey("coinNumber")
         
-        Coins.addCoins(3)
-        
-        print(Coins.fetchCoins("coinNumber"))
-        
-        pause.frame = CGRect(x: 31, y: 311, width: 50, height: 50)
+        pause.frame = CGRect(x: topRCorner.center.x, y: topRCorner.center.y, width: 75, height: 50)
         
         pause.setTitle("Pause", forState: .Normal)
         
         pause.setTitleColor(.redColor(), forState: .Normal)
         
         
-        topView.addSubview(pause)
-        topView.bringSubviewToFront(pause)
+        topRCorner.addSubview(pause)
+        topRCorner.bringSubviewToFront(pause)
         
         let triangleViewTR = UIView()
         triangleViewTR.frame = CGRect(x: screen.width / 2, y: screen.height / 2, width: 50, height: 50)
@@ -531,13 +529,31 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate {
         
     }
     
+    
     func pauseGame(){
         
-        print("boi")
-        
         if pauseIndex == 0{
-            print("hello")
+            
+            ballBehavior.resistance = 10000000
+            playerBehavior.resistance = 100000000
+            secondBehavior.resistance = 1000000000
+            aiBehavior.resistance = 1000000000
+            
+            animator.updateItemUsingCurrentState(bals)
+            animator.updateItemUsingCurrentState(plays)
+            animator.updateItemUsingCurrentState(aiBall)
+            animator.updateItemUsingCurrentState(secondPlayer)
         
+            
+            view.addSubview(pause)
+            view.bringSubviewToFront(pause)
+            
+            pause.center = CGPoint(x: screen.width / 2, y: screen.height / 2)
+            pause.setTitle("Resume", forState: .Normal)
+            pause.setTitleColor(.greenColor(), forState: .Normal)
+
+            
+            
         self.navigationController?.navigationBarHidden = false
         
             pauseIndex = 1
@@ -546,12 +562,29 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate {
             
             pauseIndex = 0
             
+            pause.center = CGPoint(x: topRCorner.center.x ,y: topRCorner.center.y)
+            pause.setTitle("Pause", forState: .Normal)
+            pause.setTitleColor(.redColor(), forState: .Normal)
+            
+            ballBehavior.resistance = 0.0
+            playerBehavior.resistance = 5.0
+            secondBehavior.resistance = 5.0
+            aiBehavior.resistance = 0.0
+            
+            animator.updateItemUsingCurrentState(bals)
+            animator.updateItemUsingCurrentState(plays)
+            animator.updateItemUsingCurrentState(aiBall)
+            animator.updateItemUsingCurrentState(secondPlayer)
+            
+
         }
     }
     
     func startGame() {
         
         bals.center = CGPoint(x: screen.width / 2, y: screen.height / 2)
+        
+        secondPlayer.frame = CGRect(x: screen.width / 2, y: screen.height / 5, width: 50, height: 50)
         
         start.hidden = true
         
@@ -561,10 +594,13 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate {
         
         playerBehavior.resistance = 5.0
         
+        secondBehavior.resistance = 5.0
+        
         aiBehavior.resistance = 5.0
         
         animator.updateItemUsingCurrentState(bals)
         animator.updateItemUsingCurrentState(plays)
+        animator.updateItemUsingCurrentState(secondPlayer)
         animator.updateItemUsingCurrentState(aiBall)
         
 
@@ -586,7 +622,11 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate {
         
         bals.center = CGPoint(x: screen.width / 2, y: screen.height / 2)
         
+        secondPlayer.frame = CGRect(x: screen.width / 2, y: screen.height / 5, width: 50, height: 50)
+        
         ballBehavior.resistance = 10000000
+        
+        secondBehavior.resistance = 1000000
         
         plays.center = CGPoint(x: screen.width / 2, y: bals.center.y + 250)
         
@@ -600,6 +640,7 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate {
         
         animator.updateItemUsingCurrentState(bals)
         animator.updateItemUsingCurrentState(plays)
+        animator.updateItemUsingCurrentState(secondPlayer)
         animator.updateItemUsingCurrentState(aiBall)
         
     }
@@ -672,6 +713,10 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate {
         
         bals.center = CGPoint(x: screen.width / 2, y: screen.height / 2)
         
+        secondPlayer.frame = CGRect(x: screen.width / 2, y: screen.height / 5, width: 50, height: 50)
+
+        secondBehavior.resistance = 10000000
+        
         ballBehavior.resistance = 10000000
         
 //        pushBehavior.active = false
@@ -686,6 +731,7 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate {
         
         animator.updateItemUsingCurrentState(bals)
         animator.updateItemUsingCurrentState(plays)
+        animator.updateItemUsingCurrentState(secondPlayer)
         animator.updateItemUsingCurrentState(aiBall)
         
 }
@@ -699,6 +745,20 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate {
             scored()
             scoreOne += 1
             player1Label.text = "Score: \(scoreOne)"
+            runningCoin += 1
+            
+            fetchCoin()
+            
+            if hi.count == 0{
+                Coins.addCoins(1)
+                print("added players coins")
+            }else{
+                batchUpdate()
+                
+                print(runningCoin)
+                print(hi)
+            }
+            
         }
         if first == bals && second == bottom{
             scored()
@@ -761,11 +821,6 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate {
         
         let fetchRequest = NSFetchRequest(entityName: "Coins")
         
-        let sortDescriptor = NSSortDescriptor(key: "", ascending: true)
-        
-        fetchRequest.sortDescriptors = [sortDescriptor]
-        
-        
         if let fetchResults = (try? managedContext.executeFetchRequest(fetchRequest)) as? [Coins] {
             data = fetchResults
         }
@@ -776,20 +831,40 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate {
                 
                 thatYoungCoinRating = String(result.valueForKey("coinNumber"))
                 
-                
+                hi.append(String(result.valueForKey("coinNumber")))
             }
         }
         else {
-            print("No data")
         }
-        
-        runningCoin = Int(thatYoungCoinRating)! + scoreOne
-        
         
     }
     
-    
-    
+    func batchUpdate(){
+        
+        let moc = (UIApplication.sharedApplication().delegate as! AppDelegate).managedObjectContext
+        let batchRequest = NSBatchUpdateRequest(entityName: "Coins")
+        //need to add to the fetch not update like this cause it resets.
+        batchRequest.propertiesToUpdate = [ "coinNumber" : "\(runningCoin)" ]
+        batchRequest.resultType = .UpdatedObjectIDsResultType
+        
+        do {
+            let objectIDs = try moc.executeRequest(batchRequest) as! NSBatchUpdateResult
+            let objects = objectIDs.result as! [NSManagedObjectID]
+            
+            objects.forEach({objID in
+            
+                let managedObject = moc.objectWithID(objID)
+                moc.refreshObject(managedObject, mergeChanges: false)
+            
+            })
+            
+        }
+        catch{
+            
+        }
+        
+        
+    }
     
     
 }

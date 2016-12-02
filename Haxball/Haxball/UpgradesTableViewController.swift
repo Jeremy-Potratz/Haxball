@@ -10,11 +10,11 @@ import UIKit
 
 class UpgradesTableViewController: UITableViewController {
 
-    let cells : [UpgradeTableViewCell] = []
+    var cells : [UpgradeTableViewCell] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        cells.append(UpgradeTableViewCell(name: "Speed", cost: 5))
+//        cells.append(UpgradeTableViewCell(name: "Speed", cost: 5))
     }
 
     override func didReceiveMemoryWarning() {
@@ -40,7 +40,7 @@ class UpgradesTableViewController: UITableViewController {
 
         // Configure the cell...
         cell.upgradeLabel.text = cells[indexPath.row].upgradeLabel.text
-        cell.
+//        cell.
         return cell
     }
  

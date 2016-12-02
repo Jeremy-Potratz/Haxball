@@ -31,7 +31,6 @@ class Coins: NSManagedObject {
         
     }
     
-    
     class func fetchCoins(sortDescriptorre: String) -> [NSManagedObject]{
         
         
@@ -66,5 +65,33 @@ class Coins: NSManagedObject {
         
         }
 
+    class func nuke(){
+        
+        let moc = (UIApplication.sharedApplication().delegate as! AppDelegate).managedObjectContext
+        
+        let fetchRequest = NSFetchRequest(entityName: String(Coins))
+        
+        var stats = [Coins]()
+        
+        do {
+            stats = try moc.executeFetchRequest(fetchRequest) as! [Coins]
+        }catch{
+            //error
+            print("error")
+        }
+        
+        for stat in stats{
+            moc.deleteObject(stat)
+        }
+        
+        do{
+            try moc.save()
+            
+        }catch {
+            //error
+        }
+        
+        
+    }
     
 }
