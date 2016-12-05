@@ -10,11 +10,11 @@ import UIKit
 
 class UpgradesTableViewController: UITableViewController {
 
-    var cells : [UpgradeTableViewCell] = []
+    var cells : [Upgrade] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
-//        cells.append(UpgradeTableViewCell(name: "Speed", cost: 5))
+        cells.append(Upgrade(name: "Speed", cost: 5))
     }
 
     override func didReceiveMemoryWarning() {
@@ -39,8 +39,9 @@ class UpgradesTableViewController: UITableViewController {
         let cell = tableView.dequeueReusableCellWithIdentifier("upgradeCell", forIndexPath: indexPath) as! UpgradeTableViewCell
 
         // Configure the cell...
-        cell.upgradeLabel.text = cells[indexPath.row].upgradeLabel.text
-//        cell.
+        cell.nameLabel.text = cells[indexPath.row].name
+        cell.tierLabel.text = String(cells[indexPath.row].tier)
+        cell.costLabel.text = String(cells[indexPath.row].cost)
         return cell
     }
  

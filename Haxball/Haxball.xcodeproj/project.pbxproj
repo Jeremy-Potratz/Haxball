@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		01CC95874F3CD5CE64FACCB4 /* Pods_Haxball.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A93A56AD43C7EDA8FF4B95DC /* Pods_Haxball.framework */; };
+		104AC7A81DF5F54E005CA59F /* Upgrade.swift in Sources */ = {isa = PBXBuildFile; fileRef = 104AC7A71DF5F54E005CA59F /* Upgrade.swift */; };
 		1076E0901DC916CB00F9DCB0 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1076E08F1DC916CB00F9DCB0 /* AppDelegate.swift */; };
 		1076E0921DC916CB00F9DCB0 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1076E0911DC916CB00F9DCB0 /* ViewController.swift */; };
 		1076E0951DC916CB00F9DCB0 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1076E0931DC916CB00F9DCB0 /* Main.storyboard */; };
@@ -49,6 +50,7 @@
 
 /* Begin PBXFileReference section */
 		0C9E61B54DEB0C6285541391 /* Pods-Haxball.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Haxball.release.xcconfig"; path = "Pods/Target Support Files/Pods-Haxball/Pods-Haxball.release.xcconfig"; sourceTree = "<group>"; };
+		104AC7A71DF5F54E005CA59F /* Upgrade.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Upgrade.swift; sourceTree = "<group>"; };
 		1076E08C1DC916CB00F9DCB0 /* Haxball.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Haxball.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1076E08F1DC916CB00F9DCB0 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		1076E0911DC916CB00F9DCB0 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -149,6 +151,7 @@
 				1092986B1DE3843E00C07853 /* UpgradeTableViewCell.swift */,
 				1092986F1DE384ED00C07853 /* BallTableViewCell.swift */,
 				109298651DE3837000C07853 /* UpgradesTableViewController.swift */,
+				104AC7A71DF5F54E005CA59F /* Upgrade.swift */,
 				1076E0991DC916CB00F9DCB0 /* Assets.xcassets */,
 				1076E09B1DC916CB00F9DCB0 /* LaunchScreen.storyboard */,
 				1076E09E1DC916CB00F9DCB0 /* Info.plist */,
@@ -465,6 +468,7 @@
 				5F7EB9201DDBFA0E007163DF /* aiBallStyle.swift in Sources */,
 				5FC5973B1DDE7CE4005DBF14 /* Coins.swift in Sources */,
 				5FC5973A1DDE7CE4005DBF14 /* Coins+CoreDataProperties.swift in Sources */,
+				104AC7A81DF5F54E005CA59F /* Upgrade.swift in Sources */,
 				109298781DE385F100C07853 /* backGroundCell.swift in Sources */,
 				1076E0981DC916CB00F9DCB0 /* Haxball.xcdatamodeld in Sources */,
 				1076E0921DC916CB00F9DCB0 /* ViewController.swift in Sources */,

@@ -36,17 +36,17 @@ class MainMenuViewController: UIViewController {
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         // Get the new view controller using segue.destinationViewController.
         // Pass the selected object to the new view controller.
-        let dest = segue.destinationViewController as! ViewController
+        let dest = segue.destinationViewController as? ViewController
         if segue.identifier == "startGame"{
             print("Seguing")
             //Set gamemode
             if difficultySelector.selectedSegmentIndex == 0{
                 print("AIing")
-                dest.mode = "ai"
+                dest!.mode = "ai"
             }
             else if difficultySelector.selectedSegmentIndex == 1{
                 print("2ing")
-                dest.mode = "twoPlayers"
+                dest!.mode = "twoPlayers"
                 print("22ing")
             }
         }

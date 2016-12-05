@@ -11,16 +11,12 @@ import UIKit
 
 class UpgradeTableViewCell: UITableViewCell {
     
-    @IBOutlet weak var costLabel: UILabel!
-    @IBOutlet weak var upgradeLabel: UILabel!
+    
+    @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var tierLabel: UILabel!
+    @IBOutlet weak var costLabel: UILabel!
+    
 
-//    override init(name: String, cost: Int){
-//        //initialize
-//        self.costLabel.text = String(cost)
-//        self.tierLabel.text = "1"
-//        self.upgradeLabel.text = name
-//    }
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -33,6 +29,6 @@ class UpgradeTableViewCell: UITableViewCell {
         // Configure the view for the selected state
     }
 
-    @IBAction func upgrade(sender: AnyObject) {
-    }
+
+    
 }
