@@ -10,6 +10,8 @@ import UIKit
 import CDJoystick
 import CoreData
 import AudioToolbox
+import AVKit
+import AVFoundation
 //a
 class subView : UIView{
     internal var vector : CGVector = .zero
@@ -136,6 +138,8 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate {
     var pause = UIButton()
     
     var totalCoin = ""
+    
+    var audioPlayer = AVAudioPlayer()
     
 //    override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
 //        var location = touches.first?.locationInView(view)
@@ -354,8 +358,28 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+//        print(alertSound)
+//        
+//        // Removed deprecated use of AVAudioSessionDelegate protocol
+//        AVAudioSession.sharedInstance().setCategory(AVAudioSessionCategoryPlayback, withOptions: nil)
+//        AVAudioSession.sharedInstance().setActive(true, error: nil)
+//        
+//        
+//        var error:NSError?
+//        audioPlayer = AVAudioPlayer(contentsOfURL: alertSound, error: &error)
+//        audioPlayer.prepareToPlay()
+//        audioPlayer.play()
         
-//        totalCoin = Coins.fetchCoins("coinNumber").valueForKey("coinNumber")
+        let path = NSBundle.mainBundle().pathForResource("Seagulls.mp3", ofType: nil)
+        let url = NSURL(fileURLWithPath: path!)
+        
+        
+        do {
+            let sound = try AVAudioPlayer(contentsOfURL: url)
+            sound.play()
+        } catch {
+            // couldn't load file :(
+        }
         
         pause.frame = CGRect(x: topRCorner.center.x, y: topRCorner.center.y, width: 75, height: 50)
         
@@ -733,20 +757,67 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate {
     
     func endGame(winner : String){
         
-        let alert = UIAlertController(title: "\(winner) Won!", message: "", preferredStyle: .Alert)
-        alert.addAction(UIAlertAction(title: "Ok!", style: .Cancel, handler: { (UIAlertAction) -> Void in
-            ""
-        }))
+        let alertController = UIAlertController(title: "\(winner) won! Congragulations!", message: "", preferredStyle: .Alert)
         
+        let cancelAction = UIAlertAction(title: "Cancel", style: .Cancel) { (action) in
+            // ...
+        }
+        alertController.addAction(cancelAction)
+        
+        let OKAction = UIAlertAction(title: "OK", style: .Default) { (action) in
+            // ...
+        }
+        alertController.addAction(OKAction)
+        
+        self.presentViewController(alertController, animated: true) {
+            // ...
+        }
+        
+        
+        start.setTitle("Start", forState: .Normal)
+        
+        start.setTitleColor(.redColor(), forState: .Normal)
+        
+        start.frame = CGRect(x: screen.width / 2, y: screen.width / 2, width: 50, height: 50)
+        
+        view.addSubview(start)
+        
+        start.hidden = false
+        
+        ballView.center = CGPoint(x: screen.width / 2, y: screen.height / 2)
+        
+        secondPlayer.frame = CGRect(x: screen.width / 2, y: screen.height / 5, width: 50, height: 50)
+        
+        secondBehavior.resistance = 10000000
+        
+        ballBehavior.resistance = 10000000
+        
+        firstPlayer.center = CGPoint(x: screen.width / 2, y: ballView.center.y + 250)
+        
+        playerBehavior.resistance = 10000000
+        
+        aiBall.center = CGPoint(x: screen.width / 2, y: ballView.center.y - 250)
+        
+        aiBehavior.resistance = 10000000
+        
+        animator.updateItemUsingCurrentState(ballView)
+        animator.updateItemUsingCurrentState(firstPlayer)
+        animator.updateItemUsingCurrentState(secondPlayer)
+        animator.updateItemUsingCurrentState(aiBall)
+        
+        
+        
+        batchUpdate(Int(totalCoin)! + 5)
         
     }
+    
     
     func collisionBehavior(behavior: UICollisionBehavior, beganContactForItem item1: UIDynamicItem, withItem item2: UIDynamicItem, atPoint p: CGPoint)
     {
         let first = item1 as! UIView
         let second = item2 as! UIView
         
-        AudioServicesPlayAlertSound(SystemSoundID(kSystemSoundID_Vibrate))
+//        AudioServicesPlayAlertSound(SystemSoundID(kSystemSoundID_Vibrate))
         
         if first == ballView && second == top{
             scored()
@@ -757,13 +828,22 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate {
             
             if checkFetchArray.count == 0{
                 Coins.addCoins(1)
+                totalCoin = "0"
                 print("added players coins")
             }else{
-                batchUpdate()
+                batchUpdate(Int(totalCoin)! + 1)
+                print(totalCoin)
             }
             
             if scoreOne == scoreLimit {
                 // end game
+                endGame("Player One")
+                scoreOne = 0
+                scoreTwo = 0
+                player1Label.text = "Score: \(scoreOne)"
+                player2Label.text = "Score: \(scoreTwo)"
+
+                
             }
             
         }
@@ -774,6 +854,11 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate {
             
             if scoreTwo == scoreLimit{
                 //end game
+                endGame("Player Two")
+                scoreOne = 0
+                scoreTwo = 0
+                player1Label.text = "Score: \(scoreOne)"
+                player2Label.text = "Score: \(scoreTwo)"
             }
         }
         
@@ -850,12 +935,12 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate {
         
     }
     
-    func batchUpdate(){
+    func batchUpdate(update: Int){
         
         let moc = (UIApplication.sharedApplication().delegate as! AppDelegate).managedObjectContext
         let batchRequest = NSBatchUpdateRequest(entityName: "Coins")
         //need to add to the fetch not update like this cause it resets.
-        batchRequest.propertiesToUpdate = [ "coinNumber" : "\(Int(totalCoin)! + 1)" ]
+        batchRequest.propertiesToUpdate = [ "coinNumber" : "\(update)" ]
         batchRequest.resultType = .UpdatedObjectIDsResultType
         
         do {
