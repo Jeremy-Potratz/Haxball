@@ -63,18 +63,17 @@ class subView : UIView{
 
 class ViewController: UIViewController, UICollisionBehaviorDelegate {
     
-    var hi : [String] = []
+    var scoreLimit : Int!
+    
+    var checkFetchArray : [String] = []
     
     var data = [NSManagedObject]()
     
     let bottomView = subView()
     let topView = subView()
     
-    
-    
-    
     var aiBall = aiBallStyle()
-    var bals = ball()
+    var ballView = ball()
     var secondPlayer = player()
     
     let index = 0
@@ -111,9 +110,9 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate {
     var jsActive = false
     
     var kick = UIButton()
-    var playerTWOOOOOOKick = UIButton()
+    var secondKickButton = UIButton()
     
-    var plays = player()
+    var firstPlayer = player()
     
     var vector = CGVector()
     
@@ -135,14 +134,9 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate {
     
     var pause = UIButton()
     
-    var thatYoungCoinRating = ""
-    var runningCoin = 0
-    
-    
-    
+    var totalCoin = ""
     
 //    override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
-//        print("Began")
 //        var location = touches.first?.locationInView(view)
 //        let jsXSize = 100
 //        let jsYSize = 100
@@ -181,7 +175,7 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate {
 //        topPushBehavior.active = true
 //        self.animator?.addBehavior(topPushBehavior)
 //        
-//        let bottomPushBehavior = UIPushBehavior(items: [self.plays], mode: UIPushBehaviorMode.Instantaneous)
+//        let bottomPushBehavior = UIPushBehavior(items: [self.firstPlayer], mode: UIPushBehaviorMode.Instantaneous)
 //        bottomPushBehavior.pushDirection = bottomVector
 //        bottomPushBehavior.active = true
 //        self.animator?.addBehavior(bottomPushBehavior)
@@ -210,7 +204,7 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate {
             self.vector = CGVector(dx: joystickData.velocity.x/24 , dy: joystickData.velocity.y/24)
             if self.mode == "twoPlayers"{
                 if joystickData.firstTouch.y > self.screen.height / 2{
-                    self.pushBehavior = UIPushBehavior(items: [self.plays], mode: UIPushBehaviorMode.Instantaneous)
+                    self.pushBehavior = UIPushBehavior(items: [self.firstPlayer], mode: UIPushBehaviorMode.Instantaneous)
                     self.pushBehavior.pushDirection = self.vector
                     self.pushBehavior.active = true
                     self.animator?.addBehavior(self.pushBehavior)
@@ -223,7 +217,7 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate {
                 }
             }
             else{
-                self.pushBehavior = UIPushBehavior(items: [self.plays], mode: UIPushBehaviorMode.Instantaneous)
+                self.pushBehavior = UIPushBehavior(items: [self.firstPlayer], mode: UIPushBehaviorMode.Instantaneous)
                 self.pushBehavior.pushDirection = self.vector
                 self.pushBehavior.active = true
                 self.animator?.addBehavior(self.pushBehavior)
@@ -249,12 +243,12 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate {
         bottomView.alpha = 0.5
         
         let cornerWidth = (screen.width - 210) / 2
-        bals.frame = CGRect(x: screen.width / 2, y: screen.height / 2, width: 50, height: 50)
-        bals.tag = 333
+        ballView.frame = CGRect(x: screen.width / 2, y: screen.height / 2, width: 50, height: 50)
+        ballView.tag = 333
         secondPlayer.frame = CGRect(x: screen.width / 2, y: screen.height / 5, width: 50, height: 50)
         secondPlayer.tag = 777
-        plays.frame = CGRect(x: 100, y: 300, width: 50, height: 50)
-        plays.tag = 222
+        firstPlayer.frame = CGRect(x: 100, y: 300, width: 50, height: 50)
+        firstPlayer.tag = 222
         topLCorner.frame = CGRect(x: 0, y: 0, width: cornerWidth, height: 50)
         topRCorner.frame = CGRect(x: cornerWidth + 210, y: 0, width: cornerWidth, height: 50)
         bottomLCorner.frame = CGRect(x: 0, y: screen.height - 50, width: cornerWidth, height: 50)
@@ -289,16 +283,16 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate {
         kick.frame = CGRect(x: screen.width - 75, y: screen.height - 75, width: 50, height: 50)
         kick.setImage(UIImage(named: "grayButton.png"), forState: .Normal)
         
-        playerTWOOOOOOKick.frame = CGRect(x: 50, y: 50, width: 50, height: 50)
-        playerTWOOOOOOKick.setImage(UIImage(named: "grayButton.png"), forState: .Normal)
+        secondKickButton.frame = CGRect(x: 50, y: 50, width: 50, height: 50)
+        secondKickButton.setImage(UIImage(named: "grayButton.png"), forState: .Normal)
         
         view.addSubview(top)
-        view.addSubview(bals)
-        view.addSubview(plays)
+        view.addSubview(ballView)
+        view.addSubview(firstPlayer)
         view.addSubview(topRCorner)
         view.addSubview(topLCorner)
         view.addSubview(kick)
-        view.addSubview(playerTWOOOOOOKick)
+        view.addSubview(secondKickButton)
         view.addSubview(bottomLCorner)
         view.addSubview(bottomRCorner)
         view.addSubview(bottom)
@@ -329,8 +323,8 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate {
         let dist = distanceBetween(ball.center, pointTwo: player.center)
         
         if dist <= 70 {
-            let postCollisionDirection = UIDynamicItemBehavior(items: [bals])
-            postCollisionDirection.addLinearVelocity(CGPoint(x: 6*(bals.center.x - plays.center.x), y: 6*(bals.center.y - plays.center.y)), forItem: bals)
+            let postCollisionDirection = UIDynamicItemBehavior(items: [ballView])
+            postCollisionDirection.addLinearVelocity(CGPoint(x: 6*(ballView.center.x - firstPlayer.center.x), y: 6*(ballView.center.y - firstPlayer.center.y)), forItem: ballView)
             animator?.addBehavior(postCollisionDirection)
             
         }
@@ -345,8 +339,8 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate {
         let dist = distanceBetween(ball.center, pointTwo: player.center)
         
         if dist <= 70 {
-            let postCollisionDirection = UIDynamicItemBehavior(items: [bals])
-            postCollisionDirection.addLinearVelocity(CGPoint(x: 6*(bals.center.x - secondPlayer.center.x), y: 6*(bals.center.y - secondPlayer.center.y)), forItem: bals)
+            let postCollisionDirection = UIDynamicItemBehavior(items: [ballView])
+            postCollisionDirection.addLinearVelocity(CGPoint(x: 6*(ballView.center.x - secondPlayer.center.x), y: 6*(ballView.center.y - secondPlayer.center.y)), forItem: ballView)
             animator?.addBehavior(postCollisionDirection)
             
         }
@@ -360,7 +354,7 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate {
         super.viewDidLoad()
         
         
-//        thatYoungCoinRating = Coins.fetchCoins("coinNumber").valueForKey("coinNumber")
+//        totalCoin = Coins.fetchCoins("coinNumber").valueForKey("coinNumber")
         
         pause.frame = CGRect(x: topRCorner.center.x, y: topRCorner.center.y, width: 75, height: 50)
         
@@ -411,15 +405,15 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate {
         //#selector(ViewController.pauseGame)
         pause.addTarget(self, action: #selector(ViewController.pauseGame), forControlEvents: .TouchDown)
         
-        playerTWOOOOOOKick.addTarget(self, action: #selector(ViewController.playerTwoKickBall), forControlEvents: .TouchDown)
+        secondKickButton.addTarget(self, action: #selector(ViewController.playerTwoKickBall), forControlEvents: .TouchDown)
         
         animator = UIDynamicAnimator(referenceView: view)
 
         addViews()
         if self.mode == "ai"{
             startTimer()
-            playerTWOOOOOOKick.enabled = false
-            playerTWOOOOOOKick.hidden = true
+            secondKickButton.enabled = false
+            secondKickButton.hidden = true
         }
         startTimer()
         
@@ -475,7 +469,7 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate {
         cornerBehavior.anchored = true
         animator?.addBehavior(cornerBehavior)
         
-        ballBehavior = UIDynamicItemBehavior(items: [bals])
+        ballBehavior = UIDynamicItemBehavior(items: [ballView])
         ballBehavior.allowsRotation = false
         ballBehavior.elasticity = 0.40
         ballBehavior.friction = 0.00
@@ -483,7 +477,7 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate {
         ballBehavior.density = 0.05
         animator?.addBehavior(ballBehavior)
         
-        playerBehavior = UIDynamicItemBehavior(items: [plays])
+        playerBehavior = UIDynamicItemBehavior(items: [firstPlayer])
         playerBehavior.allowsRotation = false
         playerBehavior.elasticity = 0.40
         playerBehavior.friction = 0.0
@@ -497,7 +491,7 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate {
         boundBehavior.anchored = true
         animator?.addBehavior(boundBehavior)
         
-        collision = UICollisionBehavior(items: [bals, plays, topLCorner, topRCorner, bottomLCorner, bottomRCorner, bottom, top, triangleViewTL, triangleViewTR, triangleViewBL, triangleViewBR])
+        collision = UICollisionBehavior(items: [ballView, firstPlayer, topLCorner, topRCorner, bottomLCorner, bottomRCorner, bottom, top, triangleViewTL, triangleViewTR, triangleViewBL, triangleViewBR])
         collision.collisionMode = UICollisionBehaviorMode.Everything
         collision.translatesReferenceBoundsIntoBoundary = true
         
@@ -510,7 +504,7 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate {
         
         animator.addBehavior(collision)
         
-        goalCollision = UICollisionBehavior(items: [plays, bottomGoal, topGoal])
+        goalCollision = UICollisionBehavior(items: [firstPlayer, bottomGoal, topGoal])
         goalCollision.collisionMode = UICollisionBehaviorMode.Everything
         goalCollision.translatesReferenceBoundsIntoBoundary = true
         if self.mode == "ai"{
@@ -539,8 +533,8 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate {
             secondBehavior.resistance = 1000000000
             aiBehavior.resistance = 1000000000
             
-            animator.updateItemUsingCurrentState(bals)
-            animator.updateItemUsingCurrentState(plays)
+            animator.updateItemUsingCurrentState(ballView)
+            animator.updateItemUsingCurrentState(firstPlayer)
             animator.updateItemUsingCurrentState(aiBall)
             animator.updateItemUsingCurrentState(secondPlayer)
         
@@ -571,8 +565,8 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate {
             secondBehavior.resistance = 5.0
             aiBehavior.resistance = 0.0
             
-            animator.updateItemUsingCurrentState(bals)
-            animator.updateItemUsingCurrentState(plays)
+            animator.updateItemUsingCurrentState(ballView)
+            animator.updateItemUsingCurrentState(firstPlayer)
             animator.updateItemUsingCurrentState(aiBall)
             animator.updateItemUsingCurrentState(secondPlayer)
             
@@ -582,7 +576,7 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate {
     
     func startGame() {
         
-        bals.center = CGPoint(x: screen.width / 2, y: screen.height / 2)
+        ballView.center = CGPoint(x: screen.width / 2, y: screen.height / 2)
         
         secondPlayer.frame = CGRect(x: screen.width / 2, y: screen.height / 5, width: 50, height: 50)
         
@@ -598,8 +592,8 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate {
         
         aiBehavior.resistance = 5.0
         
-        animator.updateItemUsingCurrentState(bals)
-        animator.updateItemUsingCurrentState(plays)
+        animator.updateItemUsingCurrentState(ballView)
+        animator.updateItemUsingCurrentState(firstPlayer)
         animator.updateItemUsingCurrentState(secondPlayer)
         animator.updateItemUsingCurrentState(aiBall)
         
@@ -620,7 +614,7 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate {
         
         start.hidden = false
         
-        bals.center = CGPoint(x: screen.width / 2, y: screen.height / 2)
+        ballView.center = CGPoint(x: screen.width / 2, y: screen.height / 2)
         
         secondPlayer.frame = CGRect(x: screen.width / 2, y: screen.height / 5, width: 50, height: 50)
         
@@ -628,7 +622,7 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate {
         
         secondBehavior.resistance = 1000000
         
-        plays.center = CGPoint(x: screen.width / 2, y: bals.center.y + 250)
+        firstPlayer.center = CGPoint(x: screen.width / 2, y: ballView.center.y + 250)
         
         //idea - have the distance between the ball and two players be a static number
         
@@ -636,10 +630,10 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate {
         
         aiBehavior.resistance = 10000000
         
-        aiBall.center = CGPoint(x: screen.width / 2, y: bals.center.y - 250)
+        aiBall.center = CGPoint(x: screen.width / 2, y: ballView.center.y - 250)
         
-        animator.updateItemUsingCurrentState(bals)
-        animator.updateItemUsingCurrentState(plays)
+        animator.updateItemUsingCurrentState(ballView)
+        animator.updateItemUsingCurrentState(firstPlayer)
         animator.updateItemUsingCurrentState(secondPlayer)
         animator.updateItemUsingCurrentState(aiBall)
         
@@ -656,7 +650,7 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate {
     
     func onTick(){
         if self.mode == "ai"{
-            let playerPush = UIPushBehavior(items: [plays], mode: .Instantaneous)
+            let playerPush = UIPushBehavior(items: [firstPlayer], mode: .Instantaneous)
             if topView.vector != .zero{
                 playerPush.pushDirection = topView.vector
             }
@@ -669,8 +663,8 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate {
             xdiff = Int(arc4random_uniform(151)) - 75
             ydiff = Int(arc4random_uniform(151)) - 75
             
-            let newX = Int(bals.center.x) + xdiff
-            let newY = Int(bals.center.y) + ydiff
+            let newX = Int(ballView.center.x) + xdiff
+            let newY = Int(ballView.center.y) + ydiff
             
             let velX = newX - Int(aiBall.center.x)
             let velY = newY - Int(aiBall.center.y)
@@ -692,7 +686,7 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate {
             topPush.active = true
             self.animator?.addBehavior(topPush)
             
-            let bottomPush = UIPushBehavior(items: [plays], mode: .Instantaneous)
+            let bottomPush = UIPushBehavior(items: [firstPlayer], mode: .Instantaneous)
             bottomPush.pushDirection = bottomView.vector
             bottomPush.active = true
             self.animator?.addBehavior(bottomPush)
@@ -711,7 +705,7 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate {
         
         start.hidden = false
         
-        bals.center = CGPoint(x: screen.width / 2, y: screen.height / 2)
+        ballView.center = CGPoint(x: screen.width / 2, y: screen.height / 2)
         
         secondPlayer.frame = CGRect(x: screen.width / 2, y: screen.height / 5, width: 50, height: 50)
 
@@ -721,56 +715,70 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate {
         
 //        pushBehavior.active = false
         
-        plays.center = CGPoint(x: screen.width / 2, y: bals.center.y + 250)
+        firstPlayer.center = CGPoint(x: screen.width / 2, y: ballView.center.y + 250)
         
         playerBehavior.resistance = 10000000
         
-        aiBall.center = CGPoint(x: screen.width / 2, y: bals.center.y - 250)
+        aiBall.center = CGPoint(x: screen.width / 2, y: ballView.center.y - 250)
         
         aiBehavior.resistance = 10000000
         
-        animator.updateItemUsingCurrentState(bals)
-        animator.updateItemUsingCurrentState(plays)
+        animator.updateItemUsingCurrentState(ballView)
+        animator.updateItemUsingCurrentState(firstPlayer)
         animator.updateItemUsingCurrentState(secondPlayer)
         animator.updateItemUsingCurrentState(aiBall)
         
 }
+    
+    func endGame(winner : String){
+        
+        let alert = UIAlertController(title: "\(winner) Won!", message: "", preferredStyle: .Alert)
+        alert.addAction(UIAlertAction(title: "Ok!", style: .Cancel, handler: { (UIAlertAction) -> Void in
+            ""
+        }))
+        
+        
+    }
     
     func collisionBehavior(behavior: UICollisionBehavior, beganContactForItem item1: UIDynamicItem, withItem item2: UIDynamicItem, atPoint p: CGPoint)
     {
         let first = item1 as! UIView
         let second = item2 as! UIView
         
-        if first == bals && second == top{
+        if first == ballView && second == top{
             scored()
             scoreOne += 1
             player1Label.text = "Score: \(scoreOne)"
-            runningCoin += 1
             
             fetchCoin()
             
-            if hi.count == 0{
+            if checkFetchArray.count == 0{
                 Coins.addCoins(1)
                 print("added players coins")
             }else{
                 batchUpdate()
-                
-                print(runningCoin)
-                print(hi)
+            }
+            
+            if scoreOne == scoreLimit {
+                // end game
             }
             
         }
-        if first == bals && second == bottom{
+        if first == ballView && second == bottom{
             scored()
             scoreTwo += 1
             player2Label.text = "Score: \(scoreTwo)"
+            
+            if scoreTwo == scoreLimit{
+                //end game
+            }
         }
         
-        if first.isEqual(aiBall) && second.isEqual(bals){
+        if first.isEqual(aiBall) && second.isEqual(ballView){
             
             
-            let xCreate = Int(bals.center.x) + xdiff
-            let yCreate = Int(bals.center.x) + ydiff
+            let xCreate = Int(ballView.center.x) + xdiff
+            let yCreate = Int(ballView.center.x) + ydiff
             
             let xAI = Int(aiBall.center.x)
             let yAI = Int(aiBall.center.y)
@@ -787,8 +795,8 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate {
                 // defense
                 if numb <= Dnumber{
                     
-                    let aiKick = UIDynamicItemBehavior(items: [bals])
-                    aiKick.addLinearVelocity(CGPoint(x: slopex,y: slopey), forItem: bals)
+                    let aiKick = UIDynamicItemBehavior(items: [ballView])
+                    aiKick.addLinearVelocity(CGPoint(x: slopex,y: slopey), forItem: ballView)
                     animator?.addBehavior(aiKick)
                 }
             }
@@ -796,8 +804,8 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate {
                 //midfield
                 if numb <= Mnumber{
                     
-                    let aiMidKick = UIDynamicItemBehavior(items: [bals])
-                    aiMidKick.addLinearVelocity(CGPoint(x: slopex,y: slopey), forItem: bals)
+                    let aiMidKick = UIDynamicItemBehavior(items: [ballView])
+                    aiMidKick.addLinearVelocity(CGPoint(x: slopex,y: slopey), forItem: ballView)
                     animator?.addBehavior(aiMidKick)
                 }
             }
@@ -805,8 +813,8 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate {
                 // offense
                 if numb <= Onumber{
                     
-                    let aiOffKick = UIDynamicItemBehavior(items: [bals])
-                    aiOffKick.addLinearVelocity(CGPoint(x: slopex,y: slopey), forItem: bals)
+                    let aiOffKick = UIDynamicItemBehavior(items: [ballView])
+                    aiOffKick.addLinearVelocity(CGPoint(x: slopex,y: slopey), forItem: ballView)
                     animator?.addBehavior(aiOffKick)
                 }
             }
@@ -829,9 +837,9 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate {
             
             for result in data as [NSManagedObject] {
                 
-                thatYoungCoinRating = String(result.valueForKey("coinNumber"))
+                totalCoin = String(result.valueForKey("coinNumber")!)
                 
-                hi.append(String(result.valueForKey("coinNumber")))
+                checkFetchArray.append(String(result.valueForKey("coinNumber")!))
             }
         }
         else {
@@ -844,7 +852,7 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate {
         let moc = (UIApplication.sharedApplication().delegate as! AppDelegate).managedObjectContext
         let batchRequest = NSBatchUpdateRequest(entityName: "Coins")
         //need to add to the fetch not update like this cause it resets.
-        batchRequest.propertiesToUpdate = [ "coinNumber" : "\(runningCoin)" ]
+        batchRequest.propertiesToUpdate = [ "coinNumber" : "\(Int(totalCoin)! + 1)" ]
         batchRequest.resultType = .UpdatedObjectIDsResultType
         
         do {
