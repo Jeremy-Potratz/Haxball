@@ -9,6 +9,7 @@
 import UIKit
 import CDJoystick
 import CoreData
+import AudioToolbox
 //a
 class subView : UIView{
     internal var vector : CGVector = .zero
@@ -744,6 +745,8 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate {
     {
         let first = item1 as! UIView
         let second = item2 as! UIView
+        
+        AudioServicesPlayAlertSound(SystemSoundID(kSystemSoundID_Vibrate))
         
         if first == ballView && second == top{
             scored()
