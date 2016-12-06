@@ -358,27 +358,13 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-//        print(alertSound)
-//        
-//        // Removed deprecated use of AVAudioSessionDelegate protocol
-//        AVAudioSession.sharedInstance().setCategory(AVAudioSessionCategoryPlayback, withOptions: nil)
-//        AVAudioSession.sharedInstance().setActive(true, error: nil)
-//        
-//        
-//        var error:NSError?
-//        audioPlayer = AVAudioPlayer(contentsOfURL: alertSound, error: &error)
-//        audioPlayer.prepareToPlay()
-//        audioPlayer.play()
+        secondPlayer.fillColor = UIColor.purpleColor()
         
-        let path = NSBundle.mainBundle().pathForResource("Seagulls.mp3", ofType: nil)
-        let url = NSURL(fileURLWithPath: path!)
-        
-        
-        do {
-            let sound = try AVAudioPlayer(contentsOfURL: url)
-            sound.play()
-        } catch {
-            // couldn't load file :(
+        if let soundURL = NSBundle.mainBundle().URLForResource("Seagulls", withExtension: "wav") {
+            var mySound: SystemSoundID = 0
+            AudioServicesCreateSystemSoundID(soundURL, &mySound)
+            // Play
+            AudioServicesPlaySystemSound(mySound)
         }
         
         pause.frame = CGRect(x: topRCorner.center.x, y: topRCorner.center.y, width: 75, height: 50)
@@ -421,16 +407,16 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate {
         
         self.navigationController?.navigationBarHidden = true
         
-//         #selector(ViewController.startGame)
-        start.addTarget(self, action: #selector(ViewController.startGame), forControlEvents: .TouchDown)
-        
-//        #selector(ViewController.kickBall)
-        kick.addTarget(self, action: #selector(ViewController.kickBall), forControlEvents: .TouchDown)
-        
-        //#selector(ViewController.pauseGame)
-        pause.addTarget(self, action: #selector(ViewController.pauseGame), forControlEvents: .TouchDown)
-        
-        secondKickButton.addTarget(self, action: #selector(ViewController.playerTwoKickBall), forControlEvents: .TouchDown)
+////         #selector(ViewController.startGame)
+//        start.addTarget(self, action: #selector(ViewController.startGame), forControlEvents: .TouchDown)
+//        
+////        #selector(ViewController.kickBall)
+//        kick.addTarget(self, action: #selector(ViewController.kickBall), forControlEvents: .TouchDown)
+//        
+//        //#selector(ViewController.pauseGame)
+//        pause.addTarget(self, action: #selector(ViewController.pauseGame), forControlEvents: .TouchDown)
+//        
+//        secondKickButton.addTarget(self, action: #selector(ViewController.playerTwoKickBall), forControlEvents: .TouchDown)
         
         animator = UIDynamicAnimator(referenceView: view)
 

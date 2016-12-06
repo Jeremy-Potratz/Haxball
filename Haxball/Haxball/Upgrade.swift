@@ -19,3 +19,5 @@ class Upgrade: NSObject {
         self.tier = 1
     }
 }
+
+// need to add an image view to change color?

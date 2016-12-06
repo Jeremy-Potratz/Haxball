@@ -15,6 +15,7 @@ class UpgradesTableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         cells.append(Upgrade(name: "Speed", cost: 5))
+        cells.append(Upgrade(name: "Kick Power", cost: 5))
     }
 
     override func didReceiveMemoryWarning() {
