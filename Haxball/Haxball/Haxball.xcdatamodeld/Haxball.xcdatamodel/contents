@@ -1,9 +1,18 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="9525" systemVersion="14F1912" minimumToolsVersion="Automatic">
+<model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="10174" systemVersion="15G31" minimumToolsVersion="Automatic">
     <entity name="Coins" representedClassName=".Coins" syncable="YES">
         <attribute name="coinNumber" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
     </entity>
+    <entity name="UpgradesCD" representedClassName=".UpgradesCD" syncable="YES">
+        <attribute name="backGround" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="ballColor" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="ballSize" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
+        <attribute name="power" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
+        <attribute name="sandboxMode" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
+        <attribute name="speed" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
+    </entity>
     <elements>
         <element name="Coins" positionX="-63" positionY="-18" width="128" height="60"/>
+        <element name="UpgradesCD" positionX="-63" positionY="-9" width="128" height="135"/>
     </elements>
 </model>

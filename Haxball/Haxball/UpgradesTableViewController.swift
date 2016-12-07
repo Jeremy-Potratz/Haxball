@@ -7,12 +7,19 @@
 //
 
 import UIKit
+import CoreData
 
 class UpgradesTableViewController: UITableViewController {
 
     var cells : [Upgrade] = []
     
+    var checkFetch : [String] = []
+    
     override func viewDidLoad() {
+        UpgradesCD.fetchUpgrades("speed")
+        
+        
+        
         super.viewDidLoad()
         cells.append(Upgrade(name: "Speed", cost: 5, image: UIImage(named: "grayButton")!))
         cells.append(Upgrade(name: "Kick Power", cost: 5, image: UIImage(named: "grayButton")!))
