@@ -14,8 +14,8 @@ class UpgradesTableViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        cells.append(Upgrade(name: "Speed", cost: 5))
-        cells.append(Upgrade(name: "Kick Power", cost: 5))
+        cells.append(Upgrade(name: "Speed", cost: 5, image: UIImage(named: "grayButton")!))
+        cells.append(Upgrade(name: "Kick Power", cost: 5, image: UIImage(named: "grayButton")!))
     }
 
     override func didReceiveMemoryWarning() {
@@ -43,6 +43,7 @@ class UpgradesTableViewController: UITableViewController {
         cell.nameLabel.text = cells[indexPath.row].name
         cell.tierLabel.text = String(cells[indexPath.row].tier)
         cell.costLabel.text = String(cells[indexPath.row].cost)
+        cell.leImageView.image = cells[indexPath.row].image
         return cell
     }
  

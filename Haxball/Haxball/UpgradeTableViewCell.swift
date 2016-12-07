@@ -15,6 +15,7 @@ class UpgradeTableViewCell: UITableViewCell {
     @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var tierLabel: UILabel!
     @IBOutlet weak var costLabel: UILabel!
+    @IBOutlet weak var leImageView: UIImageView!
     
 
     

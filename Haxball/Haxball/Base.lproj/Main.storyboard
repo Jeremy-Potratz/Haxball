@@ -66,10 +66,14 @@
                                             <rect key="frame" x="277" y="7" width="60" height="30"/>
                                             <state key="normal" title="Upgrade"/>
                                         </button>
+                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="y1H-X7-LOt">
+                                            <rect key="frame" x="3" y="-7" width="147" height="50"/>
+                                        </imageView>
                                     </subviews>
                                 </tableViewCellContentView>
                                 <connections>
                                     <outlet property="costLabel" destination="VUl-1A-Oep" id="YWN-cI-Snh"/>
+                                    <outlet property="leImageView" destination="y1H-X7-LOt" id="gWC-rS-Wqh"/>
                                     <outlet property="nameLabel" destination="03b-2z-IaS" id="unN-gy-qvv"/>
                                     <outlet property="tierLabel" destination="eZE-8A-Z4f" id="seP-SF-cY1"/>
                                 </connections>
