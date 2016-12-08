@@ -407,16 +407,16 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate {
         
         self.navigationController?.navigationBarHidden = true
         
-////         #selector(ViewController.startGame)
-//        start.addTarget(self, action: #selector(ViewController.startGame), forControlEvents: .TouchDown)
-//        
-////        #selector(ViewController.kickBall)
-//        kick.addTarget(self, action: #selector(ViewController.kickBall), forControlEvents: .TouchDown)
-//        
-//        //#selector(ViewController.pauseGame)
-//        pause.addTarget(self, action: #selector(ViewController.pauseGame), forControlEvents: .TouchDown)
-//        
-//        secondKickButton.addTarget(self, action: #selector(ViewController.playerTwoKickBall), forControlEvents: .TouchDown)
+//         #selector(ViewController.startGame)
+        start.addTarget(self, action: #selector(ViewController.startGame), forControlEvents: .TouchDown)
+        
+//        #selector(ViewController.kickBall)
+        kick.addTarget(self, action: #selector(ViewController.kickBall), forControlEvents: .TouchDown)
+        
+        //#selector(ViewController.pauseGame)
+        pause.addTarget(self, action: #selector(ViewController.pauseGame), forControlEvents: .TouchDown)
+        
+        secondKickButton.addTarget(self, action: #selector(ViewController.playerTwoKickBall), forControlEvents: .TouchDown)
         
         animator = UIDynamicAnimator(referenceView: view)
 
@@ -840,11 +840,60 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate {
             
             if scoreTwo == scoreLimit{
                 //end game
-                endGame("Player Two")
                 scoreOne = 0
                 scoreTwo = 0
                 player1Label.text = "Score: \(scoreOne)"
                 player2Label.text = "Score: \(scoreTwo)"
+                
+                let alertController = UIAlertController(title: "Player Two won! Congragulations!", message: "", preferredStyle: .Alert)
+                
+                let cancelAction = UIAlertAction(title: "Cancel", style: .Cancel) { (action) in
+                    // ...
+                }
+                alertController.addAction(cancelAction)
+                
+                let OKAction = UIAlertAction(title: "OK", style: .Default) { (action) in
+                    // ...
+                }
+                alertController.addAction(OKAction)
+                
+                self.presentViewController(alertController, animated: true) {
+                    // ...
+                }
+                
+                
+                start.setTitle("Start", forState: .Normal)
+                
+                start.setTitleColor(.redColor(), forState: .Normal)
+                
+                start.frame = CGRect(x: screen.width / 2, y: screen.width / 2, width: 50, height: 50)
+                
+                view.addSubview(start)
+                
+                start.hidden = false
+                
+                ballView.center = CGPoint(x: screen.width / 2, y: screen.height / 2)
+                
+                secondPlayer.frame = CGRect(x: screen.width / 2, y: screen.height / 5, width: 50, height: 50)
+                
+                secondBehavior.resistance = 10000000
+                
+                ballBehavior.resistance = 10000000
+                
+                firstPlayer.center = CGPoint(x: screen.width / 2, y: ballView.center.y + 250)
+                
+                playerBehavior.resistance = 10000000
+                
+                aiBall.center = CGPoint(x: screen.width / 2, y: ballView.center.y - 250)
+                
+                aiBehavior.resistance = 10000000
+                
+                animator.updateItemUsingCurrentState(ballView)
+                animator.updateItemUsingCurrentState(firstPlayer)
+                animator.updateItemUsingCurrentState(secondPlayer)
+                animator.updateItemUsingCurrentState(aiBall)
+                
+                
             }
         }
         
