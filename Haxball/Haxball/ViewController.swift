@@ -997,6 +997,26 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate {
         
     }
     
+    class func universalUpdate<newValue>(entityName : String, newValue : newValue, upgradeName : String){
+        let moc = (UIApplication.sharedApplication().delegate as! AppDelegate).managedObjectContext
+        let request = NSBatchUpdateRequest(entityName: entityName)
+        request.propertiesToUpdate = [upgradeName : "\(newValue)"]
+        request.resultType = .UpdatedObjectIDsResultType
+        
+        do{
+            let ids = try moc.executeRequest(request) as! NSBatchUpdateResult
+            let objects = ids.result as! [NSManagedObjectID]
+            
+            objects.forEach({ (objID) in
+                let managedObject = moc.objectWithID(objID)
+                moc.refreshObject(managedObject, mergeChanges: false)
+            })
+        }
+        catch{
+            
+        }
+    }
+    
     
 }
 

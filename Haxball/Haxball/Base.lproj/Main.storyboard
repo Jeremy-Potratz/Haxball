@@ -65,6 +65,9 @@
                                         <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7i2-PH-F65">
                                             <rect key="frame" x="277" y="7" width="60" height="30"/>
                                             <state key="normal" title="Upgrade"/>
+                                            <connections>
+                                                <action selector="upgrade:" destination="OEt-Qc-aJG" eventType="touchUpInside" id="E11-r8-P4F"/>
+                                            </connections>
                                         </button>
                                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="y1H-X7-LOt">
                                             <rect key="frame" x="3" y="-7" width="147" height="50"/>

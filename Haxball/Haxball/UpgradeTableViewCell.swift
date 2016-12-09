@@ -18,6 +18,10 @@ class UpgradeTableViewCell: UITableViewCell {
     @IBOutlet weak var leImageView: UIImageView!
     
 
+    @IBAction func upgrade(sender: AnyObject) {
+        let currentTier = Int(tierLabel.text!)
+        ViewController.universalUpdate("CDUpgrades", newValue: currentTier + 1, upgradeName: nameLabel.text!)
+    }
     
     override func awakeFromNib() {
         super.awakeFromNib()

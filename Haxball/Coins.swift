@@ -10,7 +10,6 @@ import Foundation
 import CoreData
 import UIKit
 
-
 class Coins: NSManagedObject {
     
     class func addCoins(coins: Int){
