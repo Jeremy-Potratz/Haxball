@@ -20,7 +20,7 @@ class UpgradeTableViewCell: UITableViewCell {
 
     @IBAction func upgrade(sender: AnyObject) {
         let currentTier = Int(tierLabel.text!)
-        ViewController.universalUpdate("CDUpgrades", newValue: currentTier + 1, upgradeName: nameLabel.text!)
+        ViewController.universalBatchUpdate("CDUpgrades", newValue: currentTier! + 1, upgradeName: nameLabel.text!)
     }
     
     override func awakeFromNib() {

@@ -994,10 +994,20 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate {
             
         }
         
+
+        
         
     }
     
-    class func universalUpdate<newValue>(entityName : String, newValue : newValue, upgradeName : String){
+    override func prefersStatusBarHidden() -> Bool {
+        return true
+    }
+    
+    class func updateCoins(newAmount : Int){
+        ViewController.universalBatchUpdate("Coins", newValue: newAmount, upgradeName: "coinNumber")
+    }
+    
+    class func universalBatchUpdate<newValue>(entityName : String, newValue : newValue, upgradeName : String){
         let moc = (UIApplication.sharedApplication().delegate as! AppDelegate).managedObjectContext
         let request = NSBatchUpdateRequest(entityName: entityName)
         request.propertiesToUpdate = [upgradeName : "\(newValue)"]
