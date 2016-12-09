@@ -19,9 +19,27 @@ class UpgradeTableViewCell: UITableViewCell {
     
 
     @IBAction func upgrade(sender: AnyObject) {
+        
+        
+        
         let currentTier = Int(tierLabel.text!)
-        ViewController.universalBatchUpdate("CDUpgrades", newValue: currentTier! + 1, upgradeName: nameLabel.text!)
+        
+        if self.nameLabel.text! == "Speed"{
+        
+        ViewController.universalBatchUpdate("UpgradesCD", newValue: currentTier! + 1, upgradeName: "speed")
+            
+        let coin = ViewController.fetchCoin()
+        
+            if coin > Int(costLabel.text!){
+            
+        ViewController.batchUpdate(coin - 5)
+            
+            print("\(ViewController.fetchCoin())")
+            
+            }
+        }
     }
+    
     
     override func awakeFromNib() {
         super.awakeFromNib()

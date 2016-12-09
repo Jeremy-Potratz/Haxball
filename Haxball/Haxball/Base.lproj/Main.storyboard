@@ -44,6 +44,9 @@
                                     <rect key="frame" x="0.0" y="0.0" width="600" height="43"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
+                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="y1H-X7-LOt">
+                                            <rect key="frame" x="3" y="-7" width="147" height="50"/>
+                                        </imageView>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="UPGRADE_NAME" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="03b-2z-IaS">
                                             <rect key="frame" x="8" y="11" width="134" height="21"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
@@ -69,9 +72,6 @@
                                                 <action selector="upgrade:" destination="OEt-Qc-aJG" eventType="touchUpInside" id="E11-r8-P4F"/>
                                             </connections>
                                         </button>
-                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="y1H-X7-LOt">
-                                            <rect key="frame" x="3" y="-7" width="147" height="50"/>
-                                        </imageView>
                                     </subviews>
                                 </tableViewCellContentView>
                                 <connections>

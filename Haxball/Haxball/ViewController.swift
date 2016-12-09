@@ -793,7 +793,7 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate {
         
         
         
-        batchUpdate(Int(totalCoin)! + 5)
+        ViewController.batchUpdate(Int(totalCoin)! + 5)
         
     }
     
@@ -817,7 +817,7 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate {
                 totalCoin = "0"
                 print("added players coins")
             }else{
-                batchUpdate(Int(totalCoin)! + 1)
+                ViewController.batchUpdate(Int(totalCoin)! + 1)
                 print(totalCoin)
             }
             
@@ -945,8 +945,39 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate {
     }
 
     
-    func fetchCoin(){
+    class func fetchCoin()-> Int{
         
+        var data = [NSManagedObject]()
+
+        var totalCoin = ""
+        
+        var checkFetchArray : [String] = []
+        
+        let managedContext = (UIApplication.sharedApplication().delegate as! AppDelegate).managedObjectContext
+        
+        let fetchRequest = NSFetchRequest(entityName: "Coins")
+        
+        if let fetchResults = (try? managedContext.executeFetchRequest(fetchRequest)) as? [Coins] {
+            data = fetchResults
+        }
+        
+        if data.count > 0 {
+            
+            for result in data as [NSManagedObject] {
+                
+                totalCoin = String(result.valueForKey("coinNumber")!)
+                
+                checkFetchArray.append(String(result.valueForKey("coinNumber")!))
+            }
+        }
+        else {
+        }
+        
+        return Int(totalCoin)!
+        
+    }
+    
+    func fetchCoin(){
         
         let managedContext = (UIApplication.sharedApplication().delegate as! AppDelegate).managedObjectContext
         
@@ -969,8 +1000,9 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate {
         }
         
     }
+
     
-    func batchUpdate(update: Int){
+   class func batchUpdate(update: Int){
         
         let moc = (UIApplication.sharedApplication().delegate as! AppDelegate).managedObjectContext
         let batchRequest = NSBatchUpdateRequest(entityName: "Coins")

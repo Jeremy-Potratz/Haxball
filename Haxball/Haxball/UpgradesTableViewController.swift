@@ -21,8 +21,8 @@ class UpgradesTableViewController: UITableViewController {
         
         
         super.viewDidLoad()
-        cells.append(Upgrade(name: "Speed", cost: 5, image: UIImage(named: "grayButton")!))
-        cells.append(Upgrade(name: "Kick Power", cost: 5, image: UIImage(named: "grayButton")!))
+        cells.append(Upgrade(name: "Speed", cost: 5, image: UIImage(named: "Clear")!))
+        cells.append(Upgrade(name: "Kick Power", cost: 5, image: UIImage(named: "Clear")!))
     }
 
     override func didReceiveMemoryWarning() {
