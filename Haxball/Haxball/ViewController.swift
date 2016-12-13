@@ -408,15 +408,15 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate {
         self.navigationController?.navigationBarHidden = true
         
 //         #selector(ViewController.startGame)
-        start.addTarget(self, action: #selector(ViewController.startGame), forControlEvents: .TouchDown)
+        start.addTarget(self, action: "startGame", forControlEvents: .TouchDown)
         
 //        #selector(ViewController.kickBall)
-        kick.addTarget(self, action: #selector(ViewController.kickBall), forControlEvents: .TouchDown)
-        
-        //#selector(ViewController.pauseGame)
-        pause.addTarget(self, action: #selector(ViewController.pauseGame), forControlEvents: .TouchDown)
-        
-        secondKickButton.addTarget(self, action: #selector(ViewController.playerTwoKickBall), forControlEvents: .TouchDown)
+//        kick.addTarget(self, action: #selector(ViewController.kickBall), forControlEvents: .TouchDown)
+//        
+//        //#selector(ViewController.pauseGame)
+        pause.addTarget(self, action: "pauseGame", forControlEvents: .TouchDown)
+//
+//        secondKickButton.addTarget(self, action: #selector(ViewController.playerTwoKickBall), forControlEvents: .TouchDown)
         
         animator = UIDynamicAnimator(referenceView: view)
 

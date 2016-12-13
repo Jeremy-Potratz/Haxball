@@ -37,10 +37,30 @@ class MainMenuViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
         selectedScore = scoreLimit[row]
         
     }
+    func makeBarButton(){
     
+        let button : UIButton = UIButton()
+        button.setTitle("Coins: \(ViewController.fetchCoin())", forState: .Normal)
+        
+        button.setTitleColor(.blackColor(), forState: .Normal)
+        button.frame = CGRectMake(0, 0, 100, 100)
+        let leftBarItem : UIBarButtonItem = UIBarButtonItem()
+        leftBarItem.customView = button
+        let negativeSpaver : UIBarButtonItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.FixedSpace, target: nil, action: nil)
+
+        negativeSpaver.width = -5
+        self.navigationItem.leftBarButtonItems = [negativeSpaver, leftBarItem]
+        
+    }
+    
+    override func viewDidAppear(animated: Bool) {
+        makeBarButton()
+    }
+
     
     override func viewDidLoad() {
         super.viewDidLoad()
+//        makeBarButton()
 
         scorePicker.delegate = self
         scorePicker.dataSource = self

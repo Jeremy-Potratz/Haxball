@@ -18,11 +18,13 @@ class UpgradesTableViewController: UITableViewController {
     override func viewDidLoad() {
         UpgradesCD.fetchUpgrades("speed")
         
-        
-        
         super.viewDidLoad()
+        
+        //have images with the real names and have the name name underneath just to pull from core data
+        
         cells.append(Upgrade(name: "Speed", cost: 5, image: UIImage(named: "Clear")!))
         cells.append(Upgrade(name: "Kick Power", cost: 5, image: UIImage(named: "Clear")!))
+        cells.append(Upgrade(name: "Ball Image", cost: 5, image: UIImage(named: "Clear")!))
     }
 
     override func didReceiveMemoryWarning() {
@@ -49,9 +51,35 @@ class UpgradesTableViewController: UITableViewController {
         // Configure the cell...
         cell.nameLabel.text = cells[indexPath.row].name
         cell.tierLabel.text = String(cells[indexPath.row].tier)
+        cell.tierLabel.text = fetchUpgrade("\(cells[indexPath.row].name)")
         cell.costLabel.text = String(cells[indexPath.row].cost)
         cell.leImageView.image = cells[indexPath.row].image
         return cell
+    }
+    
+    
+    var data = [NSManagedObject]()
+    var itemz : String = String()
+    
+    func fetchUpgrade(item: String) -> String{
+        let moc = (UIApplication.sharedApplication().delegate as! AppDelegate).managedObjectContext
+        
+        let fetchREquest = NSFetchRequest(entityName: "UpgradesCD")
+        
+        if let fetchREsult = (try? moc.executeFetchRequest(fetchREquest)) as? [UpgradesCD] {
+            data = fetchREsult
+        }
+        
+        
+        if data.count > 0{
+                for result in data as [NSManagedObject] {
+                    
+                    itemz = String(result.valueForKey(item)!)
+                    
+                
+            }
+        }
+        return itemz
     }
  
 
