@@ -22,7 +22,7 @@ class UpgradeTableViewCell: UITableViewCell {
     @IBAction func realUpgrade(sender: AnyObject) {
         let currentTier = Int(tierLabel.text!)
         
-        if self.nameLabel.text! == "Speed"{
+        if self.nameLabel.text! == "speed"{
             
             
             let coin = ViewController.fetchCoin()

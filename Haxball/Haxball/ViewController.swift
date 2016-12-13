@@ -350,9 +350,6 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate {
             
         }
         
-    
-        
-        
     }
     
     override func viewDidLoad() {

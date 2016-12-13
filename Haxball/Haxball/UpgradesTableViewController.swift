@@ -22,9 +22,9 @@ class UpgradesTableViewController: UITableViewController {
         
         //have images with the real names and have the name name underneath just to pull from core data
         
-        cells.append(Upgrade(name: "Speed", cost: 5, image: UIImage(named: "Clear")!))
-        cells.append(Upgrade(name: "Kick Power", cost: 5, image: UIImage(named: "Clear")!))
-        cells.append(Upgrade(name: "Ball Image", cost: 5, image: UIImage(named: "Clear")!))
+        cells.append(Upgrade(name: "speed", cost: 5, image: UIImage(named: "Clear")!))
+        cells.append(Upgrade(name: "power", cost: 5, image: UIImage(named: "Clear")!))
+        cells.append(Upgrade(name: "ballColor", cost: 5, image: UIImage(named: "Clear")!))
     }
 
     override func didReceiveMemoryWarning() {
@@ -54,7 +54,7 @@ class UpgradesTableViewController: UITableViewController {
         // Configure the cell...
         cell.nameLabel.text = cells[indexPath.row].name
         cell.tierLabel.text = String(cells[indexPath.row].tier)
-//        cell.tierLabel.text = fetchUpgrade("\(cells[indexPath.row].name)")
+        cell.tierLabel.text = fetchUpgrade("\(cells[indexPath.row].name)")
         cell.costLabel.text = String(cells[indexPath.row].cost)
         cell.leImageView.image = cells[indexPath.row].image
         return cell
