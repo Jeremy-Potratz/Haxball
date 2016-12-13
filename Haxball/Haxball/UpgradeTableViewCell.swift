@@ -18,28 +18,26 @@ class UpgradeTableViewCell: UITableViewCell {
     @IBOutlet weak var leImageView: UIImageView!
     
 
-    @IBAction func upgrade(sender: AnyObject) {
-        
-        
-        
+    
+    @IBAction func realUpgrade(sender: AnyObject) {
         let currentTier = Int(tierLabel.text!)
         
         if self.nameLabel.text! == "Speed"{
-        
-        ViewController.universalBatchUpdate("UpgradesCD", newValue: currentTier! + 1, upgradeName: "speed")
             
-        let coin = ViewController.fetchCoin()
-        
-            if coin > Int(costLabel.text!){
             
-        ViewController.batchUpdate(coin - 5)
+            let coin = ViewController.fetchCoin()
             
-            print("\(ViewController.fetchCoin())")
-            
+            if coin >= Int(costLabel.text!){
+                
+                ViewController.batchUpdate(coin - Int(self.costLabel.text!)!)
+                
+                ViewController.universalBatchUpdate("UpgradesCD", newValue: currentTier! + 1, upgradeName: "speed")
+                
+                print("\(ViewController.fetchCoin())")
+                
             }
         }
     }
-    
     
     override func awakeFromNib() {
         super.awakeFromNib()

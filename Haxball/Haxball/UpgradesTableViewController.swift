@@ -17,7 +17,7 @@ class UpgradesTableViewController: UITableViewController {
     
     override func viewDidLoad() {
         UpgradesCD.fetchUpgrades("speed")
-        
+        self.title = "Coins: \(ViewController.fetchCoin())"
         super.viewDidLoad()
         
         //have images with the real names and have the name name underneath just to pull from core data
@@ -32,6 +32,9 @@ class UpgradesTableViewController: UITableViewController {
         // Dispose of any resources that can be recreated.
     }
 
+    @IBAction func upgrade(sender: AnyObject) {
+        self.title = "Coins: \(ViewController.fetchCoin())"
+    }
     // MARK: - Table view data source
 
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
@@ -51,7 +54,7 @@ class UpgradesTableViewController: UITableViewController {
         // Configure the cell...
         cell.nameLabel.text = cells[indexPath.row].name
         cell.tierLabel.text = String(cells[indexPath.row].tier)
-        cell.tierLabel.text = fetchUpgrade("\(cells[indexPath.row].name)")
+//        cell.tierLabel.text = fetchUpgrade("\(cells[indexPath.row].name)")
         cell.costLabel.text = String(cells[indexPath.row].cost)
         cell.leImageView.image = cells[indexPath.row].image
         return cell

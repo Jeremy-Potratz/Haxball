@@ -41,7 +41,6 @@ class MainMenuViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
     
         let button : UIButton = UIButton()
         button.setTitle("Coins: \(ViewController.fetchCoin())", forState: .Normal)
-        
         button.setTitleColor(.blackColor(), forState: .Normal)
         button.frame = CGRectMake(0, 0, 100, 100)
         let leftBarItem : UIBarButtonItem = UIBarButtonItem()
@@ -50,6 +49,8 @@ class MainMenuViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
 
         negativeSpaver.width = -5
         self.navigationItem.leftBarButtonItems = [negativeSpaver, leftBarItem]
+        
+        
         
     }
     

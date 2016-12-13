@@ -743,10 +743,12 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate {
     
     func endGame(winner : String){
         
-        let alertController = UIAlertController(title: "\(winner) won! Congragulations!", message: "", preferredStyle: .Alert)
+        let alertController = UIAlertController(title: "\(winner) won! Congratulations!", message: "", preferredStyle: .Alert)
         
         let cancelAction = UIAlertAction(title: "Cancel", style: .Cancel) { (action) in
             // ...
+            self.performSegueWithIdentifier("endGame", sender: nil)
+            self.navigationController?.navigationBarHidden = false
         }
         alertController.addAction(cancelAction)
         
@@ -973,7 +975,12 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate {
         else {
         }
         
-        return Int(totalCoin)!
+        if totalCoin != ""{
+            return Int(totalCoin)!
+        }
+        else{
+            return 0
+        }
         
     }
     

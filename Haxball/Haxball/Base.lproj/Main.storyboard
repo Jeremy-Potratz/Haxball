@@ -22,6 +22,9 @@
                             <outletCollection property="gestureRecognizers" destination="OvE-21-Sfp" appends="YES" id="zsJ-kv-acb"/>
                         </connections>
                     </view>
+                    <connections>
+                        <segue destination="490-Vp-L6E" kind="show" identifier="endGame" id="YxE-eo-MVV"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
                 <tapGestureRecognizer id="OvE-21-Sfp"/>
@@ -38,7 +41,7 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="upgradeCell" id="OEt-Qc-aJG" customClass="UpgradeTableViewCell" customModule="Haxball" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="92" width="600" height="44"/>
+                                <rect key="frame" x="0.0" y="28" width="600" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="OEt-Qc-aJG" id="OCC-kn-gSe">
                                     <rect key="frame" x="0.0" y="0.0" width="600" height="43"/>
@@ -69,7 +72,8 @@
                                             <rect key="frame" x="277" y="7" width="60" height="30"/>
                                             <state key="normal" title="Upgrade"/>
                                             <connections>
-                                                <action selector="upgrade:" destination="OEt-Qc-aJG" eventType="touchUpInside" id="E11-r8-P4F"/>
+                                                <action selector="realUpgrade:" destination="OEt-Qc-aJG" eventType="touchDown" id="ypa-85-Flb"/>
+                                                <action selector="upgrade:" destination="wr5-RQ-Nim" eventType="touchUpInside" id="dFr-ar-BBa"/>
                                             </connections>
                                         </button>
                                     </subviews>
@@ -169,4 +173,7 @@
             <point key="canvasLocation" x="953" y="351"/>
         </scene>
     </scenes>
+    <inferredMetricsTieBreakers>
+        <segue reference="YxE-eo-MVV"/>
+    </inferredMetricsTieBreakers>
 </document>
