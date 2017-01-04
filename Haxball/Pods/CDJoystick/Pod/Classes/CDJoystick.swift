@@ -20,32 +20,32 @@ public struct CDJoystickData: CustomStringConvertible {
 }
 
 @IBDesignable
-public class CDJoystick: UIView {
+open class CDJoystick: UIView {
 
-    @IBInspectable public var substrateColor: UIColor = .lightGrayColor() { didSet { setNeedsDisplay() }}
-    @IBInspectable public var substrateBorderColor: UIColor = .lightGrayColor() { didSet { setNeedsDisplay() }}
-    @IBInspectable public var substrateBorderWidth: CGFloat = 1.0 { didSet { setNeedsDisplay() }}
+    @IBInspectable open var substrateColor: UIColor = .lightGray { didSet { setNeedsDisplay() }}
+    @IBInspectable open var substrateBorderColor: UIColor = .lightGray { didSet { setNeedsDisplay() }}
+    @IBInspectable open var substrateBorderWidth: CGFloat = 1.0 { didSet { setNeedsDisplay() }}
     
-    @IBInspectable public var stickSize: CGSize = CGSize(width: 50, height: 50) { didSet { setNeedsDisplay() }}
-    @IBInspectable public var stickColor: UIColor = .darkGrayColor() { didSet { setNeedsDisplay() }}
-    @IBInspectable public var stickBorderColor: UIColor = .darkGrayColor() { didSet { setNeedsDisplay() }}
-    @IBInspectable public var stickBorderWidth: CGFloat = 1.0 { didSet { setNeedsDisplay() }}
+    @IBInspectable open var stickSize: CGSize = CGSize(width: 50, height: 50) { didSet { setNeedsDisplay() }}
+    @IBInspectable open var stickColor: UIColor = .darkGray { didSet { setNeedsDisplay() }}
+    @IBInspectable open var stickBorderColor: UIColor = .darkGray { didSet { setNeedsDisplay() }}
+    @IBInspectable open var stickBorderWidth: CGFloat = 1.0 { didSet { setNeedsDisplay() }}
     
-    @IBInspectable public var fade: CGFloat = 0.5 { didSet { setNeedsDisplay() }}
+    @IBInspectable open var fade: CGFloat = 0.5 { didSet { setNeedsDisplay() }}
     
-    public var trackingHandler: ((CDJoystickData) -> ())?
+    open var trackingHandler: ((CDJoystickData) -> ())?
     
-    public var initialTouch : CGPoint = .zero
+    open var initialTouch : CGPoint = .zero
     
-    @IBInspectable public var vc: UIViewController!
+    @IBInspectable open var vc: UIViewController!
     
-    private var data = CDJoystickData()
-    private var stickView = UIView(frame: CGRect(origin: .zero, size: .zero))
-    private var displayLink: CADisplayLink?
+    fileprivate var data = CDJoystickData()
+    fileprivate var stickView = UIView(frame: CGRect(origin: .zero, size: .zero))
+    fileprivate var displayLink: CADisplayLink?
     
-    public var tracking = false {
+    open var tracking = false {
         didSet {
-            UIView.animateWithDuration(0.25, animations: { () -> Void in
+            UIView.animate(withDuration: 0.25, animations: { () -> Void in
                 self.alpha = self.tracking ? 1.0 : self.fade
             })
         }
@@ -61,50 +61,50 @@ public class CDJoystick: UIView {
         setup()
     }
     
-    private func setup() {        
-        displayLink = CADisplayLink(target: self, selector: "listen")
-        displayLink?.addToRunLoop(.currentRunLoop(), forMode: NSRunLoopCommonModes)
+    fileprivate func setup() {        
+        displayLink = CADisplayLink(target: self, selector: #selector(CDJoystick.listen))
+        displayLink?.add(to: .current, forMode: RunLoopMode.commonModes)
     }
     
-    public func listen() {
+    open func listen() {
         guard tracking else { return }
         trackingHandler?(data)
     }
     
-    public override func drawRect(rect: CGRect) {
+    open override func draw(_ rect: CGRect) {
         alpha = fade
         
-        layer.backgroundColor = substrateColor.CGColor
-        layer.borderColor = substrateBorderColor.CGColor
+        layer.backgroundColor = substrateColor.cgColor
+        layer.borderColor = substrateBorderColor.cgColor
         layer.borderWidth = substrateBorderWidth
         layer.cornerRadius = bounds.width / 2
         
         stickView.frame = CGRect(origin: .zero, size: stickSize)
         stickView.center = CGPoint(x: bounds.width / 2, y: bounds.height / 2)
-        stickView.layer.backgroundColor = stickColor.CGColor
-        stickView.layer.borderColor = stickBorderColor.CGColor
+        stickView.layer.backgroundColor = stickColor.cgColor
+        stickView.layer.borderColor = stickBorderColor.cgColor
         stickView.layer.borderWidth = stickBorderWidth
         stickView.layer.cornerRadius = stickSize.width / 2
         
         if let superview = stickView.superview {
-            superview.bringSubviewToFront(stickView)
+            superview.bringSubview(toFront: stickView)
         } else {
             addSubview(stickView)
         }
     }
     
-    public override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
+    open override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         tracking = true
 //        self.initialTouch = touches.first!.locationInView(self.vc.view)
         
-        UIView.animateWithDuration(0.1) { () -> Void in
-            self.touchesMoved(touches, withEvent: event)
-        }
+        UIView.animate(withDuration: 0.1, animations: { () -> Void in
+            self.touchesMoved(touches, with: event)
+        }) 
     }
     
-    public override func touchesMoved(touches: Set<UITouch>, withEvent event: UIEvent?) {
+    open override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
         if let touch = touches.first {
-            let location = touch.locationInView(self)
+            let location = touch.location(in: self)
             let firstTouch = touches.first
             let distance = CGPoint(x: location.x - bounds.size.width / 2, y: location.y - bounds.size.height / 2)
             let magV = sqrt(pow(distance.x, 2) + pow(distance.y, 2))
@@ -124,25 +124,25 @@ public class CDJoystick: UIView {
         }
     }
     
-    public override func touchesEnded(touches: Set<UITouch>, withEvent event: UIEvent?) {
+    open override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
         reset()
     }
     
-    public override func touchesCancelled(touches: Set<UITouch>?, withEvent event: UIEvent?) {
+    open override func touchesCancelled(_ touches: Set<UITouch>, with event: UIEvent?) {
         reset()
     }
     
-    private func reset() {
+    fileprivate func reset() {
         tracking = false
         data = CDJoystickData()
         self.initialTouch = .zero
         
-        UIView.animateWithDuration(0.25) { () -> Void in
+        UIView.animate(withDuration: 0.25, animations: { () -> Void in
             self.stickView.center = CGPoint(x: self.bounds.width / 2, y: self.bounds.height / 2)
-        }
+        }) 
     }
     
-    private func clamp<T: Comparable>(value: T, lower: T, upper: T) -> T {
+    fileprivate func clamp<T: Comparable>(_ value: T, lower: T, upper: T) -> T {
         return min(max(value, lower), upper)
     }
     

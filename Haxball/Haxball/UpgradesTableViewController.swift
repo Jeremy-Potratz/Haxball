@@ -32,24 +32,24 @@ class UpgradesTableViewController: UITableViewController {
         // Dispose of any resources that can be recreated.
     }
 
-    @IBAction func upgrade(sender: AnyObject) {
+    @IBAction func upgrade(_ sender: AnyObject) {
         self.title = "Coins: \(ViewController.fetchCoin())"
     }
     // MARK: - Table view data source
 
-    override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    override func numberOfSections(in tableView: UITableView) -> Int {
         // #warning Incomplete implementation, return the number of sections
         return 1
     }
 
-    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
         return self.cells.count
     }
 
     
-    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("upgradeCell", forIndexPath: indexPath) as! UpgradeTableViewCell
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "upgradeCell", for: indexPath) as! UpgradeTableViewCell
 
         // Configure the cell...
         cell.nameLabel.text = cells[indexPath.row].name
@@ -64,12 +64,12 @@ class UpgradesTableViewController: UITableViewController {
     var data = [NSManagedObject]()
     var itemz : String = String()
     
-    func fetchUpgrade(item: String) -> String{
-        let moc = (UIApplication.sharedApplication().delegate as! AppDelegate).managedObjectContext
+    func fetchUpgrade(_ item: String) -> String{
+        let moc = (UIApplication.shared.delegate as! AppDelegate).managedObjectContext
         
-        let fetchREquest = NSFetchRequest(entityName: "UpgradesCD")
+        let fetchREquest = NSFetchRequest<NSFetchRequestResult>(entityName: "UpgradesCD")
         
-        if let fetchREsult = (try? moc.executeFetchRequest(fetchREquest)) as? [UpgradesCD] {
+        if let fetchREsult = (try? moc.fetch(fetchREquest)) as? [UpgradesCD] {
             data = fetchREsult
         }
         
@@ -77,7 +77,7 @@ class UpgradesTableViewController: UITableViewController {
         if data.count > 0{
                 for result in data as [NSManagedObject] {
                     
-                    itemz = String(result.valueForKey(item)!)
+                    itemz = String(describing: result.value(forKey: item)!)
                     
                 
             }

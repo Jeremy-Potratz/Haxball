@@ -15,9 +15,9 @@ class UpgradesCD: NSManagedObject {
 
     class func addUpgrade(){
         
-        let moc = (UIApplication.sharedApplication().delegate as! AppDelegate).managedObjectContext
+        let moc = (UIApplication.shared.delegate as! AppDelegate).managedObjectContext
         
-        let upgraded = NSEntityDescription.insertNewObjectForEntityForName(String(UpgradesCD), inManagedObjectContext: moc) as! UpgradesCD
+        let upgraded = NSEntityDescription.insertNewObject(forEntityName: String(describing: UpgradesCD.self), into: moc) as! UpgradesCD
         
         
         upgraded.speed = 1
@@ -36,23 +36,23 @@ class UpgradesCD: NSManagedObject {
         
     }
     
-    class func fetchUpgrades(sortDescriptorre: String) -> [NSManagedObject]{
+    class func fetchUpgrades(_ sortDescriptorre: String) -> [NSManagedObject]{
         
         
         var data = [NSManagedObject]()
         
         //NSFETCH SHIz
         
-        let managedContext = (UIApplication.sharedApplication().delegate as! AppDelegate).managedObjectContext
+        let managedContext = (UIApplication.shared.delegate as! AppDelegate).managedObjectContext
         
-        let fetchRequest = NSFetchRequest(entityName: "UpgradesCD")
+        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "UpgradesCD")
         
         let sortDescriptor = NSSortDescriptor(key: "\(sortDescriptorre)", ascending: true)
         
         fetchRequest.sortDescriptors = [sortDescriptor]
         
         
-        if let fetchResults = (try? managedContext.executeFetchRequest(fetchRequest)) as? [UpgradesCD] {
+        if let fetchResults = (try? managedContext.fetch(fetchRequest)) as? [UpgradesCD] {
             data = fetchResults
         }
         
@@ -73,21 +73,21 @@ class UpgradesCD: NSManagedObject {
     
     class func nuke(){
         
-        let moc = (UIApplication.sharedApplication().delegate as! AppDelegate).managedObjectContext
+        let moc = (UIApplication.shared.delegate as! AppDelegate).managedObjectContext
         
-        let fetchRequest = NSFetchRequest(entityName: String(UpgradesCD))
+        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: String(describing: UpgradesCD.self))
         
         var stats = [UpgradesCD]()
         
         do {
-            stats = try moc.executeFetchRequest(fetchRequest) as! [UpgradesCD]
+            stats = try moc.fetch(fetchRequest) as! [UpgradesCD]
         }catch{
             //error
             print("error")
         }
         
         for stat in stats{
-            moc.deleteObject(stat)
+            moc.delete(stat)
         }
         
         do{

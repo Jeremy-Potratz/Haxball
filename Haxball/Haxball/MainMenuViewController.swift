@@ -20,19 +20,19 @@ class MainMenuViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
     
     var selectedScore = 1
     
-    func numberOfComponentsInPickerView(pickerView: UIPickerView) -> Int {
+    func numberOfComponents(in pickerView: UIPickerView) -> Int {
         return 1
     }
     
-    func pickerView(pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
         return 10
     }
     
-    func pickerView(pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
         return String(scoreLimit[row])
     }
     
-    func pickerView(pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         
         selectedScore = scoreLimit[row]
         
@@ -40,12 +40,12 @@ class MainMenuViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
     func makeBarButton(){
     
         let button : UIButton = UIButton()
-        button.setTitle("Coins: \(ViewController.fetchCoin())", forState: .Normal)
-        button.setTitleColor(.blackColor(), forState: .Normal)
-        button.frame = CGRectMake(0, 0, 100, 100)
+        button.setTitle("Coins: \(ViewController.fetchCoin())", for: UIControlState())
+        button.setTitleColor(.black, for: UIControlState())
+        button.frame = CGRect(x: 0, y: 0, width: 100, height: 100)
         let leftBarItem : UIBarButtonItem = UIBarButtonItem()
         leftBarItem.customView = button
-        let negativeSpaver : UIBarButtonItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.FixedSpace, target: nil, action: nil)
+        let negativeSpaver : UIBarButtonItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.fixedSpace, target: nil, action: nil)
 
         negativeSpaver.width = -5
         self.navigationItem.leftBarButtonItems = [negativeSpaver, leftBarItem]
@@ -54,7 +54,7 @@ class MainMenuViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
         
     }
     
-    override func viewDidAppear(animated: Bool) {
+    override func viewDidAppear(_ animated: Bool) {
         makeBarButton()
     }
 
@@ -77,10 +77,10 @@ class MainMenuViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
     
 
     
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         // Get the new view controller using segue.destinationViewController.
         // Pass the selected object to the new view controller.
-        let dest = segue.destinationViewController as? ViewController
+        let dest = segue.destination as? ViewController
         if segue.identifier == "startGame"{
             //Set gamemode
             dest?.scoreLimit = selectedScore

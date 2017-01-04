@@ -12,14 +12,14 @@ import UIKit
 
 class Coins: NSManagedObject {
     
-    class func addCoins(coins: Int){
+    class func addCoins(_ coins: Int){
         
-        let moc = (UIApplication.sharedApplication().delegate as! AppDelegate).managedObjectContext
+        let moc = (UIApplication.shared.delegate as! AppDelegate).managedObjectContext
         
-        let newCoins = NSEntityDescription.insertNewObjectForEntityForName(String(Coins), inManagedObjectContext: moc) as! Coins
+        let newCoins = NSEntityDescription.insertNewObject(forEntityName: String(describing: Coins.self), into: moc) as! Coins
         
         
-        newCoins.coinNumber = coins
+        newCoins.coinNumber = coins as NSNumber?
         
         do {
             try moc.save()
@@ -30,23 +30,23 @@ class Coins: NSManagedObject {
         
     }
     
-    class func fetchCoins(sortDescriptorre: String) -> [NSManagedObject]{
+    class func fetchCoins(_ sortDescriptorre: String) -> [NSManagedObject]{
         
         
             var data = [NSManagedObject]()
             
             //NSFETCH SHIz
             
-            let managedContext = (UIApplication.sharedApplication().delegate as! AppDelegate).managedObjectContext
+            let managedContext = (UIApplication.shared.delegate as! AppDelegate).managedObjectContext
             
-            let fetchRequest = NSFetchRequest(entityName: "Coins")
+            let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "Coins")
             
             let sortDescriptor = NSSortDescriptor(key: "\(sortDescriptorre)", ascending: true)
             
             fetchRequest.sortDescriptors = [sortDescriptor]
 
             
-            if let fetchResults = (try? managedContext.executeFetchRequest(fetchRequest)) as? [Coins] {
+            if let fetchResults = (try? managedContext.fetch(fetchRequest)) as? [Coins] {
                 data = fetchResults
             }
             
@@ -66,21 +66,21 @@ class Coins: NSManagedObject {
 
     class func nuke(){
         
-        let moc = (UIApplication.sharedApplication().delegate as! AppDelegate).managedObjectContext
+        let moc = (UIApplication.shared.delegate as! AppDelegate).managedObjectContext
         
-        let fetchRequest = NSFetchRequest(entityName: String(Coins))
+        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: String(describing: Coins.self))
         
         var stats = [Coins]()
         
         do {
-            stats = try moc.executeFetchRequest(fetchRequest) as! [Coins]
+            stats = try moc.fetch(fetchRequest) as! [Coins]
         }catch{
             //error
             print("error")
         }
         
         for stat in stats{
-            moc.deleteObject(stat)
+            moc.delete(stat)
         }
         
         do{
