@@ -657,6 +657,10 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate {
     
     
     func onTick(){
+        if let last = self.animator.behaviors.last {
+            self.animator.removeBehavior(last)
+        }
+        
         if self.mode == "ai"{
             let playerPush = UIPushBehavior(items: [firstPlayer], mode: .instantaneous)
             if topView.vector != .zero{
@@ -689,9 +693,11 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate {
             }
         }
         else{
+
             let topPush = UIPushBehavior(items: [secondPlayer], mode: .instantaneous)
             topPush.pushDirection = topView.vector
             topPush.active = true
+            
             self.animator?.addBehavior(topPush)
             
             let bottomPush = UIPushBehavior(items: [firstPlayer], mode: .instantaneous)
