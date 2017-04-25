@@ -748,14 +748,14 @@ class ViewController: UIViewController, UICollisionBehaviorDelegate {
         
         let alertController = UIAlertController(title: "\(winner) won! Congratulations!", message: "", preferredStyle: .alert)
         
-        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel) { (action) in
+        let cancelAction = UIAlertAction(title: "Main Menu", style: .cancel) { (action) in
             // ...
             self.performSegue(withIdentifier: "endGame", sender: nil)
             self.navigationController?.isNavigationBarHidden = false
         }
         alertController.addAction(cancelAction)
         
-        let OKAction = UIAlertAction(title: "OK", style: .default) { (action) in
+        let OKAction = UIAlertAction(title: "Play Again", style: .default) { (action) in
             // ...
         }
         alertController.addAction(OKAction)
